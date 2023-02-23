@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/project-arcade-cafe.iml" filepath="$PROJECT_DIR$/.idea/project-arcade-cafe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-arcade-cafe.main.iml" filepath="$PROJECT_DIR$/.idea/modules/project-arcade-cafe.main.iml" />
     </modules>
   </component>
 </project>
