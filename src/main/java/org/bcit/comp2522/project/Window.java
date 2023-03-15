@@ -1,6 +1,7 @@
 package org.bcit.comp2522.project;
 
-import processing.core.*;
+import processing.core.PApplet;
+
 
 public class Window extends PApplet {
 
