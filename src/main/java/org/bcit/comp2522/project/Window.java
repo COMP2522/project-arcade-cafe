@@ -1,28 +1,42 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PApplet;
-public class Window extends PApplet{
+import processing.core.*;
+
+public class Window extends PApplet {
+
+  private StartMenu startMenu;
 
   public void settings() {
-    size(512, 700);
+    size(960, 540);
   }
-  //TODO: think of a better aspect ratio
 
   public void setup() {
-    //TODO: put setup stuff here
+    startMenu = new StartMenu(this);
   }
 
-  /**
-   * Called on every frame. Updates scene object
-   * state and redraws the scene. Drawings appear
-   * in order of function calls.
-   */
   public void draw() {
-    //TODO: put drawing stuff here
+    startMenu.draw();
   }
+
+  public void mousePressed() {
+    startMenu.mousePressed();
+  }
+
   public static void main(String[] args) {
-    String[] processingArgs = {"window"};
+    String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
+  }
+
+  public void startGame() {
+    //TODO: Implement this method to start the game
+  }
+
+  public void openOptions() {
+    //TODO: Implement this method to open the Options menu
+  }
+
+  public void exitGame() {
+    exit();
   }
 }
