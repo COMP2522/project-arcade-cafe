@@ -1,13 +1,11 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PVector;
-
 import java.awt.*;
 
 public class Sprite {
   protected int x;
   protected int y;
-  protected float size;
+  protected int size;
   protected Color color;
   protected Window window;
 
@@ -31,7 +29,7 @@ public class Sprite {
   public void setY(int yPos) {
     this.y = yPos;
   }
-  public float getSize() {
+  public int getSize() {
     return size;
   }
   public void draw() {
@@ -50,5 +48,9 @@ public class Sprite {
       return true;
     }
     return false;
+  }
+
+  public Window getWindow() {
+    return window;
   }
 }
