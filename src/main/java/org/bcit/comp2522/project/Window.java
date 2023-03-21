@@ -12,7 +12,6 @@ public class Window extends PApplet {
 
   private StartMenu startMenu;
   ArrayList<Sprite> sprites;
-  private Player player;
   private ArrayList<Enemy> enemies;
   // private Bullet[] bullets;
   public boolean leftPressed = false;
@@ -24,8 +23,8 @@ public class Window extends PApplet {
 
   public void setup() {
     startMenu = new StartMenu(this);
-
-    player = Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
+    //TODO: tweak to find a good amount of HP and Firerate once we got a game going
+    Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemies = new ArrayList<Enemy>();
     sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
@@ -33,7 +32,7 @@ public class Window extends PApplet {
           this, 2));
 
     sprites.addAll(enemies);
-    sprites.add(player);
+    sprites.add(Player.getInstance());
 
     Timer timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -45,7 +44,7 @@ public class Window extends PApplet {
 
   public void draw() {
     startMenu.draw();
-    player.draw();
+    Player.getInstance().draw();
     for (Enemy enemy : enemies) {
       enemy.draw();
     }
@@ -75,7 +74,7 @@ public class Window extends PApplet {
   }
 
   public void update() {
-    player.update();
+    Player.getInstance().update();
 
     // Update the positions of the enemies
     //TODO: add this to enemy manager

@@ -7,6 +7,7 @@ public class Player extends Sprite{
   private int hp;
   private int fireRate;
   private int shotLast = 0;
+  //TODO: tweak to find a good amount of speed.
   private final int speed = 5;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
@@ -28,6 +29,14 @@ public class Player extends Sprite{
     return player;
   }
 
+  public int getX() {return x;}
+  public int getY() {return y;}
+  public int getHp() {return hp;}
+  public int getFireRate(){return fireRate;}
+  public void setX(int x) {this.x = x;}
+  public void setY(int y) {this.y = y;}
+  public void setHp(int hp) {this.hp = hp;}
+  public void setFireRate(int fr) {this.fireRate = fr;}
   private void shoot(int x, int y) {
     //TODO: make shoot instantiate a bullet
     System.out.println("Shot bullet at X:" + x + "Y:" + y);
