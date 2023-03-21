@@ -12,7 +12,9 @@ public class Window extends PApplet {
 
   private StartMenu startMenu;
   ArrayList<Sprite> sprites;
-  private ArrayList<Enemy> enemies;
+  ArrayList<Enemy> enemies;
+  ArrayList<Bullet> bullets;
+  ArrayList<PowerUp> powerUps;
   // private Bullet[] bullets;
   public boolean leftPressed = false;
   public boolean rightPressed = false;
@@ -29,8 +31,14 @@ public class Window extends PApplet {
     sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
-          this, 2));
+          this, 2, 10));
+    bullets = new ArrayList<Bullet>();
+    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
 
+    powerUps = new ArrayList<PowerUp>();
+    powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
+
+    sprites = new ArrayList<Sprite>();
     sprites.addAll(enemies);
     sprites.add(Player.getInstance());
 
@@ -47,6 +55,12 @@ public class Window extends PApplet {
     Player.getInstance().draw();
     for (Enemy enemy : enemies) {
       enemy.draw();
+    }
+    for (Bullet bullet : bullets) {
+      bullet.draw();
+    }
+    for (PowerUp powerUp : powerUps) {
+      powerUp.draw();
     }
   }
 
@@ -83,27 +97,46 @@ public class Window extends PApplet {
     }
 
     // Update the positions of the bullets
-//    for (Bullet bullet : bullets) {
-//      enemy.update();
-//    }
+    for (Bullet bullet : bullets) {
+      bullet.update();
+    }
+
+    // Update the positions of the powerups
+    for (PowerUp powerUp : powerUps) {
+      powerUp.update();
+    }
 
     // Check for collisions between player and enemies
-//    for (Enemy enemy : enemies) {
-//      if (Sprite.collided(player, enemy)) {
-//      }
-//    }
+    for (Enemy enemy : enemies) {
+      if (Sprite.collided(player, enemy)) {
+      }
+    }
 
     // Check for collisions between player and bullets
-//    for (Bullet bullet : bullets) {
-//      if (Sprite.collided(player, bullet)) {
-//      }
-//    }
+    for (Bullet bullet : bullets) {
+      if (Sprite.collided(player, bullet)) {
+      }
+    }
+
+    // Check for collisions between enemies and bullets
+    for (Bullet bullet : bullets) {
+      for (Enemy enemy : enemies) {
+        if (Sprite.collided(enemy, bullet)) {
+          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
+        }
+      }
+    }
+
+    // Check for collisions between player and powerups
+    for (PowerUp powerUp : powerUps) {
+      if (Sprite.collided(Player.getInstance(), powerUp)) {
+        // upgrade player/equipment
+      }
+    }
   }
   public void mousePressed() {
     startMenu.mousePressed();
   }
-
-
 
   public static void main(String[] args) {
     String[] processingArgs = {"Window"};
