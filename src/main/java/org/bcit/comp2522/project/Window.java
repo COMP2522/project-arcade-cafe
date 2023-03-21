@@ -11,11 +11,11 @@ import java.util.TimerTask;
 public class Window extends PApplet {
 
   private StartMenu startMenu;
-  private ArrayList<Sprite> sprites;
-  private Player player;
-  private ArrayList<Enemy> enemies;
-  private ArrayList<Bullet> bullets;
-  private ArrayList<PowerUp> powerUps;
+  ArrayList<Sprite> sprites;
+  Player player;
+  ArrayList<Enemy> enemies;
+  ArrayList<Bullet> bullets;
+  ArrayList<PowerUp> powerUps;
 
   public void settings() {
     size(960, 540);
@@ -28,7 +28,7 @@ public class Window extends PApplet {
     enemies = new ArrayList<Enemy>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
-          this, 2));
+          this, 2, 10));
     bullets = new ArrayList<Bullet>();
     bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
 
@@ -74,6 +74,11 @@ public class Window extends PApplet {
       bullet.update();
     }
 
+    // Update the positions of the powerups
+    for (PowerUp powerUp : powerUps) {
+      powerUp.update();
+    }
+
     // Check for collisions between player and enemies
     for (Enemy enemy : enemies) {
       if (Sprite.collided(player, enemy)) {
@@ -83,6 +88,22 @@ public class Window extends PApplet {
     // Check for collisions between player and bullets
     for (Bullet bullet : bullets) {
       if (Sprite.collided(player, bullet)) {
+      }
+    }
+
+    // Check for collisions between enemies and bullets
+    for (Bullet bullet : bullets) {
+      for (Enemy enemy : enemies) {
+        if (Sprite.collided(enemy, bullet)) {
+          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
+        }
+      }
+    }
+
+    // Check for collisions between player and powerups
+    for (PowerUp powerUp : powerUps) {
+      if (Sprite.collided(player, powerUp)) {
+        // upgrade player/equipment
       }
     }
   }
