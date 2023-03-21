@@ -10,10 +10,11 @@ import java.util.TimerTask;
 public class Window extends PApplet {
 
   private StartMenu startMenu;
-  ArrayList<Sprite> sprites;
-  // private Player player;
+  private ArrayList<Sprite> sprites;
+  private Player player;
   private ArrayList<Enemy> enemies;
-  // private Bullet[] bullets;
+  private ArrayList<Bullet> bullets;
+  private ArrayList<PowerUp> powerUps;
 
   public void settings() {
     size(960, 540);
@@ -22,15 +23,20 @@ public class Window extends PApplet {
   public void setup() {
     startMenu = new StartMenu(this);
 
-    // player = new Player(100, 100, 20, color(255, 255, 0), this);
+    player = new Player(100, 100, 20, color(255, 255, 0), this);
     enemies = new ArrayList<Enemy>();
-    sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
           this, 2));
+    bullets = new ArrayList<Bullet>();
+    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
 
+    powerUps = new ArrayList<PowerUp>();
+    powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
+
+    sprites = new ArrayList<Sprite>();
     sprites.addAll(enemies);
-    // sprites.add(player);
+    sprites.add(player);
 
     Timer timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -42,14 +48,20 @@ public class Window extends PApplet {
 
   public void draw() {
     startMenu.draw();
-//    player.draw();
+    player.draw();
     for (Enemy enemy : enemies) {
       enemy.draw();
+    }
+    for (Bullet bullet : bullets) {
+      bullet.draw();
+    }
+    for (PowerUp powerUp : powerUps) {
+      powerUp.draw();
     }
   }
 
   public void update() {
-    //player.update();
+    player.update();
 
     // Update the positions of the enemies
     for (Enemy enemy : enemies) {
@@ -57,21 +69,21 @@ public class Window extends PApplet {
     }
 
     // Update the positions of the bullets
-//    for (Bullet bullet : bullets) {
-//      enemy.update();
-//    }
+    for (Bullet bullet : bullets) {
+      bullet.update();
+    }
 
     // Check for collisions between player and enemies
-//    for (Enemy enemy : enemies) {
-//      if (Sprite.collided(player, enemy)) {
-//      }
-//    }
+    for (Enemy enemy : enemies) {
+      if (Sprite.collided(player, enemy)) {
+      }
+    }
 
     // Check for collisions between player and bullets
-//    for (Bullet bullet : bullets) {
-//      if (Sprite.collided(player, bullet)) {
-//      }
-//    }
+    for (Bullet bullet : bullets) {
+      if (Sprite.collided(player, bullet)) {
+      }
+    }
   }
   public void mousePressed() {
     startMenu.mousePressed();
