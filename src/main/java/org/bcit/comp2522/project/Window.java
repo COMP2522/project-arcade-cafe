@@ -115,6 +115,7 @@ public class Window extends PApplet {
     String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
+
   }
 
   public void startGame() {
