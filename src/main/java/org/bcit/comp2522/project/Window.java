@@ -106,33 +106,34 @@ public class Window extends PApplet {
       powerUp.update();
     }
 
-    // Check for collisions between player and enemies
-    for (Enemy enemy : enemies) {
-      if (Sprite.collided(player, enemy)) {
-      }
-    }
-
-    // Check for collisions between player and bullets
-    for (Bullet bullet : bullets) {
-      if (Sprite.collided(player, bullet)) {
-      }
-    }
-
-    // Check for collisions between enemies and bullets
-    for (Bullet bullet : bullets) {
-      for (Enemy enemy : enemies) {
-        if (Sprite.collided(enemy, bullet)) {
-          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
-        }
-      }
-    }
-
-    // Check for collisions between player and powerups
-    for (PowerUp powerUp : powerUps) {
-      if (Sprite.collided(Player.getInstance(), powerUp)) {
-        // upgrade player/equipment
-      }
-    }
+    //TODO: whoever approved the latest pull request, this code does not work with the threads
+//    // Check for collisions between player and enemies
+//    for (Enemy enemy : enemies) {
+//      if (Sprite.collided(Player.getInstance(), enemy)) {
+//      }
+//    }
+//
+//    // Check for collisions between player and bullets
+//    for (Bullet bullet : bullets) {
+//      if (Sprite.collided(Player.getInstance(), bullet)) {
+//      }
+//    }
+//
+//    // Check for collisions between enemies and bullets
+//    for (Bullet bullet : bullets) {
+//      for (Enemy enemy : enemies) {
+//        if (Sprite.collided(enemy, bullet)) {
+//          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
+//        }
+//      }
+//    }
+//
+//    // Check for collisions between player and powerups
+//    for (PowerUp powerUp : powerUps) {
+//      if (Sprite.collided(Player.getInstance(), powerUp)) {
+//        // upgrade player/equipment
+//      }
+//    }
   }
   public void mousePressed() {
     startMenu.mousePressed();
