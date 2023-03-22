@@ -12,10 +12,12 @@ public class Window extends PApplet {
 
   private StartMenu startMenu;
   ArrayList<Sprite> sprites;
-  Player player;
   ArrayList<Enemy> enemies;
   ArrayList<Bullet> bullets;
   ArrayList<PowerUp> powerUps;
+  // private Bullet[] bullets;
+  public boolean leftPressed = false;
+  public boolean rightPressed = false;
 
   public void settings() {
     size(960, 540);
@@ -23,9 +25,10 @@ public class Window extends PApplet {
 
   public void setup() {
     startMenu = new StartMenu(this);
-
-    player = new Player(100, 100, 20, color(255, 255, 0), this);
+    //TODO: tweak to find a good amount of HP and Firerate once we got a game going
+    Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemies = new ArrayList<Enemy>();
+    sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
           this, 2, 10));
@@ -37,7 +40,7 @@ public class Window extends PApplet {
 
     sprites = new ArrayList<Sprite>();
     sprites.addAll(enemies);
-    sprites.add(player);
+    sprites.add(Player.getInstance());
 
     Timer timer = new Timer();
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -49,7 +52,7 @@ public class Window extends PApplet {
 
   public void draw() {
     startMenu.draw();
-    player.draw();
+    Player.getInstance().draw();
     for (Enemy enemy : enemies) {
       enemy.draw();
     }
@@ -61,10 +64,34 @@ public class Window extends PApplet {
     }
   }
 
+@Override
+  public void keyPressed() {
+    if(key == CODED) {
+      if(keyCode == LEFT) {
+        leftPressed = true;
+      }
+      if(keyCode == RIGHT) {
+        rightPressed = true;
+      }
+    }
+  }
+@Override
+  public void keyReleased() {
+    if(key == CODED) {
+      if(keyCode == LEFT) {
+        leftPressed = false;
+      }
+      if(keyCode == RIGHT) {
+        rightPressed = false;
+      }
+    }
+  }
+
   public void update() {
-    player.update();
+    Player.getInstance().update();
 
     // Update the positions of the enemies
+    //TODO: add this to enemy manager
     for (Enemy enemy : enemies) {
       enemy.update();
     }
@@ -79,33 +106,34 @@ public class Window extends PApplet {
       powerUp.update();
     }
 
-    // Check for collisions between player and enemies
-    for (Enemy enemy : enemies) {
-      if (Sprite.collided(player, enemy)) {
-      }
-    }
-
-    // Check for collisions between player and bullets
-    for (Bullet bullet : bullets) {
-      if (Sprite.collided(player, bullet)) {
-      }
-    }
-
-    // Check for collisions between enemies and bullets
-    for (Bullet bullet : bullets) {
-      for (Enemy enemy : enemies) {
-        if (Sprite.collided(enemy, bullet)) {
-          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
-        }
-      }
-    }
-
-    // Check for collisions between player and powerups
-    for (PowerUp powerUp : powerUps) {
-      if (Sprite.collided(player, powerUp)) {
-        // upgrade player/equipment
-      }
-    }
+    //TODO: whoever approved the latest pull request, this code does not work with the threads
+//    // Check for collisions between player and enemies
+//    for (Enemy enemy : enemies) {
+//      if (Sprite.collided(Player.getInstance(), enemy)) {
+//      }
+//    }
+//
+//    // Check for collisions between player and bullets
+//    for (Bullet bullet : bullets) {
+//      if (Sprite.collided(Player.getInstance(), bullet)) {
+//      }
+//    }
+//
+//    // Check for collisions between enemies and bullets
+//    for (Bullet bullet : bullets) {
+//      for (Enemy enemy : enemies) {
+//        if (Sprite.collided(enemy, bullet)) {
+//          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
+//        }
+//      }
+//    }
+//
+//    // Check for collisions between player and powerups
+//    for (PowerUp powerUp : powerUps) {
+//      if (Sprite.collided(Player.getInstance(), powerUp)) {
+//        // upgrade player/equipment
+//      }
+//    }
   }
   public void mousePressed() {
     startMenu.mousePressed();
@@ -115,7 +143,6 @@ public class Window extends PApplet {
     String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
-
   }
 
   public void startGame() {
