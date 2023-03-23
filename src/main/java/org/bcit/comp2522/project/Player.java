@@ -59,4 +59,11 @@ public class Player extends Sprite{
       }
 
   }
+  public void moveLeft() {
+    this.x -= this.speed;
+  }
+
+  public void moveRight() {
+    this.x += this.speed;
+  }
 }
