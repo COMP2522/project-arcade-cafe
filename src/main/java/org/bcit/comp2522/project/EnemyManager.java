@@ -28,7 +28,7 @@ public class EnemyManager {
       enemy.move(shift, 0);
 
       // Check if enemy is off the screen
-      if (enemy.getX() < 0 || enemy.getX() > window.width) {
+      if (enemy.getX() < 0 || enemy.getX() > 960) {
         // Reverse direction of enemy
         shift *= -1;
       }

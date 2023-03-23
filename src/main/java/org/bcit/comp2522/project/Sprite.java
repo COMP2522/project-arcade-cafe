@@ -1,5 +1,7 @@
 package org.bcit.comp2522.project;
 
+import processing.core.PApplet;
+
 import java.awt.*;
 
 public class Sprite {
@@ -51,6 +53,10 @@ public class Sprite {
   }
 
   public Window getWindow() {
+    return window;
+  }
+
+  public PApplet getPApplet() {
     return window;
   }
 }
