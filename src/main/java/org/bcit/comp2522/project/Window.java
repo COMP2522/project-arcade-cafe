@@ -27,6 +27,7 @@ public class Window extends PApplet {
 
   public void setup() {
     startMenu = new StartMenu(this, this::setState);
+//<<<<<<< HEAD
     bulletManager = new BulletManager(this);
 
     Timer timer = new Timer();
@@ -43,6 +44,8 @@ public class Window extends PApplet {
       }
     }, 0, 200); // Shoot a bullet every 200 milliseconds
 
+//=======
+//>>>>>>> 5618cbcab1f0eeeac481cd69e45f966dedfa0d3c
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemies = new ArrayList<Enemy>();
@@ -85,14 +88,17 @@ public class Window extends PApplet {
         for (Enemy enemy : enemies) {
           enemy.draw();
         }
-        // Use bulletManager.getBullets() to get the list of bullets
+
         for (Bullet bullet : bulletManager.getBullets()) {
+
           bullet.draw();
         }
         for (PowerUp powerUp : powerUps) {
           powerUp.draw();
         }
+
         bulletManager.drawBullets();
+
         break;
       // case N:
       // Add more states as needed

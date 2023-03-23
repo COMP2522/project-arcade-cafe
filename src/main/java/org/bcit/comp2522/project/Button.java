@@ -41,7 +41,6 @@ public class Button {
   public void onClick() {
     if (onClickAction != null) {
       onClickAction.run();
-//      System.out.println("Button clicked: " + label);
     }
   }
 }
