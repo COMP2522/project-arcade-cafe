@@ -1,15 +1,16 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
-
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+
 public class Window extends PApplet {
 
+  int state = 0;
   private StartMenu startMenu;
   ArrayList<Sprite> sprites;
   ArrayList<Enemy> enemies;
@@ -24,7 +25,7 @@ public class Window extends PApplet {
   }
 
   public void setup() {
-    startMenu = new StartMenu(this);
+    startMenu = new StartMenu(this, this::setState);
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemies = new ArrayList<Enemy>();
@@ -50,21 +51,40 @@ public class Window extends PApplet {
     }, 0, 16);
   }
 
+  public void setState(int newState) {
+    state = newState;
+  }
   public void draw() {
-    startMenu.draw();
-    Player.getInstance().draw();
-    for (Enemy enemy : enemies) {
-      enemy.draw();
-    }
-    for (Bullet bullet : bullets) {
-      bullet.draw();
-    }
-    for (PowerUp powerUp : powerUps) {
-      powerUp.draw();
+    switch (state) {
+      case 0:
+        background(0);
+        // main menu
+        startMenu.draw();
+        break;
+      case 1:
+        // start game
+        background(0); // clear the background
+        Player.getInstance().draw();
+        for (Enemy enemy : enemies) {
+          enemy.draw();
+        }
+        for (Bullet bullet : bullets) {
+          bullet.draw();
+        }
+        for (PowerUp powerUp : powerUps) {
+          powerUp.draw();
+        }
+        break;
+      // case N:
+      // Add more states as needed
+      // break;
+      default:
+        break;
     }
   }
 
-@Override
+
+  @Override
   public void keyPressed() {
     if(key == CODED) {
       if(keyCode == LEFT) {
@@ -145,15 +165,4 @@ public class Window extends PApplet {
     PApplet.runSketch(processingArgs, window);
   }
 
-  public void startGame() {
-    //TODO: Implement this method to start the game
-  }
-
-  public void openOptions() {
-    //TODO: Implement this method to open the Options menu
-  }
-
-  public void exitGame() {
-    exit();
-  }
 }
