@@ -12,9 +12,10 @@ public class Window extends PApplet {
 
   int state = 0;
   private StartMenu startMenu;
+  private BulletManager bulletManager;
   ArrayList<Sprite> sprites;
   ArrayList<Enemy> enemies;
-  ArrayList<Bullet> bullets;
+//  ArrayList<Bullet> bullets;
   ArrayList<PowerUp> powerUps;
   // private Bullet[] bullets;
   public boolean leftPressed = false;
@@ -26,6 +27,22 @@ public class Window extends PApplet {
 
   public void setup() {
     startMenu = new StartMenu(this, this::setState);
+    bulletManager = new BulletManager(this);
+
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(new TimerTask() {
+      public void run() {
+        update();
+      }
+    }, 0, 16);
+
+    Timer shootBulletTimer = new Timer();
+    shootBulletTimer.scheduleAtFixedRate(new TimerTask() {
+      public void run() {
+        bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
+      }
+    }, 0, 200); // Shoot a bullet every 200 milliseconds
+
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemies = new ArrayList<Enemy>();
@@ -33,8 +50,8 @@ public class Window extends PApplet {
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
           this, 2, 10));
-    bullets = new ArrayList<Bullet>();
-    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
+//    bullets = new ArrayList<Bullet>();
+//    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
 
     powerUps = new ArrayList<PowerUp>();
     powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
@@ -43,12 +60,12 @@ public class Window extends PApplet {
     sprites.addAll(enemies);
     sprites.add(Player.getInstance());
 
-    Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        update();
-      }
-    }, 0, 16);
+//    Timer timer = new Timer();
+//    timer.scheduleAtFixedRate(new TimerTask() {
+//      public void run() {
+//        update();
+//      }
+//    }, 0, 16);
   }
 
   public void setState(int newState) {
@@ -68,12 +85,14 @@ public class Window extends PApplet {
         for (Enemy enemy : enemies) {
           enemy.draw();
         }
-        for (Bullet bullet : bullets) {
+        // Use bulletManager.getBullets() to get the list of bullets
+        for (Bullet bullet : bulletManager.getBullets()) {
           bullet.draw();
         }
         for (PowerUp powerUp : powerUps) {
           powerUp.draw();
         }
+        bulletManager.drawBullets();
         break;
       // case N:
       // Add more states as needed
@@ -86,6 +105,9 @@ public class Window extends PApplet {
 
   @Override
   public void keyPressed() {
+    if (key == ' ') {
+      bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
+    }
     if(key == CODED) {
       if(keyCode == LEFT) {
         leftPressed = true;
@@ -110,6 +132,15 @@ public class Window extends PApplet {
   public void update() {
     Player.getInstance().update();
 
+    if (leftPressed) {
+      Player.getInstance().moveLeft();
+    }
+    if (rightPressed) {
+      Player.getInstance().moveRight();
+    }
+
+    bulletManager.updateBullets(); // Add this line
+
     // Update the positions of the enemies
     //TODO: add this to enemy manager
     for (Enemy enemy : enemies) {
@@ -117,9 +148,11 @@ public class Window extends PApplet {
     }
 
     // Update the positions of the bullets
-    for (Bullet bullet : bullets) {
+    // Use bulletManager.getBullets() to get the list of bullets
+    for (Bullet bullet : bulletManager.getBullets()) {
       bullet.update();
     }
+
 
     // Update the positions of the powerups
     for (PowerUp powerUp : powerUps) {

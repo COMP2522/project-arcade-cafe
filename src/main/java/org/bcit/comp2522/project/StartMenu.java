@@ -53,10 +53,12 @@ public class StartMenu extends PApplet{
 
   public void openOptions() {
     //TODO: Implement this method to open the Options menu
+    System.out.println("clicked");
   }
 
   public void exitGame() {
     pApplet.exit();
+//    System.out.println("Exiting game");
   }
 }
 
