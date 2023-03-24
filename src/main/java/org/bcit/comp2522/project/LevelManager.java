@@ -4,6 +4,8 @@ public class LevelManager {
 
   private static LevelManager lm;
   private Player player;
+  private EnemyManager em;
+  private BulletManager bm;
   private int score;
   private int highscore;
 
@@ -24,11 +26,13 @@ public class LevelManager {
     //TODO: put initialization of arrays here.
   }
   public void draw() {
-    //TODO: put all draws here
+    em.draw();
+    bm.draw();
     player.draw();
   }
   public void update(){
-    //TODO: put updates here
+    em.update();
+    bm.update();
     player.update();
   }
 

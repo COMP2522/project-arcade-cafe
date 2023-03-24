@@ -16,7 +16,7 @@ public class BulletManager {
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
-        updateBullets();
+        update();
       }
     }, 0, 16); // Update the bullets every 16 milliseconds
   }
@@ -26,13 +26,13 @@ public class BulletManager {
     bullets.add(bullet);
   }
 
-  public void updateBullets() {
+  public void update() {
     for (Bullet bullet : bullets) {
       bullet.update();
     }
   }
 
-  public void drawBullets() {
+  public void draw() {
     for (Bullet bullet : bullets) {
       bullet.draw();
     }

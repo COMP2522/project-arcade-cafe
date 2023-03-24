@@ -80,7 +80,7 @@ public class Window extends PApplet {
           powerUp.draw();
         }
 
-        bulletManager.drawBullets();
+        bulletManager.draw();
 
         break;
       // case N:
@@ -127,7 +127,7 @@ public class Window extends PApplet {
       Player.getInstance().moveRight();
     }
 
-    bulletManager.updateBullets(); // Add this line
+    bulletManager.update(); // Add this line
 
     // Update the positions of the enemies
     //TODO: add this to enemy manager
