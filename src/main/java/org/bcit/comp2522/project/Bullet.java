@@ -1,5 +1,7 @@
 package org.bcit.comp2522.project;
 
+import processing.core.PApplet;
+
 import java.awt.*;
 
 public class Bullet extends Sprite {
@@ -14,4 +16,12 @@ public class Bullet extends Sprite {
     // Move the bullet vertically
     move(0, dy);
   }
+
+  @Override
+  public void draw() {
+    PApplet pApplet = getPApplet();
+    pApplet.fill(color.getRGB());
+    pApplet.ellipse(x, y, size, size);
+  }
 }
+

@@ -1,8 +1,6 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
-
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -10,102 +8,184 @@ import java.util.TimerTask;
 
 public class Window extends PApplet {
 
+  int state = 0;
   private StartMenu startMenu;
+  private BulletManager bulletManager;
   ArrayList<Sprite> sprites;
-  Player player;
+
   ArrayList<Enemy> enemies;
-  ArrayList<Bullet> bullets;
+
+  private EnemyManager enemyManager;
+
   ArrayList<PowerUp> powerUps;
+  public boolean leftPressed = false;
+  public boolean rightPressed = false;
+
+  private Timer shootBulletTimer;
 
   public void settings() {
     size(960, 540);
   }
 
   public void setup() {
-    startMenu = new StartMenu(this);
+    startMenu = new StartMenu(this, this::setState);
+    bulletManager = new BulletManager(this);
 
-    player = new Player(100, 100, 20, color(255, 255, 0), this);
-    enemies = new ArrayList<Enemy>();
+    //TODO: tweak to find a good amount of HP and Firerate once we got a game going
+    Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
+    enemyManager = new EnemyManager();
+    enemies = new ArrayList<Enemy>(); // initialize enemies list
+    sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
-          this, 2, 10));
-    bullets = new ArrayList<Bullet>();
-    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
+            this, 2));
+
+    enemyManager.addEnemy(new Enemy(200, 200,
+        20, new Color(255, 255, 0),
+        this, 210));
 
     powerUps = new ArrayList<PowerUp>();
     powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
 
     sprites = new ArrayList<Sprite>();
-    sprites.addAll(enemies);
-    sprites.add(player);
-
-    Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        update();
-      }
-    }, 0, 16);
+    sprites.add(Player.getInstance());
   }
 
+  public void setState(int newState) {
+    state = newState;
+  }
   public void draw() {
-    startMenu.draw();
-    player.draw();
-    for (Enemy enemy : enemies) {
-      enemy.draw();
+    switch (state) {
+      // main menu
+      case 0:
+        background(0);
+        startMenu.draw();
+        break;
+      // start game
+      case 1:
+        background(0); // clear the background
+
+//        Player.getInstance().draw();
+        for (Enemy enemy : enemies) {
+          enemy.draw();
+        }
+        Player player = Player.getInstance();
+        player.update(); // update player's position
+        if (leftPressed) {
+          player.moveLeft();
+        }
+        if (rightPressed) {
+          player.moveRight();
+        }
+        player.draw();
+
+        // drawing code for game
+        if (shootBulletTimer == null) {
+          // start shooting bullets
+          shootBulletTimer = new Timer();
+          shootBulletTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+              bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
+            }
+          }, 0, 200); // Shoot a bullet every 200 milliseconds
+        }
+        for (PowerUp powerUp : powerUps) {
+          powerUp.draw();
+        }
+
+        bulletManager.drawBullets();
+
+        break;
+      // case N:
+      // Add more states as needed
+      // break;
+      default:
+        break;
     }
-    for (Bullet bullet : bullets) {
-      bullet.draw();
+  }
+
+  @Override
+  public void keyPressed() {
+    if (key == ' ') {
+      bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
     }
-    for (PowerUp powerUp : powerUps) {
-      powerUp.draw();
+    if(key == CODED) {
+      if(keyCode == LEFT) {
+        leftPressed = true;
+      }
+      if(keyCode == RIGHT) {
+        rightPressed = true;
+      }
+    }
+  }
+  @Override
+  public void keyReleased() {
+    if(key == CODED) {
+      if(keyCode == LEFT) {
+        leftPressed = false;
+      }
+      if(keyCode == RIGHT) {
+        rightPressed = false;
+      }
     }
   }
 
   public void update() {
-    player.update();
+    Player.getInstance().update();
+
+    if (leftPressed) {
+      Player.getInstance().moveLeft();
+    }
+    if (rightPressed) {
+      Player.getInstance().moveRight();
+    }
+
+    bulletManager.updateBullets(); // Add this line
 
     // Update the positions of the enemies
-    for (Enemy enemy : enemies) {
-      enemy.update();
-    }
+    //TODO: add this to enemy manager
+    enemyManager.update();
 
     // Update the positions of the bullets
-    for (Bullet bullet : bullets) {
+    // Use bulletManager.getBullets() to get the list of bullets
+    for (Bullet bullet : bulletManager.getBullets()) {
       bullet.update();
     }
+
 
     // Update the positions of the powerups
     for (PowerUp powerUp : powerUps) {
       powerUp.update();
     }
 
-    // Check for collisions between player and enemies
-    for (Enemy enemy : enemies) {
-      if (Sprite.collided(player, enemy)) {
-      }
-    }
-
-    // Check for collisions between player and bullets
-    for (Bullet bullet : bullets) {
-      if (Sprite.collided(player, bullet)) {
-      }
-    }
-
-    // Check for collisions between enemies and bullets
-    for (Bullet bullet : bullets) {
-      for (Enemy enemy : enemies) {
-        if (Sprite.collided(enemy, bullet)) {
-          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
-        }
-      }
-    }
-
-    // Check for collisions between player and powerups
-    for (PowerUp powerUp : powerUps) {
-      if (Sprite.collided(player, powerUp)) {
-        // upgrade player/equipment
-      }
-    }
+    //TODO: whoever approved the latest pull request, this code does not work with the threads
+//    // Check for collisions between player and enemies
+//    for (Enemy enemy : enemies) {
+//      if (Sprite.collided(Player.getInstance(), enemy)) {
+//      }
+//    }
+//
+//    // Check for collisions between player and bullets
+//    for (Bullet bullet : bullets) {
+//      if (Sprite.collided(Player.getInstance(), bullet)) {
+//      }
+//    }
+//
+//    // Check for collisions between enemies and bullets
+//    for (Bullet bullet : bullets) {
+//      for (Enemy enemy : enemies) {
+//        if (Sprite.collided(enemy, bullet)) {
+//          enemy.takeDamage(5); // Reduce enemy's health by 1 if there is a collision
+//        }
+//      }
+//    }
+//
+//    // Check for collisions between player and powerups
+//    for (PowerUp powerUp : powerUps) {
+//      if (Sprite.collided(Player.getInstance(), powerUp)) {
+//        // upgrade player/equipment
+//      }
+//    }
   }
   public void mousePressed() {
     startMenu.mousePressed();
@@ -115,18 +195,6 @@ public class Window extends PApplet {
     String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
-
   }
 
-  public void startGame() {
-    //TODO: Implement this method to start the game
-  }
-
-  public void openOptions() {
-    //TODO: Implement this method to open the Options menu
-  }
-
-  public void exitGame() {
-    exit();
-  }
 }

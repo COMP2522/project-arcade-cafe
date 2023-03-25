@@ -79,7 +79,15 @@ Your code must be well-documented with fully-formed method signatures, comments,
 ### Initial individual pitch (1%)
 A description of your individual feature that you plan to implement. 
 
-Due date TBD.
+Helen Liu: I will be handling the Enemy and Enemy Manager for the project. For my part, I will be responsible for handling the physical attributes of the enemy hordes, their positions, what happens when they come into contact with the player, and how often they are "refreshed".
+
+Mylo Yu: I will be developing player functions, window settings and functions, as well as saving all information about the current gamestate to a JSON file so a player can quit out of the game and return later. I will also develop the level manager class and its functions, which will manage all the enemies, bullets, player, and score.
+
+Samuel Chua: I will be developing the code and graphics on the implementation of the background environment and visual effects. This entails how general images, objects and effects look, how they're created, drawn, and interact with window class, the start menu window, game screen window, and options page window.
+
+Eric (Sungmok) Cho: I will work on the bullet, bullet manager, start menu, and button classes. Bullet class has integer type variables such as bulletDamange that indicates the damage of bullet, coordinates for the bullet, x and y, and speed of the bullet. Bullet manager manages a bullet object's instance like move, remove, and add. StartMenu has a few button objects that send users to different window when they click the buttons. Button object will have some variables that determine the font size, colour and properties of the button, such as its shape and colour.
+
+Mina (Sunmin) Park: I will be working on the PowerUp and PowerUp Manager. When the player collides with a PowerUp sprite, the player can either get an increase in HP or the bullet fire rate, depending on the PowerUp sprite. The PowerUp Manager manages the spawn time and spawn area of the PowerUp sprite.
 
 ### Initial individual UML Diagrams (1%)
 Any combination of sequence, communcation, or class diagrams that describe your feature's initial planned abilities. 

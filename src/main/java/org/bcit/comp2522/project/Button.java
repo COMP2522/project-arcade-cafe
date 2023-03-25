@@ -11,8 +11,9 @@ public class Button {
   private float height;
   private int fontSize;
   private int fontColour;
+  private Runnable onClickAction;
 
-  public Button(String label, float x, float y, float width, float height, int fontSize, int fontColour) {
+  public Button(String label, float x, float y, float width, float height, int fontSize, int fontColour, Runnable onClickAction) {
     this.label = label;
     this.x = x;
     this.y = y;
@@ -20,6 +21,7 @@ public class Button {
     this.height = height;
     this.fontSize = fontSize;
     this.fontColour = fontColour;
+    this.onClickAction = onClickAction;
   }
 
   public void draw(PApplet pApplet) {
@@ -37,7 +39,8 @@ public class Button {
   }
 
   public void onClick() {
-    //TODO: Implement this method in StartMenu.java and handle the button click event
+    if (onClickAction != null) {
+      onClickAction.run();
+    }
   }
-
 }
