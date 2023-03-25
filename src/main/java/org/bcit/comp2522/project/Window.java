@@ -18,6 +18,8 @@ public class Window extends PApplet {
   private EnemyManager enemyManager;
 
   ArrayList<PowerUp> powerUps;
+  private PowerUpManager powerUpManager;
+
   public boolean leftPressed = false;
   public boolean rightPressed = false;
 
@@ -36,16 +38,19 @@ public class Window extends PApplet {
     enemyManager = new EnemyManager();
     enemies = new ArrayList<Enemy>(); // initialize enemies list
     sprites = new ArrayList<Sprite>();
-    enemies.add(new Enemy(200, 200,
-            20, new Color(255, 255, 0),
-            this, 2));
+//    enemies.add(new Enemy(200, 200,
+//            20, new Color(0, 255, 0),
+//            this, 2));
 
     enemyManager.addEnemy(new Enemy(200, 200,
         20, new Color(255, 255, 0),
         this, 210));
 
     powerUps = new ArrayList<PowerUp>();
-    powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
+//    powerUps.add(new PowerUp(200, 200, 10, new Color(255, 255, 0), this, "fireRate"));
+    powerUpManager = PowerUpManager.getInstance(5, 300, this); // Adjust spawnTime and spawnArea as needed
+    powerUpManager.spawn();
+
 
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
@@ -64,6 +69,7 @@ public class Window extends PApplet {
       // start game
       case 1:
         background(0); // clear the background
+        update();
 
 //        Player.getInstance().draw();
         for (Enemy enemy : enemies) {
@@ -92,6 +98,8 @@ public class Window extends PApplet {
         for (PowerUp powerUp : powerUps) {
           powerUp.draw();
         }
+        powerUpManager.update();
+        powerUpManager.draw();
 
         bulletManager.drawBullets();
 
@@ -162,6 +170,9 @@ public class Window extends PApplet {
     for (PowerUp powerUp : powerUps) {
       powerUp.update();
     }
+
+    powerUpManager.checkCollisions(Player.getInstance(), bulletManager);
+
 
     //TODO: whoever approved the latest pull request, this code does not work with the threads
 //    // Check for collisions between player and enemies
