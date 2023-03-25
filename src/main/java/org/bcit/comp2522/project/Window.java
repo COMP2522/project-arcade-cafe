@@ -6,15 +6,17 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
 public class Window extends PApplet {
 
   int state = 0;
   private StartMenu startMenu;
   private BulletManager bulletManager;
   ArrayList<Sprite> sprites;
+
   ArrayList<Enemy> enemies;
+
+  private EnemyManager enemyManager;
+
   ArrayList<PowerUp> powerUps;
   public boolean leftPressed = false;
   public boolean rightPressed = false;
@@ -31,17 +33,21 @@ public class Window extends PApplet {
 
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
-    enemies = new ArrayList<Enemy>();
+    enemyManager = new EnemyManager();
+    enemies = new ArrayList<Enemy>(); // initialize enemies list
     sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
-            this, 2, 10));
+            this, 2));
+
+    enemyManager.addEnemy(new Enemy(200, 200,
+        20, new Color(255, 255, 0),
+        this, 210));
 
     powerUps = new ArrayList<PowerUp>();
     powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
 
     sprites = new ArrayList<Sprite>();
-    sprites.addAll(enemies);
     sprites.add(Player.getInstance());
   }
 
@@ -58,6 +64,7 @@ public class Window extends PApplet {
       // start game
       case 1:
         background(0); // clear the background
+
 //        Player.getInstance().draw();
         for (Enemy enemy : enemies) {
           enemy.draw();
@@ -96,7 +103,6 @@ public class Window extends PApplet {
         break;
     }
   }
-
 
   @Override
   public void keyPressed() {
@@ -138,9 +144,7 @@ public class Window extends PApplet {
 
     // Update the positions of the enemies
     //TODO: add this to enemy manager
-    for (Enemy enemy : enemies) {
-      enemy.update();
-    }
+    enemyManager.update();
 
     // Update the positions of the bullets
     // Use bulletManager.getBullets() to get the list of bullets
