@@ -15,11 +15,11 @@ public class Window extends PApplet {
   private BulletManager bulletManager;
   ArrayList<Sprite> sprites;
   ArrayList<Enemy> enemies;
-//  ArrayList<Bullet> bullets;
   ArrayList<PowerUp> powerUps;
-  // private Bullet[] bullets;
   public boolean leftPressed = false;
   public boolean rightPressed = false;
+
+  private Timer shootBulletTimer;
 
   public void settings() {
     size(960, 540);
@@ -27,34 +27,15 @@ public class Window extends PApplet {
 
   public void setup() {
     startMenu = new StartMenu(this, this::setState);
-//<<<<<<< HEAD
     bulletManager = new BulletManager(this);
 
-    Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        update();
-      }
-    }, 0, 16);
-
-    Timer shootBulletTimer = new Timer();
-    shootBulletTimer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
-      }
-    }, 0, 200); // Shoot a bullet every 200 milliseconds
-
-//=======
-//>>>>>>> 5618cbcab1f0eeeac481cd69e45f966dedfa0d3c
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemies = new ArrayList<Enemy>();
     sprites = new ArrayList<Sprite>();
     enemies.add(new Enemy(200, 200,
             20, new Color(255, 255, 0),
-          this, 2, 10));
-//    bullets = new ArrayList<Bullet>();
-//    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
+            this, 2, 10));
 
     powerUps = new ArrayList<PowerUp>();
     powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
@@ -62,13 +43,6 @@ public class Window extends PApplet {
     sprites = new ArrayList<Sprite>();
     sprites.addAll(enemies);
     sprites.add(Player.getInstance());
-
-//    Timer timer = new Timer();
-//    timer.scheduleAtFixedRate(new TimerTask() {
-//      public void run() {
-//        update();
-//      }
-//    }, 0, 16);
   }
 
   public void setState(int newState) {
@@ -76,22 +50,37 @@ public class Window extends PApplet {
   }
   public void draw() {
     switch (state) {
+      // main menu
       case 0:
         background(0);
-        // main menu
         startMenu.draw();
         break;
+      // start game
       case 1:
-        // start game
         background(0); // clear the background
-        Player.getInstance().draw();
+//        Player.getInstance().draw();
         for (Enemy enemy : enemies) {
           enemy.draw();
         }
+        Player player = Player.getInstance();
+        player.update(); // update player's position
+        if (leftPressed) {
+          player.moveLeft();
+        }
+        if (rightPressed) {
+          player.moveRight();
+        }
+        player.draw();
 
-        for (Bullet bullet : bulletManager.getBullets()) {
-
-          bullet.draw();
+        // drawing code for game
+        if (shootBulletTimer == null) {
+          // start shooting bullets
+          shootBulletTimer = new Timer();
+          shootBulletTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+              bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
+            }
+          }, 0, 200); // Shoot a bullet every 200 milliseconds
         }
         for (PowerUp powerUp : powerUps) {
           powerUp.draw();
@@ -123,7 +112,7 @@ public class Window extends PApplet {
       }
     }
   }
-@Override
+  @Override
   public void keyReleased() {
     if(key == CODED) {
       if(keyCode == LEFT) {
