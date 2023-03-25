@@ -11,6 +11,7 @@ public class StartMenu extends PApplet{
   private boolean buttonsInitialized = false;
   private Consumer<Integer> onStateChange;
 
+  private Button goBackButton;
   public StartMenu(PApplet pApplet, Consumer<Integer> onStateChange) {
     this.pApplet = pApplet;
     buttons = new ArrayList<>();
@@ -20,7 +21,7 @@ public class StartMenu extends PApplet{
   public void draw() {
     if (!buttonsInitialized) {
       addButton("Start", pApplet.width / 2, pApplet.height / 2 - 50, 100, 50, 20, 0xFFFFFFFF, this::startGame);
-      addButton("How to Play", pApplet.width / 2, pApplet.height / 2 + 50, 100, 50, 20, 0xFFFFFFFF, this::openOptions);
+      addButton("Scoreboard", pApplet.width / 2, pApplet.height / 2 + 50, 100, 50, 20, 0xFFFFFFFF, this::openScoreboard);
       addButton("Exit", pApplet.width / 2, pApplet.height / 2 + 150, 100, 50, 20, 0xFFFFFFFF, this::exitGame);
       buttonsInitialized = true;
     }
@@ -51,12 +52,36 @@ public class StartMenu extends PApplet{
     }
   }
 
-  public void openOptions() {
-    //TODO: Implement this method to open the Options menu
+  public void openScoreboard() {
+    if (onStateChange != null) {
+      onStateChange.accept(2); // Set the state to 2 for the Scoreboard
+    }
   }
 
   public void exitGame() {
     pApplet.exit();
+  }
+
+  public void drawScoreboard() {
+    // TODO: Add drawing code for the scoreboard
+
+    if (goBackButton == null) {
+      goBackButton = new Button("Go Back", pApplet.width / 2, pApplet.height - 50, 100, 50, 20, 0xFFFFFFFF, this::goBackToMainMenu);
+    }
+
+    goBackButton.draw(pApplet);
+  }
+
+  public void goBackToMainMenu() {
+    if (onStateChange != null) {
+      onStateChange.accept(0); // Set the state to 0 (main menu)
+    }
+  }
+
+  public void mousePressedScoreboard() {
+    if (goBackButton != null && goBackButton.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
+      goBackButton.onClick();
+    }
   }
 }
 
