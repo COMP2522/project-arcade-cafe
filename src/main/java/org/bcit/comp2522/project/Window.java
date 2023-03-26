@@ -12,10 +12,18 @@ public class Window extends PApplet {
   private StartMenu startMenu;
   private BulletManager bulletManager;
   ArrayList<Sprite> sprites;
+
+  ArrayList<Enemy> enemies;
+
   private EnemyManager enemyManager;
+
   ArrayList<PowerUp> powerUps;
+  private PowerUpManager powerUpManager;
+
   public boolean leftPressed = false;
   public boolean rightPressed = false;
+
+  private Timer shootBulletTimer;
 
   public void settings() {
     size(960, 540);
@@ -25,32 +33,24 @@ public class Window extends PApplet {
     startMenu = new StartMenu(this, this::setState);
     bulletManager = new BulletManager(this);
 
-    Timer timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        update();
-      }
-    }, 0, 16);
-
-    Timer shootBulletTimer = new Timer();
-    shootBulletTimer.scheduleAtFixedRate(new TimerTask() {
-      public void run() {
-        bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
-      }
-    }, 0, 200); // Shoot a bullet every 200 milliseconds
-
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
     enemyManager = new EnemyManager();
+    enemies = new ArrayList<Enemy>(); // initialize enemies list
     sprites = new ArrayList<Sprite>();
+//    enemies.add(new Enemy(200, 200,
+//            20, new Color(0, 255, 0),
+//            this, 2));
+
     enemyManager.addEnemy(new Enemy(200, 200,
         20, new Color(255, 255, 0),
         this, 210));
-//    bullets = new ArrayList<Bullet>();
-//    bullets.add(new Bullet(200, 200, 20, new Color(255, 255, 0), this, 2));
 
     powerUps = new ArrayList<PowerUp>();
-    powerUps.add(new PowerUp(200, 200, 20, new Color(255, 255, 0), this, 2));
+//    powerUps.add(new PowerUp(200, 200, 10, new Color(255, 255, 0), this, "fireRate"));
+    powerUpManager = PowerUpManager.getInstance(5, 300, this); // Adjust spawnTime and spawnArea as needed
+    powerUpManager.spawn();
+
 
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
@@ -61,27 +61,53 @@ public class Window extends PApplet {
   }
   public void draw() {
     switch (state) {
+      // main menu
       case 0:
         background(0);
-        // main menu
         startMenu.draw();
         break;
+      // start game
       case 1:
-        // start game
         background(0); // clear the background
-        Player.getInstance().draw();
-        enemyManager.draw();
+        update();
 
-        for (Bullet bullet : bulletManager.getBullets()) {
+//        Player.getInstance().draw();
+        for (Enemy enemy : enemies) {
+          enemy.draw();
+        }
+        Player player = Player.getInstance();
+        player.update(); // update player's position
+        if (leftPressed) {
+          player.moveLeft();
+        }
+        if (rightPressed) {
+          player.moveRight();
+        }
+        player.draw();
 
-          bullet.draw();
+        // drawing code for game
+        if (shootBulletTimer == null) {
+          // start shooting bullets
+          shootBulletTimer = new Timer();
+          shootBulletTimer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+              bulletManager.shootBullet(Player.getInstance().getX(), Player.getInstance().getY(), -2);
+            }
+          }, 0, 200); // Shoot a bullet every 200 milliseconds
         }
         for (PowerUp powerUp : powerUps) {
           powerUp.draw();
         }
+        powerUpManager.update();
+        powerUpManager.draw();
 
         bulletManager.draw();
 
+        break;
+      // Score Board
+      case 2:
+        background(0);
+        startMenu.drawScoreboard();
         break;
       // case N:
       // Add more states as needed
@@ -139,10 +165,14 @@ public class Window extends PApplet {
       bullet.update();
     }
 
+
     // Update the positions of the powerups
     for (PowerUp powerUp : powerUps) {
       powerUp.update();
     }
+
+    powerUpManager.checkCollisions(Player.getInstance(), bulletManager);
+
 
     //TODO: whoever approved the latest pull request, this code does not work with the threads
 //    // Check for collisions between player and enemies
@@ -174,7 +204,14 @@ public class Window extends PApplet {
 //    }
   }
   public void mousePressed() {
-    startMenu.mousePressed();
+    switch (state) {
+      case 0:
+        startMenu.mousePressed();
+        break;
+      case 2:
+        startMenu.mousePressedScoreboard();
+        break;
+    }
   }
 
   public static void main(String[] args) {
