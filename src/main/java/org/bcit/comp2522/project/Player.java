@@ -1,19 +1,24 @@
 package org.bcit.comp2522.project;
 
 import java.awt.*;
+import processing.core.PImage;
 
 public class Player extends Sprite{
+
   private static Player player;
   private int hp;
   private int fireRate;
   private int shotLast = 0;
   //TODO: tweak to find a good amount of speed.
   private final int speed = 5;
+  private PImage playerImage;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
     super(x,y,s, c, window);
     this.hp = hp;
     fireRate = fr;
+    playerImage = window.loadImage("src/img/player.png");
+    playerImage.resize(100,100);
   }
 
   public static Player getInstance() {
@@ -66,4 +71,15 @@ public class Player extends Sprite{
   public void moveRight() {
     this.x += this.speed;
   }
+
+  @Override
+  public void draw() {
+    window.pushMatrix();
+    window.translate(x, y);
+    window.imageMode(window.CENTER);
+    window.image(playerImage, 0, 0);
+    window.popMatrix();
+  }
+
 }
+
