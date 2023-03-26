@@ -4,6 +4,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PowerUpManager {
     private static PowerUpManager instance;
@@ -11,17 +13,25 @@ public class PowerUpManager {
     private int spawnTime;
     private int spawnArea;
     private Window window;
+    private Timer powerUpTimer;
 
     private PowerUpManager(int spawnTime, int spawnArea, Window window) {
         this.powerUps = new ArrayList<>();
         this.spawnTime = spawnTime;
         this.spawnArea = spawnArea;
         this.window = window;
+
+        powerUpTimer = new Timer();
+        powerUpTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                spawn();
+            }
+        }, 15000, 15000); // Generate a powerup every 15 seconds (15000 milliseconds)
     }
 
     public static PowerUpManager getInstance(int spawnTime, int spawnArea, Window window) {
-        if (instance == null)
-        {
+        if (instance == null) {
             instance = new PowerUpManager(spawnTime, spawnArea, window);
         }
         return instance;
@@ -109,7 +119,9 @@ public class PowerUpManager {
             }
         }
     }
-
-
-
 }
+
+
+
+
+
