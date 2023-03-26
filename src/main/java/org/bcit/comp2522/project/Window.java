@@ -104,6 +104,11 @@ public class Window extends PApplet {
         bulletManager.drawBullets();
 
         break;
+      // Score Board
+      case 2:
+        background(0);
+        startMenu.drawScoreboard();
+        break;
       // case N:
       // Add more states as needed
       // break;
@@ -199,7 +204,14 @@ public class Window extends PApplet {
 //    }
   }
   public void mousePressed() {
-    startMenu.mousePressed();
+    switch (state) {
+      case 0:
+        startMenu.mousePressed();
+        break;
+      case 2:
+        startMenu.mousePressedScoreboard();
+        break;
+    }
   }
 
   public static void main(String[] args) {
