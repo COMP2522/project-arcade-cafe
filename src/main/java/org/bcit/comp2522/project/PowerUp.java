@@ -4,13 +4,13 @@ import java.awt.*;
 
 public class PowerUp extends Sprite {
 
-    private int dy;
     private String type;
     public int hpCount;
     public int fireCount;
 
-    public PowerUp(int xPos, int yPos, int size, Color color, Window window, int dy) {
+    public PowerUp(int xPos, int yPos, int size, Color color, Window window, String type) {
         super(xPos, yPos, size, color, window);
+        this.type = type;
 
     }
 
@@ -20,6 +20,10 @@ public class PowerUp extends Sprite {
 
     public void increaseFireRate() {
         fireCount++;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -34,7 +38,8 @@ public class PowerUp extends Sprite {
 
     public void update() {
         // Move the powerup vertically
-        move(0, dy);
+        move(0, 2);
     }
+
 
 }
