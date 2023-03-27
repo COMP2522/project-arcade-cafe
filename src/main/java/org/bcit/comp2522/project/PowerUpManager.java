@@ -44,7 +44,6 @@ public class PowerUpManager {
         int size = 5; //to edit
         Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)); //to edit
         String type = random.nextBoolean() ? "hp" : "fireRate";
-
         PowerUp newPowerUp = new PowerUp(xPos, yPos, size, color, window, type);
         powerUps.add(newPowerUp);
     }

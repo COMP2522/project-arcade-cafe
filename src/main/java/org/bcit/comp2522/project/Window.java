@@ -12,11 +12,8 @@ public class Window extends PApplet {
   private StartMenu startMenu;
   private BulletManager bulletManager;
   ArrayList<Sprite> sprites;
-
   ArrayList<Enemy> enemies;
-
   private EnemyManager enemyManager;
-
   ArrayList<PowerUp> powerUps;
   private PowerUpManager powerUpManager;
 
@@ -95,9 +92,9 @@ public class Window extends PApplet {
             }
           }, 0, 200); // Shoot a bullet every 200 milliseconds
         }
-        for (PowerUp powerUp : powerUps) {
-          powerUp.draw();
-        }
+//        for (PowerUp powerUp : powerUps) {
+//          powerUp.draw();
+//        }
         powerUpManager.update();
         powerUpManager.draw();
 
