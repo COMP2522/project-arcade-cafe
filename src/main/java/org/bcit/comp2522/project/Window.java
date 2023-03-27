@@ -32,16 +32,10 @@ public class Window extends PApplet {
 
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 500, 20, new Color(255, 255, 0), this,5,120);
-    enemyManager = new EnemyManager();
+    enemyManager = new EnemyManager(this);
     enemies = new ArrayList<Enemy>(); // initialize enemies list
+    enemyManager.addEnemy(enemies);
     sprites = new ArrayList<Sprite>();
-//    enemies.add(new Enemy(200, 200,
-//            20, new Color(0, 255, 0),
-//            this, 2));
-
-    enemyManager.addEnemy(new Enemy(200, 200,
-        20, new Color(255, 255, 0),
-        this, 210));
 
     powerUps = new ArrayList<PowerUp>();
 //    powerUps.add(new PowerUp(200, 200, 10, new Color(255, 255, 0), this, "fireRate"));
@@ -72,6 +66,8 @@ public class Window extends PApplet {
         for (Enemy enemy : enemies) {
           enemy.draw();
         }
+//        enemyManager.draw();
+        enemyManager.update();
         Player player = Player.getInstance();
         player.update(); // update player's position
         if (leftPressed) {
@@ -154,14 +150,15 @@ public class Window extends PApplet {
 
     // Update the positions of the enemies
     //TODO: add this to enemy manager
-    enemyManager.update();
-
+//    enemyManager.update();
+    for (Enemy enemy: enemies) {
+      enemy.update();
+    }
     // Update the positions of the bullets
     // Use bulletManager.getBullets() to get the list of bullets
     for (Bullet bullet : bulletManager.getBullets()) {
       bullet.update();
     }
-
 
     // Update the positions of the powerups
     for (PowerUp powerUp : powerUps) {

@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Enemy extends Sprite {
   private int health;
+  private int shift = 1;
 
   public Enemy(int xPos, int yPos, int size, Color color, Window window, int health) {
     super(xPos, yPos, size, color, window);
@@ -16,6 +17,10 @@ public class Enemy extends Sprite {
 
   public void setHealth(int health) {
     this.health = health;
+  }
+
+  public void update() {
+    move(0, shift);
   }
 
 //  public void takeDamage(int damage) {
