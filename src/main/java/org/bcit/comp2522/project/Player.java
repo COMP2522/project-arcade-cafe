@@ -17,7 +17,7 @@ public class Player extends Sprite{
     super(x,y,s, c, window);
     this.hp = hp;
     fireRate = fr;
-    playerImage = window.loadImage("src/img/player.png");
+    playerImage = window.loadImage("src/img/playerImgIdle.png");
     playerImage.resize(100,100);
   }
 
@@ -56,19 +56,29 @@ public class Player extends Sprite{
       shotLast = fireRate;
     }
 
-      if (window.leftPressed) {
-        move(speed*-1, 0);
-      }
-      if (window.rightPressed) {
-        move(speed, 0);
-      }
+    if (window.leftPressed) {
+      move(speed * -1, 0);
+      playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
+      playerImage.resize(100,100);
+    } else if (window.rightPressed) {
+      move(speed, 0);
+      playerImage = window.loadImage("src/img/playerImgMovingRight.png");
+      playerImage.resize(100,100);
+    } else {
+      playerImage = window.loadImage("src/img/playerImgIdle.png");
+      playerImage.resize(100,100);
+    }
 
   }
   public void moveLeft() {
+    playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
+    playerImage.resize(100,100);
     this.x -= this.speed;
   }
 
   public void moveRight() {
+    playerImage = window.loadImage("src/img/playerImgMovingRight.png");
+    playerImage.resize(100,100);
     this.x += this.speed;
   }
 

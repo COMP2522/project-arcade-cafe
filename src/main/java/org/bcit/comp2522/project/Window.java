@@ -1,6 +1,8 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
+import processing.core.PImage;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -22,11 +24,27 @@ public class Window extends PApplet {
 
   private Timer shootBulletTimer;
 
+  private PImage backgroundImg;
   public void settings() {
     size(960, 540);
   }
 
+  // BACKGROUND IMAGE SETUPS //
+  public void bgSetup() {
+    size(960, 540);
+    backgroundImg = loadImage("src/bgImg/testImg.jpg");
+  }
+
+  public void bgDraw() {
+    if (backgroundImg != null) {
+      image(backgroundImg, 0, 0);
+    }
+  }
+
+
   public void setup() {
+    bgSetup();
+
     startMenu = new StartMenu(this, this::setState);
     bulletManager = new BulletManager(this);
 
@@ -51,9 +69,11 @@ public class Window extends PApplet {
     state = newState;
   }
   public void draw() {
+    bgDraw();
     switch (state) {
       // main menu
       case 0:
+
         background(0);
         startMenu.draw();
         break;
@@ -208,6 +228,7 @@ public class Window extends PApplet {
     }
   }
 
+  // MAIN //
   public static void main(String[] args) {
     String[] processingArgs = {"Window"};
     Window window = new Window();
