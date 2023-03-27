@@ -1,7 +1,8 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import processing.core.PImage;
+
+import java.awt.*;
 
 public class Player extends Sprite{
 
@@ -10,7 +11,7 @@ public class Player extends Sprite{
   private int fireRate;
   private int shotLast = 0;
   //TODO: tweak to find a good amount of speed.
-  private final int speed = 5;
+  private final int speed = 10;
   private PImage playerImage;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
@@ -44,7 +45,7 @@ public class Player extends Sprite{
   public void setFireRate(int fr) {this.fireRate = fr;}
   private void shoot(int x, int y) {
     //TODO: make shoot instantiate a bullet
-    System.out.println("Shot bullet at X:" + x + "Y:" + y);
+    BulletManager.getInstance().shootBullet(x,y,-15);
   }
 
   public void update() {
@@ -58,19 +59,25 @@ public class Player extends Sprite{
 
       if (window.leftPressed) {
         move(speed*-1, 0);
+        if(x <= size) {
+          x = size;
+        }
       }
       if (window.rightPressed) {
         move(speed, 0);
+        if(x >= window.width - size) {
+          x = window.width - size;
+        }
       }
 
   }
-  public void moveLeft() {
-    this.x -= this.speed;
-  }
-
-  public void moveRight() {
-    this.x += this.speed;
-  }
+//  public void moveLeft() {
+//    this.x -= this.speed;
+//  }
+//
+//  public void moveRight() {
+//    this.x += this.speed;
+//  }
 
   @Override
   public void draw() {
