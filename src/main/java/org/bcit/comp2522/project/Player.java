@@ -1,7 +1,8 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import processing.core.PImage;
+
+import java.awt.*;
 
 public class Player extends Sprite{
 
@@ -10,7 +11,7 @@ public class Player extends Sprite{
   private int fireRate;
   private int shotLast = 0;
   //TODO: tweak to find a good amount of speed.
-  private final int speed = 5;
+  private final int speed = 10;
   private PImage playerImage;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
@@ -58,10 +59,16 @@ public class Player extends Sprite{
 
     if (window.leftPressed) {
       move(speed * -1, 0);
+      if(x <= size) {
+        x = size;
+      }
       playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
       playerImage.resize(100,100);
     } else if (window.rightPressed) {
       move(speed, 0);
+      if(x >= window.width - size){
+        x = window.width - size;
+      }
       playerImage = window.loadImage("src/img/playerImgMovingRight.png");
       playerImage.resize(100,100);
     } else {
@@ -70,17 +77,13 @@ public class Player extends Sprite{
     }
 
   }
-  public void moveLeft() {
-    playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
-    playerImage.resize(100,100);
-    this.x -= this.speed;
-  }
-
-  public void moveRight() {
-    playerImage = window.loadImage("src/img/playerImgMovingRight.png");
-    playerImage.resize(100,100);
-    this.x += this.speed;
-  }
+//  public void moveLeft() {
+//    this.x -= this.speed;
+//  }
+//
+//  public void moveRight() {
+//    this.x += this.speed;
+//  }
 
   @Override
   public void draw() {

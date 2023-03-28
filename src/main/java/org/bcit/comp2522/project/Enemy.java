@@ -1,14 +1,20 @@
 package org.bcit.comp2522.project;
 
+import processing.core.PImage;
+
 import java.awt.*;
 
 public class Enemy extends Sprite {
   private int health;
-  private int shift = 1;
+  private final int shift = 1;
+  private final PImage alien1;
+  private final int height = window.height;
 
   public Enemy(int xPos, int yPos, int size, Color color, Window window, int health) {
     super(xPos, yPos, size, color, window);
     this.health = health;
+    alien1 = window.loadImage("src/img/alien2.png");
+    alien1.resize(30,30);
   }
 
   public int getHealth() {
@@ -21,6 +27,14 @@ public class Enemy extends Sprite {
 
   public void update() {
     move(0, shift);
+  }
+
+  @Override
+  public void draw() {
+    window.pushMatrix();
+    window.translate(getX(), getY());
+    window.image(alien1, -30 / 2, -30 / 2, 30, 30);
+    window.popMatrix();
   }
 
 //  public void takeDamage(int damage) {
