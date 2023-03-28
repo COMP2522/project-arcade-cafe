@@ -18,6 +18,8 @@ public class Window extends PApplet {
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
+  private ScoreManager scoreManager;
+
   public void settings() {
     size(960, 540);
   }
@@ -25,6 +27,7 @@ public class Window extends PApplet {
   public void setup() {
     startMenu = new StartMenu(this, this::setState);
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
+
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
     PowerUpManager.getInstance(900, width*4/5, this); // Adjust spawnTime and spawnArea as needed
@@ -34,6 +37,7 @@ public class Window extends PApplet {
 
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
+    scoreManager = ScoreManager.getInstance(this);
   }
 
   public void setState(int newState) {
@@ -55,6 +59,8 @@ public class Window extends PApplet {
         image(backgroundImage, 0, 0);
         backgroundImage.resize(2000, 1200);
         lm.draw();
+        // draw the score
+        scoreManager.draw();
         break;
       // Score Board
       case 2:
