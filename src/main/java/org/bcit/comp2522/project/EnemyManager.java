@@ -2,10 +2,9 @@ package org.bcit.comp2522.project;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Timer;
 
 public class EnemyManager {
+  private static EnemyManager singleton;
   private ArrayList<Enemy> enemies;
   private int enemyPad = 30;
   private int waveNumber;
@@ -18,9 +17,18 @@ public class EnemyManager {
   private int health = 210;
   private int height = 600;
 
-  public EnemyManager(Window window) {
+  private EnemyManager(Window window) {
     this.window = window;
     this.enemies = new ArrayList<Enemy>();
+  }
+  public static EnemyManager getInstance(){
+    return singleton;
+  }
+  public static EnemyManager getInstance(Window window){
+    if(singleton == null) {
+      singleton = new EnemyManager(window);
+    }
+    return singleton;
   }
 
   public void addEnemy() {
@@ -28,7 +36,7 @@ public class EnemyManager {
       int x = xStart + (size + enemyPad) * i;
       int y = yStart;
       Enemy enemy = new Enemy(x, y, size, new Color(255, 0, 255), window, health);
-      enemies.add(enemy);
+      this.enemies.add(enemy);
     }
   }
 
