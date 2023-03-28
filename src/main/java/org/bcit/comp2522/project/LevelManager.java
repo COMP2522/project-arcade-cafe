@@ -92,25 +92,4 @@ public class LevelManager {
     return distance <= minDistance;
   }
 
-//  previous version - keeping for reference for now
-//  public void checkPowerUpCollisions(Player player, PowerUpManager powerUpManager) {
-//    ArrayList<PowerUp> powerUps = powerUpManager.getPowerUps();
-//
-//    Iterator<PowerUp> powerUpIterator = powerUps.iterator();
-//    while (powerUpIterator.hasNext()) {
-//      PowerUp powerUp = powerUpIterator.next();
-//
-//      if (collidesWith(player, powerUp)) {
-//        powerUp.applyEffect(player); // apply the power-up effect to the player
-//        powerUpIterator.remove(); // remove the power-up if it collided with the player
-//      }
-//    }
-//  }
-//
-//  public boolean collidesWith(Player player, PowerUp powerUp) {
-//    float distance = dist(player.getX(), player.getY(), powerUp.getX(), powerUp.getY());
-//    float minDistance = (player.getSize() + powerUp.getSize()) / 2;
-//    return distance <= minDistance;
-//  }
-
 }

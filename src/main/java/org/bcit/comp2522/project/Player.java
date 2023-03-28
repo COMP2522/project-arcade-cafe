@@ -44,7 +44,6 @@ public class Player extends Sprite{
   public void setHp(int hp) {this.hp = hp;}
   public void setFireRate(int fr) {this.fireRate = fr;}
   private void shoot(int x, int y) {
-    //TODO: make shoot instantiate a bullet
     BulletManager.getInstance().shootBullet(x,y,-15);
   }
 
@@ -77,13 +76,6 @@ public class Player extends Sprite{
     }
 
   }
-//  public void moveLeft() {
-//    this.x -= this.speed;
-//  }
-//
-//  public void moveRight() {
-//    this.x += this.speed;
-//  }
 
   @Override
   public void draw() {
