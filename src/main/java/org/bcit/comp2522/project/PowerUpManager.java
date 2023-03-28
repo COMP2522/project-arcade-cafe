@@ -20,13 +20,6 @@ public class PowerUpManager {
         this.spawnArea = spawnArea;
         this.window = window;
 
-//        powerUpTimer = new Timer();
-//        powerUpTimer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                spawn();
-//            }
-//        }, 5000, 5000); // Generate a powerup every 15 seconds (15000 milliseconds)
     }
 
     public static PowerUpManager getInstance(int spawnTime, int spawnArea, Window window) {
