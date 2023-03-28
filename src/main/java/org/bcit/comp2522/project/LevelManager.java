@@ -32,7 +32,6 @@ public class LevelManager {
   }
 
   public void setup(){
-    //TODO: put initialization of arrays here.
     em.addEnemy();
   }
   public void draw() {
