@@ -27,7 +27,7 @@ public class Window extends PApplet {
     EnemyManager.getInstance(this);
     PowerUpManager.getInstance(5, 300, this); // Adjust spawnTime and spawnArea as needed
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
-    Player.getInstance(500, 490, 20, new Color(255, 255, 0), this,5,6);
+    Player.getInstance(500, 490, 20, new Color(255, 255, 0), this,5,10);
     lm = LevelManager.getInstance();
 
     sprites = new ArrayList<Sprite>();
