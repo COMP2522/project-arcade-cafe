@@ -16,7 +16,7 @@ public class LivesManager {
         this.heartSize = 30;
         this.heartPadding = 5;
         this.leftPadding = 20;
-        heartImage = window.loadImage("src/img/healthPowerUp.png");
+        heartImage = window.loadImage("src/img/hpPowerUp.png");
         heartImage.resize(heartSize, heartSize);
     }
 
