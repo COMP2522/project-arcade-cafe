@@ -9,7 +9,6 @@ public class PowerUp extends Sprite {
     public int hpCount;
     public int fireCount;
     private PImage hpImage;
-
     private PImage fireRateImage;
 
     public PowerUp(int xPos, int yPos, int size, Color color, Window window, String type) {
