@@ -4,8 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class PowerUpManager {
     private static PowerUpManager instance;
@@ -13,21 +11,22 @@ public class PowerUpManager {
     private int spawnTime;
     private int spawnArea;
     private Window window;
-    private Timer powerUpTimer;
+    private int lastPower;
 
     private PowerUpManager(int spawnTime, int spawnArea, Window window) {
         this.powerUps = new ArrayList<>();
         this.spawnTime = spawnTime;
+        lastPower = spawnTime;
         this.spawnArea = spawnArea;
         this.window = window;
 
-        powerUpTimer = new Timer();
-        powerUpTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                spawn();
-            }
-        }, 15000, 15000); // Generate a powerup every 15 seconds (15000 milliseconds)
+//        powerUpTimer = new Timer();
+//        powerUpTimer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                spawn();
+//            }
+//        }, 5000, 5000); // Generate a powerup every 15 seconds (15000 milliseconds)
     }
 
     public static PowerUpManager getInstance(int spawnTime, int spawnArea, Window window) {
@@ -47,8 +46,8 @@ public class PowerUpManager {
 
     public void spawn() {
         Random random = new Random();
-        int xPos = random.nextInt(spawnArea);
-        int yPos = random.nextInt(spawnArea);
+        int xPos = random.nextInt(spawnArea) + window.width/2 - spawnArea/2;
+        int yPos = 0;
         int size = 5; //to edit
         Color color = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)); //to edit
         String type = random.nextBoolean() ? "hp" : "fireRate";
@@ -65,6 +64,11 @@ public class PowerUpManager {
     public void update() {
         for (PowerUp powerUp: powerUps) {
             powerUp.update();
+        }
+        lastPower--;
+        if(lastPower <= 0){
+          spawn();
+          lastPower = spawnTime;
         }
     }
 
