@@ -36,6 +36,9 @@ public class PowerUpManager {
         }
         return instance;
     }
+  public static PowerUpManager getInstance() {
+    return instance;
+  }
 
     public void spawn() {
         Random random = new Random();
