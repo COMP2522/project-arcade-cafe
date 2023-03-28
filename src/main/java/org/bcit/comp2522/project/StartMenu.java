@@ -3,6 +3,7 @@ package org.bcit.comp2522.project;
 import processing.core.PApplet;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import processing.core.PImage;
 
 public class StartMenu extends PApplet{
 
@@ -12,6 +13,11 @@ public class StartMenu extends PApplet{
   private Consumer<Integer> onStateChange;
 
   private Button goBackButton;
+
+
+
+  // MENU SETUP //
+
   public StartMenu(PApplet pApplet, Consumer<Integer> onStateChange) {
     this.pApplet = pApplet;
     buttons = new ArrayList<>();
@@ -26,13 +32,13 @@ public class StartMenu extends PApplet{
       buttonsInitialized = true;
     }
 
-    pApplet.background(255);
+    pApplet.background(0);
     for (Button button : buttons) {
       button.draw(pApplet);
     }
   }
 
-
+  // BUTTON INTERACTION FUNCTIONS //
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
