@@ -12,6 +12,7 @@ public class LevelManager {
   private EnemyManager em;
   private BulletManager bm;
   private PowerUpManager pm;
+  private LivesManager lives;
   private int score;
   private int highscore;
 
@@ -20,6 +21,7 @@ public class LevelManager {
     bm = BulletManager.getInstance();
     pm = PowerUpManager.getInstance();
     player = Player.getInstance();
+    lives = new LivesManager(3, player.window);
     score = 0;
     //TODO: read this from database
     highscore = 0;
@@ -43,10 +45,11 @@ public class LevelManager {
     }
   }
   public void draw() {
-      em.draw();
-      bm.draw();
-      pm.draw();
-      player.draw();
+    em.draw();
+    bm.draw();
+    pm.draw();
+    player.draw();
+    lives.draw();
   }
   public void update(){
     if(!paused) {
@@ -54,14 +57,17 @@ public class LevelManager {
       bm.update();
       pm.update();
       player.update();
-      checkBulletCollisions(bm, em);
-      pm.checkCollisions(player);
+      checkBulletCollisions(bm, em,pm);
+      pm.checkCollisions(player,lives);
     }
   }
 
-  public void checkBulletCollisions(BulletManager bulletManager, EnemyManager enemyManager) {
+
+
+  public void checkBulletCollisions(BulletManager bulletManager, EnemyManager enemyManager, PowerUpManager powerUpManager) {
     ArrayList<Bullet> bullets = bulletManager.getBullets();
     ArrayList<Enemy> enemies = enemyManager.getEnemies();
+    ArrayList<PowerUp> powerUps = powerUpManager.getPowerUp();
 
     Iterator<Bullet> bulletIterator = bullets.iterator();
     while (bulletIterator.hasNext()) {
