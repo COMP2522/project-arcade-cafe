@@ -44,7 +44,7 @@ public class Player extends Sprite{
   public void setFireRate(int fr) {this.fireRate = fr;}
   private void shoot(int x, int y) {
     //TODO: make shoot instantiate a bullet
-    System.out.println("Shot bullet at X:" + x + "Y:" + y);
+    BulletManager.getInstance().shootBullet(x,y,-15);
   }
 
   public void update() {
