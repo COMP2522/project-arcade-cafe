@@ -7,22 +7,19 @@ public class EnemyManager {
   private static EnemyManager singleton;
   private ArrayList<Enemy> enemies;
   private int enemyPad = 30;
+  private int waveNumber;
   private int numEnemies = 15;
   private Window window;
-  private int width;
-  private int height;
   private final Object lock = new Object();
-  private int shift = 1;
   private int size = 30;
   private int xStart = 60;
   private int yStart = 20;
   private int health = 210;
+  private int height = 600;
 
   private EnemyManager(Window window) {
     this.window = window;
-    enemies = new ArrayList<Enemy>();
-    width = window.width;
-    height = window.height;
+    this.enemies = new ArrayList<Enemy>();
   }
   public static EnemyManager getInstance(){
     return singleton;
@@ -33,7 +30,8 @@ public class EnemyManager {
     }
     return singleton;
   }
-  public void addEnemy(ArrayList<Enemy> enemies) {
+
+  public void addEnemy() {
     for (int i = 0; i < numEnemies; i++) {
       int x = xStart + (size + enemyPad) * i;
       int y = yStart;
@@ -49,8 +47,18 @@ public class EnemyManager {
   }
 
   public void update() {
+    boolean reachedBottom = false;
     for (Enemy enemy : enemies) {
       enemy.update();
+      if (enemy.getY() + enemy.getSize() > height) {
+        reachedBottom = true;
+      }
+    }
+    if (reachedBottom) {
+      // create a new wave of enemies
+      enemies.clear();
+      yStart -= size + enemyPad;
+      addEnemy();
     }
   }
 
