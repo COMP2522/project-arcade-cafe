@@ -27,7 +27,7 @@ public class PowerUpManager {
             public void run() {
                 spawn();
             }
-        }, 15000, 15000); // Generate a powerup every 15 seconds (15000 milliseconds)
+        }, 5000, 5000); // Generate a powerup every 15 seconds (15000 milliseconds)
     }
 
     public static PowerUpManager getInstance(int spawnTime, int spawnArea, Window window) {
@@ -129,7 +129,7 @@ public void checkCollisions(Player player) {
             if (powerUp.getType().equals("hp")) {
                 player.setHp(player.getHp() + 10);
             } else if (powerUp.getType().equals("fireRate")) {
-                int increasedFireRate = Math.max(player.getFireRate() - 5, 1); //Decreases the fire rate value to increase firing speed
+                int increasedFireRate = Math.max(player.getFireRate() - 2, 1); //Decreases the fire rate value to increase firing speed
                 player.setFireRate(increasedFireRate);
             }
             iterator.remove();
