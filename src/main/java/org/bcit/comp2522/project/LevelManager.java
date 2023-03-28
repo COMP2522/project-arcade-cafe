@@ -7,6 +7,7 @@ import static processing.core.PApplet.dist;
 public class LevelManager {
 
   private static LevelManager lm;
+  private boolean paused = false;
   private Player player;
   private EnemyManager em;
   private BulletManager bm;
@@ -34,19 +35,28 @@ public class LevelManager {
   public void setup(){
     em.addEnemy();
   }
+  public void pause(){
+    if(paused){
+      paused = false;
+    } else{
+      paused = true;
+    }
+  }
   public void draw() {
-    em.draw();
-    bm.draw();
-    pm.draw();
-    player.draw();
+      em.draw();
+      bm.draw();
+      pm.draw();
+      player.draw();
   }
   public void update(){
-    em.update();
-    bm.update();
-    pm.update();
-    player.update();
-    checkBulletCollisions(bm, em);
-    pm.checkCollisions(player);
+    if(!paused) {
+      em.update();
+      bm.update();
+      pm.update();
+      player.update();
+      checkBulletCollisions(bm, em);
+      pm.checkCollisions(player);
+    }
   }
 
   public void checkBulletCollisions(BulletManager bulletManager, EnemyManager enemyManager) {

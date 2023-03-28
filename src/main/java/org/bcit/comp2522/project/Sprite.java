@@ -46,9 +46,7 @@ public class Sprite {
   }
   public static boolean collided(Sprite a, Sprite b) {
     float distance = (float) Math.sqrt((b.getX() - a.getX())*(b.getX() - a.getX()) + (b.getY() - a.getY())*(b.getY() - a.getY()));
-    System.out.println("distance: " + distance);
     if (distance <= (a.getSize() + b.getSize())) {
-      System.out.println("collided at X1:" + a.getX() + ", Y1: " + a.getY() + "|| X2: " + b.getX() + ", Y2: " + b.getY());
       return true;
     }
     return false;
