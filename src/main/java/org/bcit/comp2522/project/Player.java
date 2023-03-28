@@ -1,8 +1,7 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PImage;
-
 import java.awt.*;
+import processing.core.PImage;
 
 public class Player extends Sprite{
 
@@ -11,14 +10,14 @@ public class Player extends Sprite{
   private int fireRate;
   private int shotLast = 0;
   //TODO: tweak to find a good amount of speed.
-  private final int speed = 10;
+  private final int speed = 5;
   private PImage playerImage;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
     super(x,y,s, c, window);
     this.hp = hp;
     fireRate = fr;
-    playerImage = window.loadImage("src/img/player.png");
+    playerImage = window.loadImage("src/img/playerImgIdle.png");
     playerImage.resize(100,100);
   }
 
@@ -57,27 +56,31 @@ public class Player extends Sprite{
       shotLast = fireRate;
     }
 
-      if (window.leftPressed) {
-        move(speed*-1, 0);
-        if(x <= size) {
-          x = size;
-        }
-      }
-      if (window.rightPressed) {
-        move(speed, 0);
-        if(x >= window.width - size) {
-          x = window.width - size;
-        }
-      }
+    if (window.leftPressed) {
+      move(speed * -1, 0);
+      playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
+      playerImage.resize(100,100);
+    } else if (window.rightPressed) {
+      move(speed, 0);
+      playerImage = window.loadImage("src/img/playerImgMovingRight.png");
+      playerImage.resize(100,100);
+    } else {
+      playerImage = window.loadImage("src/img/playerImgIdle.png");
+      playerImage.resize(100,100);
+    }
 
   }
-//  public void moveLeft() {
-//    this.x -= this.speed;
-//  }
-//
-//  public void moveRight() {
-//    this.x += this.speed;
-//  }
+  public void moveLeft() {
+    playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
+    playerImage.resize(100,100);
+    this.x -= this.speed;
+  }
+
+  public void moveRight() {
+    playerImage = window.loadImage("src/img/playerImgMovingRight.png");
+    playerImage.resize(100,100);
+    this.x += this.speed;
+  }
 
   @Override
   public void draw() {
