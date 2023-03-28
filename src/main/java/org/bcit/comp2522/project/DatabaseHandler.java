@@ -79,7 +79,7 @@ public class DatabaseHandler {
     }
     // Use the values from the Config object to create the DatabaseHandler
     DatabaseHandler db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
-    db.put("test1", "teet1");
+    db.put("test11", "teet11");
     Document find = db.database
             .getCollection("new")
             .find(eq("Hello", "world"))

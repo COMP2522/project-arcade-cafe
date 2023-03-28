@@ -45,7 +45,7 @@ public class Sprite {
     this.y += dy;
   }
   public static boolean collided(Sprite a, Sprite b) {
-    float distance = (float) Math.sqrt((b.getX() - a.getX())^2 - (b.getY() - a.getY())^2);
+    float distance = (float) Math.sqrt((b.getX() - a.getX())*(b.getX() - a.getX()) + (b.getY() - a.getY())*(b.getY() - a.getY()));
     if (distance <= (a.getSize() + b.getSize())) {
       return true;
     }
