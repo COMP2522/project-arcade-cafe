@@ -9,6 +9,7 @@ public class Bullet extends Sprite {
   private int dy;
   private PImage bulletImage;
 
+
   public Bullet(int xPos, int yPos, int size, Color color, Window window, int dy) {
     super(xPos, yPos, size, color, window);
     this.dy = dy;

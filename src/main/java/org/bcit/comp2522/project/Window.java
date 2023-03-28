@@ -37,6 +37,7 @@ public class Window extends PApplet {
   public void setState(int newState) {
     state = newState;
   }
+
   public void draw() {
     switch (state) {
       // main menu
