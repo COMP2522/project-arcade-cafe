@@ -1,7 +1,8 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import processing.core.PImage;
+
+import java.awt.*;
 
 public class Player extends Sprite{
 
@@ -58,10 +59,16 @@ public class Player extends Sprite{
 
     if (window.leftPressed) {
       move(speed * -1, 0);
+      if(x <= size) {
+        x = size;
+      }
       playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
       playerImage.resize(100,100);
     } else if (window.rightPressed) {
       move(speed, 0);
+      if(x >= window.width - size){
+        x = window.width - size;
+      }
       playerImage = window.loadImage("src/img/playerImgMovingRight.png");
       playerImage.resize(100,100);
     } else {
