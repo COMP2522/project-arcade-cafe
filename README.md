@@ -83,7 +83,7 @@ Helen Liu: I will be handling the Enemy and Enemy Manager for the project. For m
 
 Mylo Yu: I will be developing player functions, window settings and functions, as well as saving all information about the current gamestate to a JSON file so a player can quit out of the game and return later. I will also develop the level manager class and its functions, which will manage all the enemies, bullets, player, and score.
 
-Samuel Chua: I will be developing the code and graphics on the implementation of the background environment and visual effects. This entails how general images, objects and effects look, how they're created, drawn, and interact with window class, the start menu window, game screen window, and options page window.
+Samuel Chua: I will be developing the code and graphics on the implementation of the background environment and visual effects. This entails how general images, objects and effects look, how they're created, drawn, and interact with window class, the start menu window, game screen window, and options page window. This includes making all the pixel art for the visual assets that will be used for the project.
 
 Eric (Sungmok) Cho: I will work on the bullet, bullet manager, start menu, and button classes. Bullet class has integer type variables such as bulletDamange that indicates the damage of bullet, coordinates for the bullet, x and y, and speed of the bullet. Bullet manager manages a bullet object's instance like move, remove, and add. StartMenu has a few button objects that send users to different window when they click the buttons. Button object will have some variables that determine the font size, colour and properties of the button, such as its shape and colour.
 
