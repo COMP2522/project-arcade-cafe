@@ -11,7 +11,7 @@ public class Player extends Sprite{
   private int fireRate;
   private int shotLast = 0;
   //TODO: tweak to find a good amount of speed.
-  private final int speed = 5;
+  private final int speed = 10;
   private PImage playerImage;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
@@ -77,17 +77,13 @@ public class Player extends Sprite{
     }
 
   }
-  public void moveLeft() {
-    playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
-    playerImage.resize(100,100);
-    this.x -= this.speed;
-  }
-
-  public void moveRight() {
-    playerImage = window.loadImage("src/img/playerImgMovingRight.png");
-    playerImage.resize(100,100);
-    this.x += this.speed;
-  }
+//  public void moveLeft() {
+//    this.x -= this.speed;
+//  }
+//
+//  public void moveRight() {
+//    this.x += this.speed;
+//  }
 
   @Override
   public void draw() {

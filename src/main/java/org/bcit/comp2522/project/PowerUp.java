@@ -15,9 +15,9 @@ public class PowerUp extends Sprite {
     public PowerUp(int xPos, int yPos, int size, Color color, Window window, String type) {
         super(xPos, yPos, size, color, window);
         this.type = type;
-        hpImage = window.loadImage("src/img/healthPowerUp.png");
+        hpImage = window.loadImage("src/img/hpPowerUp.png");
         hpImage.resize(30,30);
-        fireRateImage = window.loadImage("src/img/cherryPowerUp.png");
+        fireRateImage = window.loadImage("src/img/frPowerUp.png");
         fireRateImage.resize(30,30);
 
     }

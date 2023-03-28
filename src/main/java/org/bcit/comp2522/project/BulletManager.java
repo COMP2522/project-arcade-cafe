@@ -31,7 +31,7 @@ public class BulletManager {
 
   public void shootBullet(int xPos, int yPos, int dy) {
     synchronized (lock) {
-      Bullet bullet = new Bullet(xPos, yPos, 20, new Color(255, 255, 0), window, dy);
+      Bullet bullet = new Bullet(xPos, yPos - 40, 20, new Color(255, 255, 0), window, dy);
       bullets.add(bullet);
     }
   }
