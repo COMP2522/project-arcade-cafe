@@ -13,6 +13,9 @@ public class Player extends Sprite{
   //TODO: tweak to find a good amount of speed.
   private final int speed = 10;
   private PImage playerImage;
+  private int fireRateIncreases;
+  private int fireRateDecreaseTimer;
+  private long fireRateDecreaseStartTime;
 
   private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
     super(x,y,s, c, window);
@@ -46,6 +49,21 @@ public class Player extends Sprite{
   private void shoot(int x, int y) {
     BulletManager.getInstance().shootBullet(x,y,-15);
   }
+  public int getFireRateIncreases() {
+    return fireRateIncreases;
+  }
+  public void setFireRateIncreases(int fireRateIncreases) {
+    this.fireRateIncreases = fireRateIncreases;
+  }
+
+  public long getFireRateDecreaseStartTime() {
+    return fireRateDecreaseStartTime;
+  }
+
+  public void setFireRateDecreaseStartTime(long fireRateDecreaseStartTime) {
+    this.fireRateDecreaseStartTime = fireRateDecreaseStartTime;
+  }
+
 
   public void update() {
     if(shotLast > 0) {
