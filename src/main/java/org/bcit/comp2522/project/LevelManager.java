@@ -1,13 +1,14 @@
 package org.bcit.comp2522.project;
 
+import processing.core.PApplet;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import static processing.core.PApplet.dist;
 
-public class LevelManager {
-
+public class LevelManager{
   private static LevelManager lm;
-  private boolean paused = false;
+  public boolean paused = false;
   private Player player;
   private EnemyManager em;
   private BulletManager bm;
@@ -32,9 +33,14 @@ public class LevelManager {
     return lm;
   }
 
+  public boolean getPauseStatus() {
+    return paused;
+  }
+
   public void setup(){
     em.addEnemy();
   }
+
   public void pause(){
     if(paused){
       paused = false;
@@ -48,6 +54,7 @@ public class LevelManager {
       pm.draw();
       player.draw();
   }
+
   public void update(){
     if(!paused) {
       em.update();
