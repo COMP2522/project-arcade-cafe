@@ -11,6 +11,7 @@ public class Window extends PApplet {
   private PauseMenu pauseMenu;
   private StartMenu startMenu;
   private LevelManager lm;
+  private DatabaseHandler ds;
   PImage backgroundImage;
   ArrayList<Sprite> sprites;
 
@@ -23,11 +24,15 @@ public class Window extends PApplet {
   }
 
   public void setup() {
-    startMenu = new StartMenu(this, this::setState);
+
+//    ds = new DatabaseHandler("Arcade_Cafe", "ZfXvMheT0POiYd70"); // instantiate the DatabaseHandler
+    startMenu = new StartMenu(this, this::setState); // pass the DatabaseHandler instance to the StartMenu constructor
+//    startMenu = new StartMenu(this, this::setState);
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
+
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
-    PowerUpManager.getInstance(500, width*4/5, this); // Adjust spawnTime and spawnArea as needed
+    PowerUpManager.getInstance(100, width*4/5, this); // Adjust spawnTime and spawnArea as needed
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 490, 20, new Color(255, 255, 0), this,5,20);
     lm = LevelManager.getInstance();

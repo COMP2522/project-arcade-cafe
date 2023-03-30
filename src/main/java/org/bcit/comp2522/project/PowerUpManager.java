@@ -12,6 +12,8 @@ public class PowerUpManager {
     private int spawnArea;
     private Window window;
     private int lastPower;
+    private int fireRateDecreaseCounter = 0;
+
 
     private PowerUpManager(int spawnTime, int spawnArea, Window window) {
         this.powerUps = new ArrayList<>();
@@ -19,14 +21,6 @@ public class PowerUpManager {
         lastPower = spawnTime;
         this.spawnArea = spawnArea;
         this.window = window;
-
-//        powerUpTimer = new Timer();
-//        powerUpTimer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                spawn();
-//            }
-//        }, 5000, 5000); // Generate a powerup every 15 seconds (15000 milliseconds)
     }
 
     public static PowerUpManager getInstance(int spawnTime, int spawnArea, Window window) {
@@ -38,6 +32,11 @@ public class PowerUpManager {
   public static PowerUpManager getInstance() {
     return instance;
   }
+
+    public ArrayList<PowerUp> getPowerUp() {
+        return powerUps;
+    }
+
 
     public void spawn() {
         Random random = new Random();
@@ -56,95 +55,97 @@ public class PowerUpManager {
         }
     }
 
-    public void update() {
-        for (PowerUp powerUp: powerUps) {
+    public void update(Player player) {
+        for (PowerUp powerUp : powerUps) {
             powerUp.update();
         }
         lastPower--;
-        if(lastPower <= 0){
-          spawn();
-          lastPower = spawnTime;
+
+        // Continuously decrease fire rate once after fireRate power up reaches 4 counts
+        if (player.getFireRateIncreases() >= 4 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 15000) {
+            int decreasedFireRate = Math.min(player.getFireRate() + 5, 60); // Decrease fire rate by the same rate it increased (5 in this case)
+            player.setFireRate(decreasedFireRate);
+            player.setFireRateIncreases(player.getFireRateIncreases() - 1);
+            player.setFireRateDecreaseStartTime(0);
+        }
+        if (lastPower <= 0) {
+            spawn();
+            lastPower = spawnTime;
         }
     }
 
-//    public void checkCollisions(Player player) {
-//        for (int i = 0; i < powerUps.size(); i++) {
-//            PowerUp powerUp = powerUps.get(i);
-//            if (Sprite.collided(player, powerUp)) {
-//                if (powerUp.getType().equals("hp")) {
-//                    player.setHp(player.getHp()+50);
-//                } else if (powerUp.getType().equals("fireRate")) {
-//                    int increasedFireRate = Math.max(player.getFireRate() - 5, 1); //Decreases the fire rate value to increase firing speed
-//                    player.setFireRate(increasedFireRate);
-//                }
-//                powerUps.remove(i);
-//                i--;
-//            }
+
+//    version 2 - works but doesn't decrease
+//    public void update(Player player) {
+//        for (PowerUp powerUp : powerUps) {
+//            powerUp.update();
+//        }
+//        lastPower--;
+//
+//        // Continuously decrease fire rate by 5 every 10 seconds if fireRateIncreases is greater than or equal to 5
+//        if (player.getFireRateIncreases() >= 5 &&
+//            System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 10000 * (fireRateDecreaseCounter + 1)) {
+//            player.decreaseFireRate(5);
+//            player.setFireRateIncreases(player.getFireRateIncreases() - 1);
+//            player.setFireRateDecreaseStartTime(System.currentTimeMillis());
+//            fireRateDecreaseCounter++;
+//        } else if (player.getFireRateIncreases() == 0 && player.getFireRateDecreaseStartTime() != 0) {
+//            player.setFireRateDecreaseStartTime(0);
+//        }
+//
+//        if (lastPower <= 0) {
+//            spawn();
+//            lastPower = spawnTime;
 //        }
 //    }
 
-//    public void checkCollisions(Sprite sprite) {
-//        Iterator<PowerUp> iterator = powerUps.iterator();
-//        while (iterator.hasNext()) {
-//            PowerUp powerUp = iterator.next();
-//            if (Sprite.collided(sprite, powerUp)) {
-//                if (sprite instanceof Player) {
-//                    Player player = (Player) sprite;
-//                    if (powerUp.getType().equals("hp")) {
-//                        player.setHp(player.getHp() + 50);
-//                    } else if (powerUp.getType().equals("fireRate")) {
-//                        int increasedFireRate = Math.max(player.getFireRate() - 5, 1); //Decreases the fire rate value to increase firing speed
-//                        player.setFireRate(increasedFireRate);
-//                    }
-//                    iterator.remove();
-//                }
-//            }
+    //Kept as reference; use update method above this one
+//    public void update(Player player) {
+//        for (PowerUp powerUp : powerUps) {
+//            powerUp.update();
+//        }
+//        lastPower--;
+//
+//        // Continuously decrease fire rate every 15 seconds if fireRateIncreases is greater than 0
+//        if (player.getFireRateIncreases() > 0 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 15000) {
+//            int decreasedFireRate = Math.min(player.getFireRate() + 5, 60); // Decrease fire rate by the same rate it increased (5 in this case)
+//            player.setFireRate(decreasedFireRate);
+//            player.setFireRateIncreases(player.getFireRateIncreases() - 1);
+//            player.setFireRateDecreaseStartTime(System.currentTimeMillis());
+//        } else if (player.getFireRateIncreases() == 0 && player.getFireRateDecreaseStartTime() != 0) {
+//            player.setFireRateDecreaseStartTime(0);
+//        }
+//
+//        if (lastPower <= 0) {
+//            spawn();
+//            lastPower = spawnTime;
 //        }
 //    }
 
-//    public void checkCollisions(Player player, BulletManager bulletManager) {
-//        Iterator<PowerUp> iterator = powerUps.iterator();
-//        while (iterator.hasNext()) {
-//            PowerUp powerUp = iterator.next();
-//            if (Sprite.collided(player, powerUp)) {
-//                if (powerUp.getType().equals("hp")) {
-//                    player.setHp(player.getHp() + 50);
-//                } else if (powerUp.getType().equals("fireRate")) {
-//                    int increasedFireRate = Math.max(player.getFireRate() - 5, 1); //Decreases the fire rate value to increase firing speed
-//                    player.setFireRate(increasedFireRate);
-//                }
-//                iterator.remove();
-//            } else {
-//                // Check for collisions with bullets
-//                for (Bullet bullet : bulletManager.getBullets()) {
-//                    if (Sprite.collided(bullet, powerUp)) {
-//                        // If a collision is detected, break the loop and continue checking the next power-up
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-public void checkCollisions(Player player) {
-    Iterator<PowerUp> iterator = powerUps.iterator();
-    while (iterator.hasNext()) {
-        PowerUp powerUp = iterator.next();
-        if (Sprite.collided(player, powerUp)) {
-            if (powerUp.getType().equals("hp")) {
-                player.setHp(player.getHp() + 10);
-            } else if (powerUp.getType().equals("fireRate")) {
-                int increasedFireRate = Math.max(player.getFireRate() - 2, 1); //Decreases the fire rate value to increase firing speed
-                player.setFireRate(increasedFireRate);
+
+    public void checkCollisions(Player player, LivesManager lives) {
+        Iterator<PowerUp> iterator = powerUps.iterator();
+        while (iterator.hasNext()) {
+            PowerUp powerUp = iterator.next();
+            if (Sprite.collided(player, powerUp)) {
+                if (powerUp.getType().equals("hp")) {
+                    lives.gainLife();
+                } else if (powerUp.getType().equals("fireRate")) {
+
+                    if (player.getFireRateIncreases() < 4) {
+
+                        int increasedFireRate = Math.max(player.getFireRate() - 5, 1);
+                        player.setFireRate(increasedFireRate);
+                        player.setFireRateIncreases(player.getFireRateIncreases() + 1);
+                    }
+                    if (player.getFireRateIncreases() == 4) {
+                        player.setFireRateDecreaseStartTime(System.currentTimeMillis());
+                    }
+                }
+                iterator.remove();
             }
-            iterator.remove();
         }
     }
-}
 
 
 }
-
-
-
-
-

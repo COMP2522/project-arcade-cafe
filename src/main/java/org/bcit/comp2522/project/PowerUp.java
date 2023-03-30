@@ -9,7 +9,6 @@ public class PowerUp extends Sprite {
     public int hpCount;
     public int fireCount;
     private PImage hpImage;
-
     private PImage fireRateImage;
 
     public PowerUp(int xPos, int yPos, int size, Color color, Window window, String type) {
@@ -20,14 +19,6 @@ public class PowerUp extends Sprite {
         fireRateImage = window.loadImage("src/img/frPowerUp.png");
         fireRateImage.resize(30,30);
 
-    }
-
-    public void increaseHP() {
-        hpCount++;
-    }
-
-    public void increaseFireRate() {
-        fireCount++;
     }
 
     public String getType() {
