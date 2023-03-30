@@ -10,7 +10,7 @@ public class Window extends PApplet {
   int state = 0;
   private StartMenu startMenu;
   private LevelManager lm;
-
+  private DatabaseHandler ds;
   PImage backgroundImage;
   ArrayList<Sprite> sprites;
 
@@ -23,7 +23,10 @@ public class Window extends PApplet {
   }
 
   public void setup() {
-    startMenu = new StartMenu(this, this::setState);
+
+//    ds = new DatabaseHandler("Arcade_Cafe", "ZfXvMheT0POiYd70"); // instantiate the DatabaseHandler
+    startMenu = new StartMenu(this, this::setState); // pass the DatabaseHandler instance to the StartMenu constructor
+//    startMenu = new StartMenu(this, this::setState);
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
 
     BulletManager.getInstance(this);

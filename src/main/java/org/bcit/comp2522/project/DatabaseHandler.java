@@ -33,17 +33,17 @@ public class DatabaseHandler {
     MongoClient mongoClient = MongoClients.create(settings);
     this.database = mongoClient.getDatabase("test");
     this.myCollection = "new";
-    try {
-      this.database.createCollection((this.myCollection));
-    } catch (Exception e) {
-      System.out.println("Collection alreday exists");
-    }
+//    try {
+//      this.database.createCollection((this.myCollection));
+//    } catch (Exception e) {
+//      System.out.println("Collection alreday exists");
+//    }
   }
 
-  public void put(String key, String value) {
+  public void put(String key, int value) {
     Document document = new Document();
-    document.append(key,value);
-    new Thread(()->database.getCollection("new").insertOne(document)).start();
+    document.append(key, value);
+    new Thread(() -> database.getCollection(myCollection).insertOne(document)).start();
   }
 
   public static class Config {
@@ -75,7 +75,7 @@ public class DatabaseHandler {
     // Find the top 10 scores by sorting the collection by score in descending order
     database.getCollection(myCollection)
             .find()
-            .sort(new Document("score", -1))
+            .sort(new Document("score", -1).append("_id", 1))
             .limit(10)
             .forEach((Consumer<Document>) topScores::add);
 
@@ -87,18 +87,19 @@ public class DatabaseHandler {
     ObjectMapper mapper = new ObjectMapper();
     Config config;
     try {
-      config = mapper.readValue(new File("/Users/sungmokcho/BCIT/COMP2522/team/project-arcade-cafe/src/main/java/org/bcit/comp2522/project/config.json"), Config.class);
+      config = mapper.readValue(new File("src/main/java/org/bcit/comp2522/project/config.json"), Config.class);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     // Use the values from the Config object to create the DatabaseHandler
     DatabaseHandler db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
-    db.put("", "teet11");
-    Document find = db.database
-            .getCollection("new")
-            .find(eq("Hello", "world"))
-            .first();
+    db.put("score", 11);
+    db.put("score", 113);
+//    Document find = db.database
+//            .getCollection("new")
+//            .find(eq("Hello", "world"))
+//            .first();
 
-    System.out.println(find);
+//    System.out.println(find);
   }
 }
