@@ -10,7 +10,7 @@ public class Window extends PApplet {
   int state = 0;
   private StartMenu startMenu;
   private LevelManager lm;
-
+  private DatabaseHandler ds;
   PImage backgroundImage;
   ArrayList<Sprite> sprites;
 
@@ -18,14 +18,15 @@ public class Window extends PApplet {
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
-  private ScoreManager scoreManager;
-
   public void settings() {
     size(960, 540);
   }
 
   public void setup() {
-    startMenu = new StartMenu(this, this::setState);
+
+//    ds = new DatabaseHandler("Arcade_Cafe", "ZfXvMheT0POiYd70"); // instantiate the DatabaseHandler
+    startMenu = new StartMenu(this, this::setState); // pass the DatabaseHandler instance to the StartMenu constructor
+//    startMenu = new StartMenu(this, this::setState);
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
 
     BulletManager.getInstance(this);
@@ -34,10 +35,8 @@ public class Window extends PApplet {
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 490, 20, new Color(255, 255, 0), this,5,20);
     lm = LevelManager.getInstance();
-
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
-    scoreManager = ScoreManager.getInstance(this);
   }
 
   public void setState(int newState) {
@@ -59,8 +58,6 @@ public class Window extends PApplet {
         image(backgroundImage, 0, 0);
         backgroundImage.resize(2000, 1200);
         lm.draw();
-        // draw the score
-        scoreManager.draw();
         break;
       // Score Board
       case 2:

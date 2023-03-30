@@ -131,7 +131,9 @@ public class PowerUpManager {
                 if (powerUp.getType().equals("hp")) {
                     lives.gainLife();
                 } else if (powerUp.getType().equals("fireRate")) {
+
                     if (player.getFireRateIncreases() < 4) {
+
                         int increasedFireRate = Math.max(player.getFireRate() - 5, 1);
                         player.setFireRate(increasedFireRate);
                         player.setFireRateIncreases(player.getFireRateIncreases() + 1);
