@@ -12,6 +12,7 @@ public class PowerUpManager {
     private int spawnArea;
     private Window window;
     private int lastPower;
+    private int fireRateDecreaseCounter = 0;
 
 
     private PowerUpManager(int spawnTime, int spawnArea, Window window) {
@@ -54,16 +55,15 @@ public class PowerUpManager {
         }
     }
 
-
     public void update(Player player) {
         for (PowerUp powerUp : powerUps) {
             powerUp.update();
         }
         lastPower--;
 
-        // Continuously decrease fire rate by one every 10 seconds if fireRateIncreases is greater than 0
-        if (player.getFireRateIncreases() >= 5 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 10000) {
-            int decreasedFireRate = Math.min(player.getFireRate() + 1, 60);
+        // Continuously decrease fire rate every 15 seconds if fireRateIncreases is greater than 0
+        if (player.getFireRateIncreases() >= 4 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 15000) {
+            int decreasedFireRate = Math.min(player.getFireRate() + 5, 60); // Decrease fire rate by the same rate it increased (5 in this case)
             player.setFireRate(decreasedFireRate);
             player.setFireRateIncreases(player.getFireRateIncreases() - 1);
             player.setFireRateDecreaseStartTime(System.currentTimeMillis());
@@ -76,6 +76,31 @@ public class PowerUpManager {
             lastPower = spawnTime;
         }
     }
+
+
+//    version 2 - works but doesn't decrease
+//    public void update(Player player) {
+//        for (PowerUp powerUp : powerUps) {
+//            powerUp.update();
+//        }
+//        lastPower--;
+//
+//        // Continuously decrease fire rate by 5 every 10 seconds if fireRateIncreases is greater than or equal to 5
+//        if (player.getFireRateIncreases() >= 5 &&
+//            System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 10000 * (fireRateDecreaseCounter + 1)) {
+//            player.decreaseFireRate(5);
+//            player.setFireRateIncreases(player.getFireRateIncreases() - 1);
+//            player.setFireRateDecreaseStartTime(System.currentTimeMillis());
+//            fireRateDecreaseCounter++;
+//        } else if (player.getFireRateIncreases() == 0 && player.getFireRateDecreaseStartTime() != 0) {
+//            player.setFireRateDecreaseStartTime(0);
+//        }
+//
+//        if (lastPower <= 0) {
+//            spawn();
+//            lastPower = spawnTime;
+//        }
+//    }
 
     //Kept as reference; use update method above this one
 //    public void update(Player player) {
@@ -114,7 +139,7 @@ public class PowerUpManager {
                         player.setFireRate(increasedFireRate);
                         player.setFireRateIncreases(player.getFireRateIncreases() + 1);
                     }
-                    if (player.getFireRateIncreases() >= 5) {
+                    if (player.getFireRateIncreases() == 5) {
                         player.setFireRateDecreaseStartTime(System.currentTimeMillis());
                     }
                 }
@@ -122,5 +147,6 @@ public class PowerUpManager {
             }
         }
     }
+
 
 }

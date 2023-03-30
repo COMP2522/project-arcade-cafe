@@ -64,7 +64,6 @@ public class Player extends Sprite{
     this.fireRateDecreaseStartTime = fireRateDecreaseStartTime;
   }
 
-
   public void update() {
     if(shotLast > 0) {
       shotLast--;
