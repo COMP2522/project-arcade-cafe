@@ -13,6 +13,7 @@ public class LevelManager {
   private BulletManager bm;
   private PowerUpManager pm;
   private LivesManager lives;
+  private ScoreManager sc;
   private int score;
   private int highscore;
 
@@ -26,6 +27,7 @@ public class LevelManager {
     //TODO: read this from database
     highscore = 0;
     this.setup();
+    sc = ScoreManager.getInstance(player.window);
   }
   public static LevelManager getInstance() {
     if(lm == null) {
@@ -50,6 +52,7 @@ public class LevelManager {
     pm.draw();
     player.draw();
     lives.draw();
+    sc.draw();
   }
   public void update(){
     if(!paused) {
@@ -80,6 +83,7 @@ public class LevelManager {
         if (collidesWith(bullet, enemy)) {
           enemyIterator.remove(); // remove the enemy if it collided with a bullet
           bulletIterator.remove(); // remove the bullet if it collided with an enemy
+          sc.increaseScore(1); // increase the score by 1
           break;
         }
       }

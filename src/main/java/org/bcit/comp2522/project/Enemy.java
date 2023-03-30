@@ -14,6 +14,7 @@ public class Enemy extends Sprite {
   private int timer = 0;
   private final int height = window.height;
 
+
   public Enemy(int xPos, int yPos, int size, Color color, Window window, int health) {
     super(xPos, yPos, size, color, window);
     this.health = health;
