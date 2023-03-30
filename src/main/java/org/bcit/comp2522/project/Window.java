@@ -11,6 +11,8 @@ public class Window extends PApplet {
   private StartMenu startMenu;
   private LevelManager lm;
 
+  private int bgY;
+
   PImage backgroundImage;
   ArrayList<Sprite> sprites;
 
@@ -40,26 +42,35 @@ public class Window extends PApplet {
     state = newState;
   }
 
+  public void scrollingBg() {
+    // Move the background image down
+    backgroundImage.resize(2000, 1200);
+    image(backgroundImage, 0, bgY);
+    image(backgroundImage, 0, bgY - backgroundImage.height);
+
+    // Update the position of the background image
+    bgY += 2;
+    if (bgY >= backgroundImage.height) {
+      bgY -= backgroundImage.height;
+    }
+  }
+
   public void draw() {
     switch (state) {
       // main menu
       case 0:
-        image(backgroundImage, 0, 0);
-        backgroundImage.resize(960, 540);
+        scrollingBg();
         startMenu.draw();
         break;
       // start game
       case 1:
-        // clear the background
+        scrollingBg();
         update();
-        image(backgroundImage, 0, 0);
-        backgroundImage.resize(2000, 1200);
         lm.draw();
         break;
       // Score Board
       case 2:
-        image(backgroundImage, 0, 0);
-        backgroundImage.resize(2000, 1200);
+        scrollingBg();
         startMenu.drawScoreboard();
         break;
       // case N:
