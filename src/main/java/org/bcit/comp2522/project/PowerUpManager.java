@@ -54,6 +54,7 @@ public class PowerUpManager {
         }
     }
 
+
     public void update(Player player) {
         for (PowerUp powerUp : powerUps) {
             powerUp.update();
@@ -61,7 +62,7 @@ public class PowerUpManager {
         lastPower--;
 
         // Continuously decrease fire rate by one every 10 seconds if fireRateIncreases is greater than 0
-        if (player.getFireRateIncreases() > 0 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 10000) {
+        if (player.getFireRateIncreases() >= 5 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 10000) {
             int decreasedFireRate = Math.min(player.getFireRate() + 1, 60);
             player.setFireRate(decreasedFireRate);
             player.setFireRateIncreases(player.getFireRateIncreases() - 1);
@@ -75,6 +76,30 @@ public class PowerUpManager {
             lastPower = spawnTime;
         }
     }
+
+    //Kept as reference; use update method above this one
+//    public void update(Player player) {
+//        for (PowerUp powerUp : powerUps) {
+//            powerUp.update();
+//        }
+//        lastPower--;
+//
+//        // Continuously decrease fire rate every 15 seconds if fireRateIncreases is greater than 0
+//        if (player.getFireRateIncreases() > 0 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 15000) {
+//            int decreasedFireRate = Math.min(player.getFireRate() + 5, 60); // Decrease fire rate by the same rate it increased (5 in this case)
+//            player.setFireRate(decreasedFireRate);
+//            player.setFireRateIncreases(player.getFireRateIncreases() - 1);
+//            player.setFireRateDecreaseStartTime(System.currentTimeMillis());
+//        } else if (player.getFireRateIncreases() == 0 && player.getFireRateDecreaseStartTime() != 0) {
+//            player.setFireRateDecreaseStartTime(0);
+//        }
+//
+//        if (lastPower <= 0) {
+//            spawn();
+//            lastPower = spawnTime;
+//        }
+//    }
+
 
     public void checkCollisions(Player player, LivesManager lives) {
         Iterator<PowerUp> iterator = powerUps.iterator();
