@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Window extends PApplet {
 
   int state = 0;
+  private PauseMenu pauseMenu;
   private StartMenu startMenu;
   private LevelManager lm;
   private DatabaseHandler ds;
@@ -35,6 +36,8 @@ public class Window extends PApplet {
     //TODO: tweak to find a good amount of HP and Firerate once we got a game going
     Player.getInstance(500, 490, 20, new Color(255, 255, 0), this,5,20);
     lm = LevelManager.getInstance();
+    pauseMenu = new PauseMenu(this);
+
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
   }
@@ -58,6 +61,9 @@ public class Window extends PApplet {
         image(backgroundImage, 0, 0);
         backgroundImage.resize(2000, 1200);
         lm.draw();
+        if(lm.paused) {
+          pauseMenu.draw();
+        }
         break;
       // Score Board
       case 2:
@@ -70,6 +76,7 @@ public class Window extends PApplet {
       // break;
       default:
         break;
+
     }
   }
 
@@ -90,7 +97,7 @@ public class Window extends PApplet {
   }
   @Override
   public void keyReleased() {
-    if(key == ' ') {
+    if(key == ' ' && wasPaused) {
       wasPaused = false;
     }
     if(key == CODED) {
@@ -122,4 +129,5 @@ public class Window extends PApplet {
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
   }
+
 }
