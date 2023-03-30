@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import static com.mongodb.client.model.Filters.eq;
-
 public class DatabaseHandler {
   MongoDatabase database;
   String myCollection;
@@ -77,7 +75,7 @@ public class DatabaseHandler {
             .find()
             .sort(new Document("score", -1).append("_id", 1))
             .limit(10)
-            .forEach((Consumer<Document>) topScores::add);
+            .forEach(topScores::add);
 
     return topScores;
   }
@@ -95,11 +93,5 @@ public class DatabaseHandler {
     DatabaseHandler db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
     db.put("score", 11);
     db.put("score", 113);
-//    Document find = db.database
-//            .getCollection("new")
-//            .find(eq("Hello", "world"))
-//            .first();
-
-//    System.out.println(find);
   }
 }
