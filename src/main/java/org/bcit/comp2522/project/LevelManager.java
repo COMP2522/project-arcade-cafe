@@ -58,7 +58,7 @@ public class LevelManager {
     if(!paused) {
       em.update();
       bm.update();
-      pm.update();
+      pm.update(player);
       player.update();
       checkBulletCollisions(bm, em,pm);
       pm.checkCollisions(player,lives);
