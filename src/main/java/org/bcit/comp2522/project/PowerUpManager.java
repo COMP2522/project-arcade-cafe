@@ -14,7 +14,6 @@ public class PowerUpManager {
     private int lastPower;
     private int fireRateDecreaseCounter = 0;
 
-
     private PowerUpManager(int spawnTime, int spawnArea, Window window) {
         this.powerUps = new ArrayList<>();
         this.spawnTime = spawnTime;
