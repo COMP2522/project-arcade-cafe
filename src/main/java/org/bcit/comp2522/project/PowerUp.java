@@ -21,14 +21,6 @@ public class PowerUp extends Sprite {
 
     }
 
-    public void increaseHP() {
-        hpCount++;
-    }
-
-    public void increaseFireRate() {
-        fireCount++;
-    }
-
     public String getType() {
         return type;
     }
