@@ -80,6 +80,11 @@ public class StartMenu extends PApplet{
       onStateChange.accept(2); // Set the state to 2 for the Scoreboard
     }
   }
+  public void gameOver() {
+      if (onStateChange != null) {
+        onStateChange.accept(3); // Set the state to 3 (game over)
+      }
+  }
 
   public void exitGame() {
     pApplet.exit();
@@ -127,12 +132,17 @@ public class StartMenu extends PApplet{
     goBackButton.draw(pApplet);
   }
 
-
-
-
-
-
-
+  public void drawGameOver() {
+    // Create a new window to display the game over message
+//    pApplet.background(0);
+    PApplet gameoverWindow = new PApplet();
+    gameoverWindow.size(400, 200);
+    gameoverWindow.background(255, 0, 0);
+    gameoverWindow.textSize(32);
+    gameoverWindow.fill(255);
+    gameoverWindow.textAlign(PApplet.CENTER);
+    gameoverWindow.text("GAME OVER", gameoverWindow.width / 2, gameoverWindow.height / 2);
+  }
 
   public void goBackToMainMenu() {
     if (onStateChange != null) {
