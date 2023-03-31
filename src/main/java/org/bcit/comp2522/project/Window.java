@@ -61,6 +61,7 @@ public class Window extends PApplet {
       case 0:
         scrollingBg();
         startMenu.draw();
+
         break;
       // start game
       case 1:
