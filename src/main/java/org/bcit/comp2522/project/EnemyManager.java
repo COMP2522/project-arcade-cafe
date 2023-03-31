@@ -74,4 +74,12 @@ public class EnemyManager {
     return enemies;
   }
 
+  public void removeEnemy(Enemy enemy) {
+    for (int i = 0; i < enemies.size(); i++) {
+      if (enemies.get(i) == enemy) {
+        enemies.remove(i);
+        break;
+      }
+    }
+  }
 }

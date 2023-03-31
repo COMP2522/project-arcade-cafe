@@ -76,6 +76,10 @@ public class Window extends PApplet {
       case 2:
         startMenu.drawScoreboard();
         break;
+      // Gameover
+      case 3:
+        startMenu.drawGameOver();
+        break;
       default:
         break;
     }
