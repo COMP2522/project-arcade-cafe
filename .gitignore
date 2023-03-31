@@ -1,4 +1,5 @@
-
+# DB
+config.json
 # Compiled class file
 *.class
 
@@ -20,6 +21,7 @@
 *.tar.gz
 *.rar
 .gradle/
+*gradle
 .gradle
 build.gradle
 build
