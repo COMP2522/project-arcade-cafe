@@ -16,20 +16,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import static com.mongodb.client.model.Filters.eq;
-
 public class DatabaseHandler {
   MongoDatabase database;
   String myCollection;
   public DatabaseHandler(String username, String password) {
     ConnectionString connectionString = new ConnectionString(
-            String.format("mongodb+srv://%s:%s@cluster0.t1r3fam.mongodb.net/?retryWrites=true&w=majority", username, password));
+        String.format("mongodb+srv://%s:%s@cluster0.t1r3fam.mongodb.net/?retryWrites=true&w=majority", username, password));
     MongoClientSettings settings = MongoClientSettings.builder()
-            .applyConnectionString(connectionString)
-            .serverApi(ServerApi.builder()
-                    .version(ServerApiVersion.V1)
-                    .build())
-            .build();
+        .applyConnectionString(connectionString)
+        .serverApi(ServerApi.builder()
+            .version(ServerApiVersion.V1)
+            .build())
+        .build();
     MongoClient mongoClient = MongoClients.create(settings);
     this.database = mongoClient.getDatabase("test");
     this.myCollection = "new";
@@ -74,10 +72,10 @@ public class DatabaseHandler {
 
     // Find the top 10 scores by sorting the collection by score in descending order
     database.getCollection(myCollection)
-            .find()
-            .sort(new Document("score", -1).append("_id", 1))
-            .limit(10)
-            .forEach((Consumer<Document>) topScores::add);
+        .find()
+        .sort(new Document("score", -1).append("_id", 1))
+        .limit(10)
+        .forEach((Consumer<Document>) topScores::add);
 
     return topScores;
   }
