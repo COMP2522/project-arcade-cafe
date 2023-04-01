@@ -16,6 +16,8 @@ public class LevelManager{
   private ScoreManager sc;
 
   private StartMenu SM;
+  private GameOverMenu GOM;
+  int state = 0;
   private int score;
   private int highscore;
 
@@ -30,6 +32,13 @@ public class LevelManager{
     highscore = 0;
     this.setup();
     sc = ScoreManager.getInstance(player.window);
+    // instantiate StartMenu
+    SM = new StartMenu(player.window, this::setState);
+    GOM = new GameOverMenu(player.window, this::setState);
+  }
+
+  public void setState(int newState) {
+    state = newState;
   }
   public static LevelManager getInstance() {
     if(lm == null) {
@@ -53,6 +62,14 @@ public class LevelManager{
       paused = true;
     }
   }
+  private boolean gameOver = false;
+
+  public boolean isGameOver() {
+    return gameOver;
+  }
+  public void resetGameOver() {
+    this.gameOver = false;
+  }
   public void draw() {
     em.draw();
     bm.draw();
@@ -60,6 +77,9 @@ public class LevelManager{
     player.draw();
     lives.draw();
     sc.draw();
+    if (state == 3) {
+      GOM.draw(); // display game over menu if game state is 3 (game over)
+    }
   }
 
   public void update(){
@@ -71,6 +91,12 @@ public class LevelManager{
       checkBulletCollisions(bm, em,pm);
       pm.checkCollisions(player,lives);
 
+      if (player.getHp() == 0 && state != 3) {
+        GOM.setState(); // Set the state to 3 (game over)
+        gameOver = true; // Update the gameOver flag to true
+//        resetGameOver();
+      }
+
       ArrayList<Enemy> copy = new ArrayList<>(em.getEnemies());
       for (Enemy enemy : copy) {
         if (collidesWithEnemy(enemy, player)) {
@@ -80,11 +106,9 @@ public class LevelManager{
           // You could also add other effects, like playing a sound or showing an animation
           System.out.println("Player hit by enemy, HP decreased by 1");
         }
-        if (player.getHp() == 0) {
-          if (SM != null) {
-            SM.gameOver();
-          }
-        }
+//        if (player.getHp() == 0 && state != 3) {
+//          setState(3); // Set the state to 3 (game over)
+//        }
       }
     }
   }
