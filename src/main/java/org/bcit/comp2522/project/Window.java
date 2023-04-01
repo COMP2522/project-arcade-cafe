@@ -60,11 +60,11 @@ public class Window extends PApplet {
     image(backgroundImage, 0, 0);
     scrollingBg();
     switch (state) {
-      // main menu
+      // MAIN MENU
       case 0:
         startMenu.draw();
         break;
-      // start game
+      // START GAME
       case 1:
         update();
         lm.draw();
@@ -72,11 +72,11 @@ public class Window extends PApplet {
           pauseMenu.draw();
         }
         break;
-      // Score Board
+      // SCORE BOARD
       case 2:
         startMenu.drawScoreboard();
         break;
-      // Gameover
+      // GAME OVER
       case 3:
         startMenu.drawGameOver();
         break;
@@ -118,6 +118,7 @@ public class Window extends PApplet {
   public void update() {
     lm.update();
   }
+
   public void mousePressed() {
     switch (state) {
       case 0:
@@ -129,6 +130,7 @@ public class Window extends PApplet {
     }
   }
 
+  // MAIN
   public static void main(String[] args) {
     String[] processingArgs = {"Window"};
     Window window = new Window();
