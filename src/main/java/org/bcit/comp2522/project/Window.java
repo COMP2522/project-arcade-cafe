@@ -7,12 +7,10 @@ import java.util.ArrayList;
 
 public class Window extends PApplet {
 
-  int state = 0;
-  private PauseMenu pauseMenu;
-  private StartMenu startMenu;
+  private MenuManager menuManager;
   private LevelManager lm;
-  private DatabaseHandler ds;
 
+  private int state = 0;
   private int bgY;
 
   PImage backgroundImage;
@@ -27,7 +25,7 @@ public class Window extends PApplet {
   }
 
   public void setup() {
-    startMenu = new StartMenu(this, this::setState);
+    menuManager = new MenuManager(this, this::setState);
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
     backgroundImage.resize(2000, 1200);
 
@@ -36,12 +34,10 @@ public class Window extends PApplet {
     PowerUpManager.getInstance(100, width*4/5, this);
     Player.getInstance(500, 490, 20, new Color(255, 255, 0), this, 5, 20);
     lm = LevelManager.getInstance();
-    pauseMenu = new PauseMenu(this);
 
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
   }
-
   public void setState(int newState) {
     state = newState;
   }
@@ -59,30 +55,11 @@ public class Window extends PApplet {
   public void draw() {
     image(backgroundImage, 0, 0);
     scrollingBg();
-    switch (state) {
-      // main menu
-      case 0:
-        startMenu.draw();
-        break;
-      // start game
-      case 1:
-        update();
-        lm.draw();
-        if (lm.paused) {
-          pauseMenu.draw();
-        }
-        break;
-      // Score Board
-      case 2:
-        startMenu.drawScoreboard();
-        break;
-      // Gameover
-      case 3:
-        startMenu.drawGameOver();
-        break;
-      default:
-        break;
+    if (state == 1) { // Only update and draw the game elements if state is 1
+      update();
+      lm.draw();
     }
+    menuManager.draw(state); // Draw the menu based on the state
   }
 
   @Override
@@ -119,13 +96,10 @@ public class Window extends PApplet {
     lm.update();
   }
   public void mousePressed() {
-    switch (state) {
-      case 0:
-        startMenu.mousePressed();
-        break;
-      case 2:
-        startMenu.mousePressedScoreboard();
-        break;
+    if (state == 2) {
+      menuManager.goBack(state);
+    } else {
+      menuManager.mousePressed(state);
     }
   }
 
