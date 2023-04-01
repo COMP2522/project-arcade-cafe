@@ -1,9 +1,8 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PApplet;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import static processing.core.PApplet.dist;
 
 public class LevelManager{
@@ -15,6 +14,8 @@ public class LevelManager{
   private PowerUpManager pm;
   private LivesManager lives;
   private ScoreManager sc;
+
+  private StartMenu SM;
   private int score;
   private int highscore;
 
@@ -23,7 +24,7 @@ public class LevelManager{
     bm = BulletManager.getInstance();
     pm = PowerUpManager.getInstance();
     player = Player.getInstance();
-    lives = new LivesManager(3, player.window);
+    lives = new LivesManager(player, player.window, 1); // set initial HP to 3
     score = 0;
     //TODO: read this from database
     highscore = 0;
@@ -69,6 +70,22 @@ public class LevelManager{
       player.update();
       checkBulletCollisions(bm, em,pm);
       pm.checkCollisions(player,lives);
+
+      ArrayList<Enemy> copy = new ArrayList<>(em.getEnemies());
+      for (Enemy enemy : copy) {
+        if (collidesWithEnemy(enemy, player)) {
+          // Remove the enemy from the list
+          em.removeEnemy(enemy);
+          // Player has been hit by an enemy, decrease HP
+          // You could also add other effects, like playing a sound or showing an animation
+          System.out.println("Player hit by enemy, HP decreased by 1");
+        }
+        if (player.getHp() == 0) {
+          if (SM != null) {
+            SM.gameOver();
+          }
+        }
+      }
     }
   }
 
@@ -101,6 +118,18 @@ public class LevelManager{
     float distance = dist(bullet.getX(), bullet.getY(), enemy.getX(), enemy.getY());
     float minDistance = (bullet.getSize() + enemy.getSize()) / 2;
     return distance <= minDistance;
+  }
+
+  public boolean collidesWithEnemy(Enemy enemy, Player player) {
+    float distance = dist(player.getX(), player.getY(), enemy.getX(), enemy.getY());
+    float minDistance = (player.getSize() + enemy.getSize()) / 2;
+
+    if (distance <= minDistance) {
+      player.setHp(player.getHp() - 1);
+      return true;
+    }
+
+    return false;
   }
 
 }

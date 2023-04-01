@@ -81,9 +81,9 @@ public class StartMenu extends PApplet{
     }
   }
   public void gameOver() {
-    if (onStateChange != null) {
-      onStateChange.accept(3); // Set the state to 3 (game over)
-    }
+      if (onStateChange != null) {
+        onStateChange.accept(3); // Set the state to 3 (game over)
+      }
   }
 
   public void exitGame() {
@@ -156,3 +156,4 @@ public class StartMenu extends PApplet{
     }
   }
 }
+
