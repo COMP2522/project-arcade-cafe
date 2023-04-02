@@ -11,8 +11,8 @@ public class PowerUp extends Sprite {
     private PImage hpImage;
     private PImage fireRateImage;
 
-    public PowerUp(int xPos, int yPos, int size, Color color, Window window, String type) {
-        super(xPos, yPos, size, color, window);
+    public PowerUp(int xPos, int yPos, int size, Window window, String type) {
+        super(xPos, yPos, size, window);
         this.type = type;
         hpImage = window.loadImage("src/img/hpPowerUp.png");
         hpImage.resize(30,30);
