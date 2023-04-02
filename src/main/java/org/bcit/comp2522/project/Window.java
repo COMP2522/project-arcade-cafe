@@ -20,11 +20,14 @@ public class Window extends PApplet {
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
-  public void settings() {
-    size(960, 540);
-  }
-
-  public void setup() {
+    public void settings() {
+      size(960, 540);
+    }
+    public void setState(int newState) {
+//      this.state = newState;
+      lm.setState(newState); // Set the state in the LevelManager instance as well
+    }
+    public void setup() {
     menuManager = new MenuManager(this, this::setState);
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
     backgroundImage.resize(2000, 1200);
@@ -37,9 +40,6 @@ public class Window extends PApplet {
 
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
-  }
-  public void setState(int newState) {
-    state = newState;
   }
 
   public void scrollingBg() {
@@ -55,11 +55,12 @@ public class Window extends PApplet {
   public void draw() {
     image(backgroundImage, 0, 0);
     scrollingBg();
-    if (state == 1) { // Only update and draw the game elements if state is 1
+    int currentState = lm.getState(); // Get the current state from LevelManager
+    if (currentState == 1) { // Only update and draw the game elements if state is 1
       update();
       lm.draw();
     }
-    menuManager.draw(state); // Draw the menu based on the state
+    menuManager.draw(currentState); // Draw the menu based on the current state
   }
 
   @Override
@@ -94,16 +95,14 @@ public class Window extends PApplet {
 
   public void update() {
     lm.update();
+//    System.out.println(state);
   }
   public void mousePressed() {
-    if (state == 2) {
-      menuManager.goBack(state);
-    } else {
-      menuManager.mousePressed(state);
-    }
+    int currentState = lm.getState(); // Get the current state from LevelManager
+    menuManager.mousePressed(currentState);
   }
-
   public static void main(String[] args) {
+
     String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
