@@ -43,9 +43,9 @@ public class StartMenu extends PApplet{
 
   public void draw() {
     if (!buttonsInitialized) {
-      addButton("Start", pApplet.width / 2, pApplet.height / 2 - 50, 100, 50, 20, 0xFFFFFFFF, this::startGame);
-      addButton("Scoreboard", pApplet.width / 2, pApplet.height / 2 + 50, 100, 50, 20, 0xFFFFFFFF, this::openScoreboard);
-      addButton("Exit", pApplet.width / 2, pApplet.height / 2 + 150, 100, 50, 20, 0xFFFFFFFF, this::exitGame);
+      addButton("Start", pApplet.width / 2, pApplet.height / 2 - 50, 150, 50, 20, 0xFFFFFFFF, this::startGame);
+      addButton("Scoreboard", pApplet.width / 2, pApplet.height / 2 + 50, 150, 50, 20, 0xFFFFFFFF, this::openScoreboard);
+      addButton("Exit", pApplet.width / 2, pApplet.height / 2 + 150, 150, 50, 20, 0xFFFFFFFF, this::exitGame);
       buttonsInitialized = true;
     }
 
