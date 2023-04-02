@@ -40,7 +40,7 @@ public class Player extends Sprite{
   }
 
   // Checks the returned int values to call according directional animations.
-  public void playerAnimation( String animCase) {
+  public void playerAnimation(String animCase) {
     if (animCase == "Idle") {
       isIdle();
     }else if (animCase == "MovingLeft"){
