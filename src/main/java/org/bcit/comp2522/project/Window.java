@@ -31,8 +31,8 @@ public class Window extends PApplet {
 
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
-    PowerUpManager.getInstance(100, width*4/5, this);
-    Player.getInstance(500, 490, 20, new Color(255, 255, 0), this, 5, 20);
+    PowerUpManager.getInstance(500, width*4/5, this);
+    Player.getInstance(500, 490, 20, this, 5, 20);
     lm = LevelManager.getInstance();
 
     sprites = new ArrayList<Sprite>();

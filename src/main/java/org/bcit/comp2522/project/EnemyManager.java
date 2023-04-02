@@ -36,7 +36,7 @@ public class EnemyManager {
       int y = yStart + (size) * j;
       for (int i = 0; i < numEnemies; i++) {
         int x = xStart + (size + enemyPad) * i;
-        Enemy enemy = new Enemy(x, y, size, new Color(255, 0, 255), window, health);
+        Enemy enemy = new Enemy(x, y, size, window, health);
         this.enemies.add(enemy);
       }
     }

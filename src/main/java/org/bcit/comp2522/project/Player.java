@@ -17,8 +17,17 @@ public class Player extends Sprite{
   private int fireRateDecreaseTimer;
   private long fireRateDecreaseStartTime;
 
-  private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
-    super(x,y,s, c, window);
+  //constructor with color
+//  private Player(int x, int y, int s, Color c, Window window, int hp, int fr){
+//    super(x,y,s, c, window);
+//    this.hp = hp;
+//    fireRate = fr;
+//    playerImage = window.loadImage("src/img/playerImgIdle.png");
+//    playerImage.resize(100,100);
+//  }
+
+  private Player(int x, int y, int s, Window window, int hp, int fr){
+    super(x,y,s, window);
     this.hp = hp;
     fireRate = fr;
     playerImage = window.loadImage("src/img/playerImgIdle.png");
@@ -31,9 +40,18 @@ public class Player extends Sprite{
     }
     return player;
   }
-  public static Player getInstance(int x, int y, int s, Color c, Window window, int hp, int fr) {
+
+  //player with color
+//  public static Player getInstance(int x, int y, int s, Color c, Window window, int hp, int fr) {
+//    if(player == null) {
+//      player = new Player(x,y,s,c,window,hp,fr);
+//    }
+//    return player;
+//  }
+
+  public static Player getInstance(int x, int y, int s, Window window, int hp, int fr) {
     if(player == null) {
-      player = new Player(x,y,s,c,window,hp,fr);
+      player = new Player(x,y,s,window,hp,fr);
     }
     return player;
   }
