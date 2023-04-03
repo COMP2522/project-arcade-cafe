@@ -15,8 +15,8 @@ public class Enemy extends Sprite {
   private final int height = window.height;
 
 
-  public Enemy(int xPos, int yPos, int size, Color color, Window window, int health) {
-    super(xPos, yPos, size, color, window);
+  public Enemy(int xPos, int yPos, int size, Window window, int health) {
+    super(xPos, yPos, size, window);
     this.health = health;
     alienImages[0] = window.loadImage("src/img/alienImgOne.png");
     alienImages[0].resize(100,100);

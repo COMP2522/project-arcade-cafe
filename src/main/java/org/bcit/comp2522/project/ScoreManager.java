@@ -7,6 +7,7 @@ public class ScoreManager {
     private int score;
     private PApplet window;
 
+
     private ScoreManager(PApplet window) {
         this.score = 0;
         this.window = window;

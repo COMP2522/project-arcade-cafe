@@ -10,20 +10,24 @@ public class MenuManager {
     private GameOverMenu gameOverMenu;
     private PauseMenu pauseMenu;
 
+    private ScoreboardMenu scoreboardMenu;
+
     public MenuManager(PApplet pApplet, Consumer<Integer> onStateChange) {
         this.pApplet = pApplet;
         this.onStateChange = onStateChange;
-        this.startMenu = new StartMenu(pApplet, onStateChange);
+        this.startMenu = new StartMenu(pApplet);
         this.gameOverMenu = new GameOverMenu(pApplet, onStateChange);
         this.pauseMenu = new PauseMenu(pApplet);
+        this.scoreboardMenu = new ScoreboardMenu(pApplet);
     }
+
     public void draw(int state) {
         switch (state) {
             case 0:
                 startMenu.draw();
                 break;
             case 2:
-                startMenu.drawScoreboard();
+                scoreboardMenu.draw();
                 break;
             case 3:
                 gameOverMenu.draw();
@@ -36,22 +40,13 @@ public class MenuManager {
         }
     }
 
-    public void goBack(int state) {
-        switch (state) {
-            case 2: // If the current state is the scoreboard
-                startMenu.goBackToMainMenu();
-                break;
-            // Add other cases if you need to handle go back button in other menus
-            default:
-                break;
-        }
-    }
-
     public void mousePressed(int state) {
         switch (state) {
             case 0:
                 startMenu.mousePressed();
                 break;
+            case 2:
+                scoreboardMenu.mousePressed();
             case 3:
                 gameOverMenu.mousePressed();
                 break;
