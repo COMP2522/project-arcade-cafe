@@ -82,4 +82,19 @@ public class EnemyManager {
       }
     }
   }
+
+  public void resetEnemy() {
+    // Reset the enemies list
+    enemies.clear();
+
+    // Reset the number of waves
+    numWaves = 1;
+
+    // Reset the starting y-coordinate
+    yStart = 20;
+
+    // Add the initial enemies back
+    addEnemy();
+  }
+
 }
