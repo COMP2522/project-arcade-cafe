@@ -3,7 +3,6 @@ package org.bcit.comp2522.project;
 import processing.core.PImage;
 
 public class Enemy extends Sprite {
-  private int health;
   private final int shift = 1;
   private final PImage[] alienImages = new PImage[2];
 
@@ -13,22 +12,14 @@ public class Enemy extends Sprite {
   private final int height = window.height;
 
 
-  public Enemy(int xPos, int yPos, int size, Window window, int health) {
+  public Enemy(int xPos, int yPos, int size, Window window) {
     super(xPos, yPos, size, window);
-    this.health = health;
     alienImages[0] = window.loadImage("src/img/alienImgOne.png");
     alienImages[0].resize(100,100);
     alienImages[1] = window.loadImage("src/img/alienImgOne(Fr).png");
     alienImages[1].resize(100,100);
   }
 
-  public int getHealth() {
-    return health;
-  }
-
-  public void setHealth(int health) {
-    this.health = health;
-  }
 
   public void update() {
     move(0, shift);

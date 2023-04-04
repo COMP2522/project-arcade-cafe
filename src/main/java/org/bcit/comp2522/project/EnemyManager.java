@@ -1,6 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class EnemyManager {
@@ -13,7 +12,6 @@ public class EnemyManager {
   private int size = 30;
   private int xStart = 60;
   private int yStart = 20;
-  private int health = 210;
   private int height = 600;
 
   private EnemyManager(Window window) {
@@ -36,7 +34,7 @@ public class EnemyManager {
       int y = yStart + (size) * j;
       for (int i = 0; i < numEnemies; i++) {
         int x = xStart + (size + enemyPad) * i;
-        Enemy enemy = new Enemy(x, y, size, window, health);
+        Enemy enemy = new Enemy(x, y, size, window);
         this.enemies.add(enemy);
       }
     }
@@ -98,6 +96,16 @@ public void update() {
 
     // Add the initial enemies back
     addEnemy();
+    SaveHandler saveHandler = new SaveHandler();
+    new Thread(() -> saveHandler.saveState()).start();
   }
+
+  public int getNumWaves(){
+    return numWaves;
+  };
+  public int getYStart(){
+    return yStart;
+  };
+
 
 }

@@ -1,6 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -87,6 +86,13 @@ public class PowerUpManager {
      */
   public static PowerUpManager getInstance() {
     return instance;
+  }
+
+  public int getLastPower(){
+    return lastPower;
+  }
+  public void setLastPower(int n){
+    lastPower = n;
   }
 
     /**
