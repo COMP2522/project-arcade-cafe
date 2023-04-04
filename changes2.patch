@@ -1,0 +1,370 @@
+diff --git a/.gradle/7.5.1/executionHistory/executionHistory.bin b/.gradle/7.5.1/executionHistory/executionHistory.bin
+index edfd87c..5091aac 100644
+Binary files a/.gradle/7.5.1/executionHistory/executionHistory.bin and b/.gradle/7.5.1/executionHistory/executionHistory.bin differ
+diff --git a/.gradle/7.5.1/executionHistory/executionHistory.lock b/.gradle/7.5.1/executionHistory/executionHistory.lock
+index 7d51366..091b875 100644
+Binary files a/.gradle/7.5.1/executionHistory/executionHistory.lock and b/.gradle/7.5.1/executionHistory/executionHistory.lock differ
+diff --git a/.gradle/7.5.1/fileHashes/fileHashes.bin b/.gradle/7.5.1/fileHashes/fileHashes.bin
+index dc91108..156916a 100644
+Binary files a/.gradle/7.5.1/fileHashes/fileHashes.bin and b/.gradle/7.5.1/fileHashes/fileHashes.bin differ
+diff --git a/.gradle/7.5.1/fileHashes/fileHashes.lock b/.gradle/7.5.1/fileHashes/fileHashes.lock
+index 11bf5af..ca9c35b 100644
+Binary files a/.gradle/7.5.1/fileHashes/fileHashes.lock and b/.gradle/7.5.1/fileHashes/fileHashes.lock differ
+diff --git a/.gradle/7.5.1/fileHashes/resourceHashesCache.bin b/.gradle/7.5.1/fileHashes/resourceHashesCache.bin
+index 4c899f5..94cf2d1 100644
+Binary files a/.gradle/7.5.1/fileHashes/resourceHashesCache.bin and b/.gradle/7.5.1/fileHashes/resourceHashesCache.bin differ
+diff --git a/.gradle/buildOutputCleanup/buildOutputCleanup.lock b/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+index bff235c..ba80d81 100644
+Binary files a/.gradle/buildOutputCleanup/buildOutputCleanup.lock and b/.gradle/buildOutputCleanup/buildOutputCleanup.lock differ
+diff --git a/build.gradle b/build.gradle
+index 92739f6..2ec363b 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -15,6 +15,7 @@ dependencies {
+     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+     implementation 'org.mongodb:mongodb-driver-sync:4.9.0'
+     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
++    implementation("com.googlecode.json-simple:json-simple:1.1.1")
+ }
+ 
+ test {
+diff --git a/build/tmp/compileJava/previous-compilation-data.bin b/build/tmp/compileJava/previous-compilation-data.bin
+index 6db6033..4b3409b 100644
+Binary files a/build/tmp/compileJava/previous-compilation-data.bin and b/build/tmp/compileJava/previous-compilation-data.bin differ
+diff --git a/src/main/java/org/bcit/comp2522/project/DatabaseHandler.java b/src/main/java/org/bcit/comp2522/project/DatabaseHandler.java
+index 62a19a1..a40ed83 100644
+--- a/src/main/java/org/bcit/comp2522/project/DatabaseHandler.java
++++ b/src/main/java/org/bcit/comp2522/project/DatabaseHandler.java
+@@ -29,8 +29,8 @@ public class DatabaseHandler {
+             .build())
+         .build();
+     MongoClient mongoClient = MongoClients.create(settings);
+-    this.database = mongoClient.getDatabase("test");
+-    this.myCollection = "new";
++    this.database = mongoClient.getDatabase("Arcade_cafe");
++    this.myCollection = "score";
+ //    try {
+ //      this.database.createCollection((this.myCollection));
+ //    } catch (Exception e) {
+@@ -67,14 +67,14 @@ public class DatabaseHandler {
+     }
+   }
+ 
+-  public ArrayList<Document> getTopScores() {
++  public ArrayList<Document> getTopFiveScores() {
+     ArrayList<Document> topScores = new ArrayList<>();
+ 
+-    // Find the top 10 scores by sorting the collection by score in descending order
++    // Find the top 5 scores by sorting the collection by score in descending order
+     database.getCollection(myCollection)
+         .find()
+         .sort(new Document("score", -1).append("_id", 1))
+-        .limit(10)
++        .limit(5)
+         .forEach((Consumer<Document>) topScores::add);
+ 
+     return topScores;
+diff --git a/src/main/java/org/bcit/comp2522/project/Enemy.java b/src/main/java/org/bcit/comp2522/project/Enemy.java
+index 8baeb6c..db488fa 100644
+--- a/src/main/java/org/bcit/comp2522/project/Enemy.java
++++ b/src/main/java/org/bcit/comp2522/project/Enemy.java
+@@ -12,7 +12,6 @@ public class Enemy extends Sprite {
+   private int timer = 0;
+   private final int height = window.height;
+ 
+-
+   public Enemy(int xPos, int yPos, int size, Window window, int health) {
+     super(xPos, yPos, size, window);
+     this.health = health;
+diff --git a/src/main/java/org/bcit/comp2522/project/EnemyManager.java b/src/main/java/org/bcit/comp2522/project/EnemyManager.java
+index eaaa5fe..db4928d 100644
+--- a/src/main/java/org/bcit/comp2522/project/EnemyManager.java
++++ b/src/main/java/org/bcit/comp2522/project/EnemyManager.java
+@@ -62,7 +62,6 @@ public void update() {
+     //When any enemies reach the bottom of the screen, player loses an HP.
+     int decreaseHP = Player.getInstance().getHp() - 1;
+     Player.getInstance().setHp(decreaseHP);
+-
+     addEnemy();
+   } else if (enemies.size() == 0) {
+     // the wave has been defeated, create a new wave with increased difficulty
+diff --git a/src/main/java/org/bcit/comp2522/project/GameOverMenu.java b/src/main/java/org/bcit/comp2522/project/GameOverMenu.java
+index 89c3723..d5b6836 100644
+--- a/src/main/java/org/bcit/comp2522/project/GameOverMenu.java
++++ b/src/main/java/org/bcit/comp2522/project/GameOverMenu.java
+@@ -14,6 +14,9 @@ public class GameOverMenu {
+     private final int buttonSpacing;
+     private final int startX;
+     private final int startY;
++    private int finalScore;
++    private ScoreManager scoreManager;
++    private LevelManager levelManager;
+     private final Consumer<GameState> onStateChange;
+ 
+     public GameOverMenu(PApplet pApplet, Consumer<GameState> onStateChange) {
+@@ -22,8 +25,11 @@ public class GameOverMenu {
+         this.buttonWidth = 150;
+         this.buttonHeight = 50;
+         this.buttonSpacing = 20;
++        this.finalScore = 0;
+         startX = pApplet.width / 2;
+         startY = pApplet.height / 2 + 50;
++        scoreManager = ScoreManager.getInstance(pApplet);
++//        levelManager = LevelManager.getInstance();
+         addButton("Main Menu", startX, startY, buttonWidth, buttonHeight, 20, 0xFFFFFFFF, this::goBackToMainMenu);
+     }
+ 
+@@ -32,8 +38,17 @@ public class GameOverMenu {
+         pApplet.textSize(32);
+         pApplet.fill(255);
+         pApplet.textAlign(PApplet.CENTER);
+-        pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2);
++        pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2-50);
+ 
++        // Retrieve the actual score value from the ScoreManager instance
++//        score = scoreManager.getScore();
++//        System.out.println(score);
++//        score = levelManager.getHighScore();
++        finalScore = LevelManager.getInstance().getHighScore();
++        pApplet.text("Score: " + finalScore, pApplet.width/2, pApplet.height/2);
++
++        // Store the final score in the database
++//        LevelManager.getInstance().gameOverScore();
+         for (Button button : buttons) {
+             button.draw(pApplet);
+         }
+diff --git a/src/main/java/org/bcit/comp2522/project/LevelManager.java b/src/main/java/org/bcit/comp2522/project/LevelManager.java
+index 0f6ff6c..0c9fc5c 100644
+--- a/src/main/java/org/bcit/comp2522/project/LevelManager.java
++++ b/src/main/java/org/bcit/comp2522/project/LevelManager.java
+@@ -1,5 +1,10 @@
+ package org.bcit.comp2522.project;
+ 
++import com.fasterxml.jackson.databind.ObjectMapper;
++import processing.core.PApplet;
++
++import java.io.File;
++import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.Iterator;
+ 
+@@ -15,7 +20,7 @@ public class LevelManager{
+   private LivesManager lives;
+   private ScoreManager sc;
+   private MenuManager Mm;
+-  private int state = 0;
++  private PApplet window;
+   private int score;
+   private int highscore;
+ 
+@@ -32,7 +37,7 @@ public class LevelManager{
+     //TODO: read this from database
+     highscore = 0;
+     this.setup();
+-    sc = ScoreManager.getInstance(player.window);
++    sc = ScoreManager.getInstance(this.window = player.window);
+     Mm = new MenuManager(player.window, this::setState);
+   }
+ 
+@@ -45,6 +50,7 @@ public class LevelManager{
+     }
+     return lm;
+   }
++
+   public GameState getState() {
+     return gameState;
+   }
+@@ -77,25 +83,14 @@ public class LevelManager{
+     if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD || gameState == GameState.PAUSED) {
+       Mm.draw(gameState);
+     } else {
++      player.draw();
+       em.draw();
+       bm.draw();
+       pm.draw();
+-      player.draw();
+       lives.draw();
+       sc.draw();
+     }
+   }
+-//  public void draw() {
+-//    em.draw();
+-//    bm.draw();
+-//    pm.draw();
+-//    player.draw();
+-//    lives.draw();
+-//    sc.draw();
+-//    if (isGameOver()) {
+-//      Mm.draw(getState());
+-//    }
+-//  }
+ 
+   public void update(){
+     if(!paused) {
+@@ -109,8 +104,6 @@ public class LevelManager{
+       if (player.getHp() == 0) {
+         setState(GameState.GAME_OVER);
+         resetGame();
+-//        Mm.setState(); // Set the state to 3 (game over)
+-//        gameOver = true; // Update the gameOver flag to true
+       }
+ 
+       ArrayList<Enemy> copy = new ArrayList<>(em.getEnemies());
+@@ -131,9 +124,29 @@ public class LevelManager{
+     resetPlayerLives();
+     sc.resetScore();
+     em.resetEnemy();
+-    // Add any other necessary resets here
+   }
+ 
++//  public void gameOverScore() {
++//    // Read the configuration file to get the database credentials
++//    ObjectMapper mapper = new ObjectMapper();
++//    DatabaseHandler.Config config;
++//    try {
++//      config = mapper.readValue(new File("src/main/java/org/bcit/comp2522/project/config.json"), DatabaseHandler.Config.class);
++//    } catch (IOException e) {
++//      throw new RuntimeException(e);
++//    }
++//
++//    // Initialize the DatabaseHandler
++//    DatabaseHandler db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
++//    int score = ScoreManager.getInstance(window).getScore();
++//    // Insert the score into the database
++//    db.put("score", score);
++//
++//    // Reset the game and change the state to the main menu
++//    resetGame();
++//    setState(GameState.GAME_OVER);
++//  }
++
+   public void resetPlayerLives() {
+     player.setHp(3); // Set the initial HP to 3 or any other value you prefer
+   }
+@@ -155,6 +168,7 @@ public class LevelManager{
+           enemyIterator.remove(); // remove the enemy if it collided with a bullet
+           bulletIterator.remove(); // remove the bullet if it collided with an enemy
+           sc.increaseScore(1); // increase the score by 1
++          this.highscore++;
+           break;
+         }
+       }
+@@ -177,5 +191,9 @@ public class LevelManager{
+     }
+     return false;
+   }
++  public int getHighScore() {
++    highscore = sc.getScore();
++    return highscore;
++  }
+ 
+ }
+diff --git a/src/main/java/org/bcit/comp2522/project/ScoreManager.java b/src/main/java/org/bcit/comp2522/project/ScoreManager.java
+index 156c293..1d15f00 100644
+--- a/src/main/java/org/bcit/comp2522/project/ScoreManager.java
++++ b/src/main/java/org/bcit/comp2522/project/ScoreManager.java
+@@ -22,6 +22,7 @@ public class ScoreManager {
+ 
+     public void increaseScore(int amount) {
+         this.score += amount;
++//        System.out.println(this.score);
+     }
+ 
+     public void draw() {
+@@ -35,6 +36,6 @@ public class ScoreManager {
+     }
+ 
+     public int getScore() {
+-        return score;
++        return this.score;
+     }
+ }
+diff --git a/src/main/java/org/bcit/comp2522/project/ScoreboardMenu.java b/src/main/java/org/bcit/comp2522/project/ScoreboardMenu.java
+index d4b4726..418833d 100644
+--- a/src/main/java/org/bcit/comp2522/project/ScoreboardMenu.java
++++ b/src/main/java/org/bcit/comp2522/project/ScoreboardMenu.java
+@@ -14,12 +14,14 @@ public class ScoreboardMenu {
+     DatabaseHandler db;
+     private Button goBackButton;
+ 
++    private ScoreManager scoreManager;
+     private ArrayList<Button> buttons;
+     private GameState gameState;
+ 
+     public ScoreboardMenu(PApplet pApplet) {
+         this.pApplet = pApplet;
+         this.buttons = new ArrayList<>();
++        this.scoreManager = ScoreManager.getInstance(pApplet);
+         ObjectMapper mapper = new ObjectMapper();
+         DatabaseHandler.Config config;
+         try {
+@@ -34,7 +36,7 @@ public class ScoreboardMenu {
+     }
+ 
+     public void draw() {
+-        ArrayList<Document> topScores = db.getTopScores();
++        ArrayList<Document> topScores = db.getTopFiveScores();
+ 
+         // Clear the screen
+         pApplet.background(0);
+@@ -52,15 +54,16 @@ public class ScoreboardMenu {
+         int y = pApplet.height / 4;
+         if (!topScores.isEmpty()) {
+             Document highestScore = topScores.get(0);
+-            int value = highestScore.getInteger("score");
+-            pApplet.text(String.format("Highest Score: %d", value), pApplet.width / 2, y);
++//            int value = highestScore.getInteger("score");
++            int score = scoreManager.getScore();
++            pApplet.text(String.format("Highest Score: %d", score), pApplet.width / 2, y);
+             y += 50;
+         } else {
+             System.out.println("empty");
+         }
+ 
+-        // Draw the 2nd to 10th highest scores
+-        for (int i = 1; i < Math.min(topScores.size(), 10); i++) {
++        // Draw the 1st to 5th highest scores
++        for (int i = 0; i < Math.min(topScores.size(), 5); i++) {
+             Document score = topScores.get(i);
+             int value = score.getInteger("score");
+             pApplet.text(String.format("%d. %d", i + 1, value), pApplet.width / 2, y);
+diff --git a/src/main/java/org/bcit/comp2522/project/Window.java b/src/main/java/org/bcit/comp2522/project/Window.java
+index f8adc94..024dab8 100644
+--- a/src/main/java/org/bcit/comp2522/project/Window.java
++++ b/src/main/java/org/bcit/comp2522/project/Window.java
+@@ -21,14 +21,13 @@ public class Window extends PApplet {
+   public boolean rightPressed = false;
+   public boolean wasPaused = false;
+ 
+-    public void settings() {
+-      size(960, 540);
+-    }
+-    public void setState(GameState gameState) {
+-//      this.state = newState;
+-      lm.setState(gameState); // Set the state in the LevelManager instance as well
+-    }
+-    public void setup() {
++  public void settings() {
++    size(960, 540);
++  }
++  public void setState(GameState gameState) {
++    lm.setState(gameState); // Set the state in the LevelManager instance as well
++  }
++  public void setup() {
+     menuManager = new MenuManager(this, this::setState);
+     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
+     backgroundImage.resize(2000, 1200);
+@@ -37,10 +36,12 @@ public class Window extends PApplet {
+     EnemyManager.getInstance(this);
+     PowerUpManager.getInstance(500, width*4/5, this);
+     Player.getInstance(500, 490, 20, this, 5, 20);
+-    lm = LevelManager.getInstance();
+ 
+     sprites = new ArrayList<Sprite>();
+     sprites.add(Player.getInstance());
++
++    lm = LevelManager.getInstance();
++
+   }
+ 
+   public void scrollingBg() {
