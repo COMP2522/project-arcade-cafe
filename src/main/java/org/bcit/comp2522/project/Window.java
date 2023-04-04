@@ -10,6 +10,7 @@ public class Window extends PApplet {
   private MenuManager menuManager;
   private LevelManager lm;
 
+  private GameState gameState;
   private int state = 0;
   private int bgY;
 
@@ -23,9 +24,9 @@ public class Window extends PApplet {
     public void settings() {
       size(960, 540);
     }
-    public void setState(int newState) {
+    public void setState(GameState gameState) {
 //      this.state = newState;
-      lm.setState(newState); // Set the state in the LevelManager instance as well
+      lm.setState(gameState); // Set the state in the LevelManager instance as well
     }
     public void setup() {
     menuManager = new MenuManager(this, this::setState);
@@ -43,25 +44,56 @@ public class Window extends PApplet {
   }
 
   public void scrollingBg() {
-    image(backgroundImage, 0, bgY);
-    image(backgroundImage, 0, bgY - backgroundImage.height);
-    backgroundImage.resize(2000,1200);
-    bgY += 2;
-    if (bgY >= backgroundImage.height) {
-      bgY -= backgroundImage.height;
+    GameState currentState = lm.getState();
+
+    if (currentState == GameState.PLAYING) {
+      image(backgroundImage, 0, bgY);
+      image(backgroundImage, 0, bgY - backgroundImage.height);
+      backgroundImage.resize(2000, 1200);
+      bgY += 2;
+
+      if (bgY >= backgroundImage.height) {
+        bgY -= backgroundImage.height;
+      }
     }
   }
 
+//  public void scrollingBg() {
+//    image(backgroundImage, 0, bgY);
+//    image(backgroundImage, 0, bgY - backgroundImage.height);
+//    backgroundImage.resize(2000,1200);
+//    bgY += 2;
+//    if (bgY >= backgroundImage.height) {
+//      bgY -= backgroundImage.height;
+//    }
+//  }
+
   public void draw() {
-    image(backgroundImage, 0, 0);
+    GameState currentState = lm.getState(); // Get the current state from LevelManager
+
     scrollingBg();
-    int currentState = lm.getState(); // Get the current state from LevelManager
-    if (currentState == 1) { // Only update and draw the game elements if state is 1
+
+    if (currentState == GameState.PLAYING) { // Only update and draw the game elements if state is PLAYING
       update();
       lm.draw();
+    } else {
+      background(0); // Clear the screen with a black background
+      image(backgroundImage, 0, 0);
     }
+
     menuManager.draw(currentState); // Draw the menu based on the current state
   }
+
+//  public void draw() {
+//    image(backgroundImage, 0, 0);
+//    scrollingBg();
+//    GameState currentState = lm.getState(); // Get the current state from LevelManager
+//    if (currentState == GameState.MAIN_MENU) { // Only update and draw the game elements if state is 1
+//      update();
+//      lm.draw();
+//    }
+//    menuManager.draw(currentState); // Draw the menu based on the current state
+//  }
 
   @Override
   public void keyPressed() {
@@ -97,9 +129,9 @@ public class Window extends PApplet {
     lm.update();
 //    System.out.println(state);
   }
+  @Override
   public void mousePressed() {
-    int currentState = lm.getState(); // Get the current state from LevelManager
-    menuManager.mousePressed(currentState);
+    menuManager.mousePressed(lm.getState());
   }
   public static void main(String[] args) {
 
