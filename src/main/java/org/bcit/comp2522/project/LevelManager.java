@@ -121,7 +121,7 @@ public class LevelManager{
 //        gameOver = true; // Update the gameOver flag to true
       }
 
-      ArrayList<Enemy> copy = new ArrayList<>(em.getEnemies());
+      ArrayList<Enemy> copy = new ArrayList<>(em.getEnemy());
       for (Enemy enemy : copy) {
         if (collidesWithEnemy(enemy, player)) {
           // Remove the enemy from the list
@@ -172,7 +172,7 @@ public class LevelManager{
 
     //storing enemies
     JSONArray enemies = new JSONArray();
-    ArrayList<Enemy> enemyList = em.getEnemies();
+    ArrayList<Enemy> enemyList = em.getEnemy();
     for(Enemy e : enemyList) {
       JSONObject enemyStats = new JSONObject();
       enemyStats.put("x", e.getX());
@@ -193,9 +193,9 @@ public class LevelManager{
     }
     jo.put("powerups", powerups);
 
-    //storing enemy mananger info
+    //storing enemy manager info
     JSONObject emStats = new JSONObject();
-    emStats.put("wave", em.getNumWaves());
+    emStats.put("wave", em.getNumRows());
     emStats.put("yStart", em.getYStart());
     jo.put("enemyManager", emStats);
 
@@ -212,7 +212,7 @@ public class LevelManager{
 
   public void checkBulletCollisions(BulletManager bulletManager, EnemyManager enemyManager, PowerUpManager powerUpManager) {
     ArrayList<Bullet> bullets = bulletManager.getBullets();
-    ArrayList<Enemy> enemies = enemyManager.getEnemies();
+    ArrayList<Enemy> enemies = enemyManager.getEnemy();
     ArrayList<PowerUp> powerUps = powerUpManager.getPowerUp();
 
     Iterator<Bullet> bulletIterator = bullets.iterator();
