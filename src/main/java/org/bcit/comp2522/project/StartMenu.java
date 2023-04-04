@@ -54,6 +54,18 @@ public class StartMenu extends PApplet{
     int HALF_HEIGHT = pApplet.height / 2;
     if (!buttonsInitialized) {
       File file = new File("save.json");
+      if(file.exists()){
+        addButton("Continue", HALF_WIDTH, HALF_HEIGHT + OFFSET0, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::continueGame);
+      }
+      addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1, BUTTON_WIDTH,
+          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
+      addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2, BUTTON_WIDTH,
+          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
+      addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3, BUTTON_WIDTH,
+          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::exitGame);
+      buttonsInitialized = true;
+      File file = new File("save.json");
       if (file.exists()) {
 
         int extraOffset = 30;

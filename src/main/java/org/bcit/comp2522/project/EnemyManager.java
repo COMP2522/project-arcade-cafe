@@ -65,6 +65,10 @@ public class EnemyManager {
     return yStart;
   };
 
+  public void add(Enemy e) {
+    enemies.add(e);
+  }
+
   /**
    Adds a new wave of enemies to the game with the specified number of rows and enemies per row.
    */
@@ -111,16 +115,12 @@ public class EnemyManager {
     //When any enemies reach the bottom of the screen, player loses an HP.
     int decreaseHP = Player.getInstance().getHp() - 1;
     Player.getInstance().setHp(decreaseHP);
-    SaveHandler saveHandler = new SaveHandler();
-    new Thread (() -> saveHandler.saveState()).start();
     addEnemy();
   } else if (enemies.size() == 0) {
     // the wave has been defeated, create a new wave with increased difficulty
     numRows += 1;
     yStart -= SIZE + ENEMY_PADDING;
 
-    SaveHandler saveHandler = new SaveHandler();
-    new Thread (() -> saveHandler.saveState()).start();
     addEnemy();
   }
 }
@@ -163,6 +163,13 @@ public class EnemyManager {
 
     // Add the initial enemies back
     addEnemy();
+  }
+
+  public void setWave(int n){
+    numRows = n;
+  }
+  public void setYStart(int n){
+    yStart = n;
   }
 
 }
