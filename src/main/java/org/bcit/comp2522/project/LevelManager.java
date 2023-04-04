@@ -1,5 +1,10 @@
 package org.bcit.comp2522.project;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,7 +21,6 @@ public class LevelManager{
   private ScoreManager sc;
   private MenuManager Mm;
   private int state = 0;
-  private int score;
   private int highscore;
 
   private GameState gameState;
@@ -28,7 +32,6 @@ public class LevelManager{
     player = Player.getInstance();
     gameState = GameState.MAIN_MENU;
     lives = new LivesManager(player, player.window, 3); // set initial HP to 1
-    score = 0;
     //TODO: read this from database
     highscore = 0;
     this.setup();
@@ -60,8 +63,10 @@ public class LevelManager{
   public void pause(){
     if(paused){
       paused = false;
+      gameState = GameState.PLAYING;
     } else{
       paused = true;
+      gameState = GameState.PAUSED;
     }
   }
   private boolean gameOver = false;
@@ -74,7 +79,7 @@ public class LevelManager{
   }
 
   public void draw() {
-    if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD || gameState == GameState.PAUSED) {
+    if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD) {
       Mm.draw(gameState);
     } else {
       em.draw();
@@ -83,6 +88,9 @@ public class LevelManager{
       player.draw();
       lives.draw();
       sc.draw();
+      if(gameState == GameState.PAUSED){
+        Mm.draw(GameState.PAUSED);
+      }
     }
   }
 //  public void draw() {
@@ -132,6 +140,70 @@ public class LevelManager{
     sc.resetScore();
     em.resetEnemy();
     // Add any other necessary resets here
+  }
+
+  public void writeToFile(String file) throws FileNotFoundException {
+    JSONObject jo = new JSONObject();
+    //storing score
+    jo.put("score", sc.getScore());
+
+    //storing time since last powerup
+    jo.put("lastPower", pm.getLastPower());
+
+    //storing player info
+    JSONObject playerStats = new JSONObject();
+    playerStats.put("x", player.getX());
+    playerStats.put("y", player.getY());
+    playerStats.put("hp", player.getHp());
+    playerStats.put("fireRate", player.getFireRate());
+    jo.put("player", playerStats);
+
+    //storing bullet info
+    JSONArray bullets = new JSONArray();
+    ArrayList<Bullet> bulletList = bm.getBullets();
+    for(Bullet b : bulletList) {
+      JSONObject bulletStats = new JSONObject();
+      bulletStats.put("x", b.getX());
+      bulletStats.put("y", b.getY());
+      bulletStats.put("speed", b.getSpeed());
+      bullets.add(bullets.size(), bulletStats);
+    }
+    jo.put("bullets", bullets);
+
+    //storing enemies
+    JSONArray enemies = new JSONArray();
+    ArrayList<Enemy> enemyList = em.getEnemies();
+    for(Enemy e : enemyList) {
+      JSONObject enemyStats = new JSONObject();
+      enemyStats.put("x", e.getX());
+      enemyStats.put("y", e.getY());
+      enemies.add(enemies.size(), enemyStats);
+    }
+    jo.put("enemies", enemies);
+
+    //storing powerups
+    JSONArray powerups = new JSONArray();
+    ArrayList<PowerUp> powerupList = pm.getPowerUp();
+    for(PowerUp p : powerupList) {
+      JSONObject powerupStats = new JSONObject();
+      powerupStats.put("x", p.getX());
+      powerupStats.put("y", p.getY());
+      powerupStats.put("type", p.getType());
+      powerups.add(powerups.size(), powerupStats);
+    }
+    jo.put("powerups", powerups);
+
+    //storing enemy mananger info
+    JSONObject emStats = new JSONObject();
+    emStats.put("wave", em.getNumWaves());
+    emStats.put("yStart", em.getYStart());
+    jo.put("enemyManager", emStats);
+
+    PrintWriter pw = new PrintWriter(file);
+    pw.write(jo.toJSONString());
+    pw.flush();
+    pw.close();
+    System.out.println("Game State Saved");
   }
 
   public void resetPlayerLives() {

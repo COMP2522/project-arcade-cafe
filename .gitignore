@@ -1,5 +1,6 @@
 # DB
 config.json
+save.json
 # Compiled class file
 *.class
 
