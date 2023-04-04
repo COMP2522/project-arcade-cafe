@@ -1,6 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -89,6 +88,13 @@ public class PowerUpManager {
     return instance;
   }
 
+  public int getLastPower(){
+    return lastPower;
+  }
+  public void setLastPower(int n){
+    lastPower = n;
+  }
+
     /**
      * Returns the list of PowerUp objects managed by the PowerUpManager.
      *
@@ -164,7 +170,7 @@ public class PowerUpManager {
 
                     if (player.getFireRateIncreases() < 4) {
 
-                        int increasedFireRate = Math.max(player.getFireRate() - 5, 1);
+                        int increasedFireRate = Math.max(player.getFireRate() - 5, 4);
                         player.setFireRate(increasedFireRate);
                         player.setFireRateIncreases(player.getFireRateIncreases() + 1);
                     }

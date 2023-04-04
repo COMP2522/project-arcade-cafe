@@ -1,9 +1,6 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.awt.*;
 
 public class Bullet extends Sprite {
   private int dy;
@@ -27,6 +24,10 @@ public class Bullet extends Sprite {
     Window window = getWindow();
     window.imageMode(window.CENTER);
     window.image(bulletImage, x, y );
+  }
+
+  public int getSpeed(){
+    return dy;
   }
 }
 

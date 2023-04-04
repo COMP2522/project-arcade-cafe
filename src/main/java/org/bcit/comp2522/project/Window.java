@@ -2,7 +2,7 @@ package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import java.awt.*;
+
 import java.util.ArrayList;
 
 public class Window extends PApplet {
@@ -74,12 +74,16 @@ public class Window extends PApplet {
 
     scrollingBg();
 
-    if (currentState == GameState.PLAYING) { // Only update and draw the game elements if state is PLAYING
-      update();
-      lm.draw();
-    } else {
+    if(currentState != GameState.PLAYING) {
       background(0); // Clear the screen with a black background
       image(backgroundImage, 0, 0);
+    }
+
+    if (currentState == GameState.PLAYING) { // Only update the game elements if state is PLAYING
+      update();
+    }
+    if (currentState == GameState.PLAYING || currentState == GameState.PAUSED) { // Only  draw the game elements if state is PLAYING or PAUSED
+      lm.draw();
     }
 
     menuManager.draw(currentState); // Draw the menu based on the current state
