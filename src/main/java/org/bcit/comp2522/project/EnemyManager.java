@@ -115,18 +115,12 @@ public class EnemyManager {
     //When any enemies reach the bottom of the screen, player loses an HP.
     int decreaseHP = Player.getInstance().getHp() - 1;
     Player.getInstance().setHp(decreaseHP);
-    SaveHandler saveHandler = new SaveHandler();
-    new Thread (() -> saveHandler.saveState()).start();
     addEnemy();
   } else if (enemies.size() == 0) {
     // the wave has been defeated, create a new wave with increased difficulty
     numRows += 1;
     yStart -= SIZE + ENEMY_PADDING;
 
-//    if(Player.getInstance().getHp() > 0) {
-//      SaveHandler saveHandler = new SaveHandler();
-//      new Thread(() -> saveHandler.saveState()).start();
-//    }
     addEnemy();
   }
 }
