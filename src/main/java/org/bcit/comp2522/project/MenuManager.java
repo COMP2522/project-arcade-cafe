@@ -5,34 +5,36 @@ import java.util.function.Consumer;
 
 public class MenuManager {
     private PApplet pApplet;
-    private Consumer<Integer> onStateChange;
+    private Consumer<GameState> onStateChange;
     private StartMenu startMenu;
     private GameOverMenu gameOverMenu;
     private PauseMenu pauseMenu;
 
+    private GameState gameState;
+
     private ScoreboardMenu scoreboardMenu;
 
-    public MenuManager(PApplet pApplet, Consumer<Integer> onStateChange) {
+    public MenuManager(PApplet pApplet, Consumer<GameState> onStateChange) {
         this.pApplet = pApplet;
         this.onStateChange = onStateChange;
-        this.startMenu = new StartMenu(pApplet);
+        this.startMenu = new StartMenu(pApplet, onStateChange);
         this.gameOverMenu = new GameOverMenu(pApplet, onStateChange);
         this.pauseMenu = new PauseMenu(pApplet);
         this.scoreboardMenu = new ScoreboardMenu(pApplet);
     }
 
-    public void draw(int state) {
-        switch (state) {
-            case 0:
+    public void draw(GameState gameState) {
+        switch (gameState) {
+            case MAIN_MENU:
                 startMenu.draw();
                 break;
-            case 2:
+            case SCORE_BOARD:
                 scoreboardMenu.draw();
                 break;
-            case 3:
+            case GAME_OVER:
                 gameOverMenu.draw();
                 break;
-            case 4:
+            case PAUSED:
                 pauseMenu.draw();
                 break;
             default:
@@ -40,17 +42,17 @@ public class MenuManager {
         }
     }
 
-    public void mousePressed(int state) {
-        switch (state) {
-            case 0:
+    public void mousePressed(GameState gameState) {
+        switch (gameState) {
+            case MAIN_MENU:
                 startMenu.mousePressed();
                 break;
-            case 2:
+            case SCORE_BOARD:
                 scoreboardMenu.mousePressed();
-            case 3:
+            case GAME_OVER:
                 gameOverMenu.mousePressed();
                 break;
-            case 4:
+            case PAUSED:
                 pauseMenu.onMousePressed();
                 break;
             default:

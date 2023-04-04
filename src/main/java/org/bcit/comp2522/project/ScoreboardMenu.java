@@ -15,6 +15,7 @@ public class ScoreboardMenu {
     private Button goBackButton;
 
     private ArrayList<Button> buttons;
+    private GameState gameState;
 
     public ScoreboardMenu(PApplet pApplet) {
         this.pApplet = pApplet;
@@ -78,7 +79,7 @@ public class ScoreboardMenu {
         }
     }
     public void goBackToMainMenu () {
-        LevelManager.getInstance().setState(0); // Set the state to 0 (main menu)
+        LevelManager.getInstance().setState(gameState.MAIN_MENU); // Set the state to 0 (main menu)
     }
 
 }
