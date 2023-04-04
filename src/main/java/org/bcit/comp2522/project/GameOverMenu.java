@@ -5,35 +5,56 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+/**
+ The GameOverMenu class provides a graphical user interface for displaying the game over screen and
+ allowing the user to navigate back to the main menu.
+ */
 public class GameOverMenu {
 
     private PApplet pApplet;
     private ArrayList<Button> buttons;
-    private final int buttonWidth;
-    private final int buttonHeight;
-    private final int buttonSpacing;
-    private final int startX;
-    private final int startY;
+    private final int BUTTON_WIDTH;
+    private final int BUTTON_HEIGHT;
+    private final int BUTTON_SPACING;
+    private final int STARTX;
+    private final int STARTY;
+    private final int FONT_SIZE = 20;
+    private final int SHIFT_DOWN = 50;
     private final Consumer<GameState> onStateChange;
     private ScoreManager scoreManager;
 
+    /**
+     * Constructs a GameOverMenu object.
+     *
+     * @param pApplet        the PApplet object used to render the menu
+     * @param onStateChange  a Consumer object that changes the GameState when the player clicks a button
+     */
     public GameOverMenu(PApplet pApplet, Consumer<GameState> onStateChange) {
+        int halfWidth = pApplet.width / 2;
+        int halfHeight = pApplet.height / 2;
         this.pApplet = pApplet;
         this.onStateChange = onStateChange;
-        this.buttonWidth = 150;
-        this.buttonHeight = 50;
-        this.buttonSpacing = 20;
-        startX = pApplet.width / 2;
-        startY = pApplet.height / 2 + 50;
-        scoreManager = ScoreManager.getInstance(pApplet);
-        addButton("Main Menu", startX, startY, buttonWidth, buttonHeight, 20, 0xFFFFFFFF, this::goBackToMainMenu);
+        this.BUTTON_WIDTH = 150;
+        this.BUTTON_HEIGHT = 50;
+        this.BUTTON_SPACING = 20;
+        STARTX = halfWidth;
+        STARTY = halfHeight + SHIFT_DOWN;
+        addButton("Main Menu", STARTX, STARTY, BUTTON_WIDTH, BUTTON_HEIGHT,
+                    FONT_SIZE, 0xFFFFFFFF, this::goBackToMainMenu);
     }
 
+
+    /**
+     * Draws the game over screen.
+     */
     public void draw() {
+        int halfWidth = pApplet.width / 2;
+        int halfHeight = pApplet.height / 2;
         pApplet.background(0);
         pApplet.textSize(32);
         pApplet.fill(255);
         pApplet.textAlign(PApplet.CENTER);
+
         pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2 - 50);
 
         // Retrieve the actual score value from the ScoreManager instance
@@ -46,6 +67,9 @@ public class GameOverMenu {
         }
     }
 
+    /**
+     * Responds to a mouse press event.
+     */
     public void mousePressed() {
         for (Button button : buttons) {
             if (button.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
@@ -55,14 +79,20 @@ public class GameOverMenu {
         }
     }
 
+    /**
+     * Returns the player to the main menu.
+     */
     public void goBackToMainMenu() {
         LevelManager.getInstance().resetGameOver();
         LevelManager.getInstance().setState(GameState.MAIN_MENU);
         LevelManager.getInstance().resetGame();
     }
 
-
-    private void addButton(String label, float x, float y, float buttonWidth, float buttonHeight, int fontSize, int fontColour, Runnable onClickAction) {
+    /**
+     * Adds button to the ArrayList. If ArrayList is not initialized, initializes ArrayList.
+     */
+    private void addButton(String label, float x, float y, float buttonWidth, float buttonHeight,
+                           int fontSize, int fontColour, Runnable onClickAction) {
         if (buttons == null) {
             buttons = new ArrayList<>();
         }

@@ -1,0 +1,1 @@
+{"score":10,"enemyManager":{"yStart":20,"wave":1},"lastPower":450,"enemies":[{"x":60,"y":20},{"x":120,"y":20}],"player":{"fireRate":20,"x":490,"hp":0,"y":490},"bullets":[{"x":290,"y":15,"speed":-15},{"x":390,"y":315,"speed":-15}],"powerups":[{"x":775,"y":100,"type":"hp"}]}
