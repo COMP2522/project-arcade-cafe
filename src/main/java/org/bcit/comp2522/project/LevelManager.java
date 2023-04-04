@@ -203,6 +203,7 @@ public class LevelManager{
     pw.write(jo.toJSONString());
     pw.flush();
     pw.close();
+    System.out.println("Game State Saved");
   }
 
   public void resetPlayerLives() {

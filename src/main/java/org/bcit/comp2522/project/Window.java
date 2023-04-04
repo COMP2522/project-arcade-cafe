@@ -73,16 +73,17 @@ public class Window extends PApplet {
 
     scrollingBg();
 
+    if(currentState != GameState.PLAYING) {
+      background(0); // Clear the screen with a black background
+      image(backgroundImage, 0, 0);
+    }
+
     if (currentState == GameState.PLAYING) { // Only update the game elements if state is PLAYING
       update();
     }
     if (currentState == GameState.PLAYING || currentState == GameState.PAUSED) { // Only  draw the game elements if state is PLAYING or PAUSED
       lm.draw();
     }
-//    else {
-//      background(0); // Clear the screen with a black background
-//      image(backgroundImage, 0, 0);
-//    }
 
     menuManager.draw(currentState); // Draw the menu based on the current state
   }
