@@ -15,6 +15,7 @@ public class GameOverMenu {
     private final int startX;
     private final int startY;
     private final Consumer<GameState> onStateChange;
+    private ScoreManager scoreManager;
 
     public GameOverMenu(PApplet pApplet, Consumer<GameState> onStateChange) {
         this.pApplet = pApplet;
@@ -24,6 +25,7 @@ public class GameOverMenu {
         this.buttonSpacing = 20;
         startX = pApplet.width / 2;
         startY = pApplet.height / 2 + 50;
+        scoreManager = ScoreManager.getInstance(pApplet);
         addButton("Main Menu", startX, startY, buttonWidth, buttonHeight, 20, 0xFFFFFFFF, this::goBackToMainMenu);
     }
 
@@ -32,7 +34,12 @@ public class GameOverMenu {
         pApplet.textSize(32);
         pApplet.fill(255);
         pApplet.textAlign(PApplet.CENTER);
-        pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2);
+        pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2 - 50);
+
+        // Retrieve the actual score value from the ScoreManager instance
+        int score = scoreManager.getScore();
+        System.out.println(score);
+        pApplet.text("Score: " + score, pApplet.width/2, pApplet.height/2);
 
         for (Button button : buttons) {
             button.draw(pApplet);
