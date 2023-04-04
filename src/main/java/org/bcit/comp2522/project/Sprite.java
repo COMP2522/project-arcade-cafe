@@ -65,7 +65,4 @@ public class Sprite {
     return window;
   }
 
-  public PApplet getPApplet() {
-    return window;
-  }
 }
