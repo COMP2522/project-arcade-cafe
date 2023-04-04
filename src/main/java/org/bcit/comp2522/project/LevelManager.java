@@ -172,7 +172,7 @@ public class LevelManager{
 
     //storing enemies
     JSONArray enemies = new JSONArray();
-    ArrayList<Enemy> enemyList = em.getEnemies();
+    ArrayList<Enemy> enemyList = em.getEnemy();
     for(Enemy e : enemyList) {
       JSONObject enemyStats = new JSONObject();
       enemyStats.put("x", e.getX());
@@ -193,9 +193,9 @@ public class LevelManager{
     }
     jo.put("powerups", powerups);
 
-    //storing enemy mananger info
+    //storing enemy manager info
     JSONObject emStats = new JSONObject();
-    emStats.put("wave", em.getNumWaves());
+    emStats.put("wave", em.getNumRows());
     emStats.put("yStart", em.getYStart());
     jo.put("enemyManager", emStats);
 
