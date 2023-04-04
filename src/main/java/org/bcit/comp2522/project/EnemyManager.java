@@ -60,6 +60,10 @@ public void update() {
   if (enemiesAtBottom == enemies.size() && enemies.size() != 0) {
     // all enemies have reached the bottom, create a new wave of enemies
     enemies.clear();
+    //When any enemies reach the bottom of the screen, player loses an HP.
+    int decreaseHP = Player.getInstance().getHp() - 1;
+    Player.getInstance().setHp(decreaseHP);
+
     addEnemy();
   } else if (enemies.size() == 0) {
     // the wave has been defeated, create a new wave with increased difficulty
