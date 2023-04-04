@@ -1,1 +1,1 @@
-{"score":10,"enemyManager":{"yStart":20,"wave":1},"lastPower":450,"enemies":[{"x":60,"y":20},{"x":120,"y":20}],"player":{"fireRate":20,"x":490,"hp":0,"y":490},"bullets":[{"x":290,"y":15,"speed":-15},{"x":390,"y":315,"speed":-15}],"powerups":[{"x":775,"y":100,"type":"hp"}]}
+{"score":9,"enemyManager":{"yStart":20,"wave":1},"lastPower":348,"enemies":[],"player":{"fireRate":20,"x":870,"hp":1,"y":490},"bullets":[{"x":890,"y":285,"speed":-15}],"powerups":[{"x":373,"y":2304,"type":"hp"},{"x":719,"y":1304,"type":"hp"},{"x":317,"y":304,"type":"fireRate"}]}
