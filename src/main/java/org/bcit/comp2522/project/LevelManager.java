@@ -19,11 +19,14 @@ public class LevelManager{
   private int score;
   private int highscore;
 
+  private GameState gameState;
+
   private LevelManager() {
     em = EnemyManager.getInstance();
     bm = BulletManager.getInstance();
     pm = PowerUpManager.getInstance();
     player = Player.getInstance();
+    gameState = GameState.MAIN_MENU;
     lives = new LivesManager(player, player.window, 3); // set initial HP to 1
     score = 0;
     //TODO: read this from database
@@ -31,11 +34,10 @@ public class LevelManager{
     this.setup();
     sc = ScoreManager.getInstance(player.window);
     Mm = new MenuManager(player.window, this::setState);
-
   }
 
-  public void setState(int newState) {
-    this.state = newState;
+  public void setState(GameState newState) {
+    this.gameState = newState;
   }
   public static LevelManager getInstance() {
     if(lm == null) {
@@ -43,8 +45,8 @@ public class LevelManager{
     }
     return lm;
   }
-  public int getState() {
-    return state;
+  public GameState getState() {
+    return gameState;
   }
 
   public boolean getPauseStatus() {
@@ -71,24 +73,29 @@ public class LevelManager{
     this.gameOver = false;
   }
 
-//  public void resetPlayerLives() {
-//    if (lives != null) {
-//      lives.resetLives();
-//    } else {
-//      System.err.println("LivesManager instance is null.");
-//    }
-//  }
   public void draw() {
-    em.draw();
-    bm.draw();
-    pm.draw();
-    player.draw();
-    lives.draw();
-    sc.draw();
-    if (isGameOver()) {
-      Mm.draw(state);
+    if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD || gameState == GameState.PAUSED) {
+      Mm.draw(gameState);
+    } else {
+      em.draw();
+      bm.draw();
+      pm.draw();
+      player.draw();
+      lives.draw();
+      sc.draw();
     }
   }
+//  public void draw() {
+//    em.draw();
+//    bm.draw();
+//    pm.draw();
+//    player.draw();
+//    lives.draw();
+//    sc.draw();
+//    if (isGameOver()) {
+//      Mm.draw(getState());
+//    }
+//  }
 
   public void update(){
     if(!paused) {
@@ -100,7 +107,7 @@ public class LevelManager{
       pm.checkCollisions(player,lives);
 
       if (player.getHp() == 0) {
-        setState(3);
+        setState(GameState.GAME_OVER);
         resetGame();
 //        Mm.setState(); // Set the state to 3 (game over)
 //        gameOver = true; // Update the gameOver flag to true

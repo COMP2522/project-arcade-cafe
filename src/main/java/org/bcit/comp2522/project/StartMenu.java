@@ -2,9 +2,6 @@ package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -13,19 +10,22 @@ public class StartMenu extends PApplet{
   private PApplet pApplet;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
-  private Consumer<Integer> onStateChange;
+  private Consumer<GameState> onStateChange;
 
   private Button goBackButton;
 
+  private GameState gameState;
   PImage backgroundImage;
 
   DatabaseHandler db;
 
 
   // MENU SETUP //
-  public StartMenu(PApplet pApplet) {
+  public StartMenu(PApplet pApplet,Consumer<GameState> onStateChange) {
     this.pApplet = pApplet;
+    this.onStateChange = onStateChange;
     buttons = new ArrayList<>();
+    backgroundImage = pApplet.loadImage("src/bgImg/galagaSpace.png"); // Load the background image
   }
 
   public void draw() {
@@ -36,20 +36,28 @@ public class StartMenu extends PApplet{
       buttonsInitialized = true;
     }
 
-    PImage background = pApplet.loadImage("src/bgImg/galagaSpace.png");
-    pApplet.image(background, 0, 0, pApplet.width, pApplet.height);
+    pApplet.image(backgroundImage, 0, 0, pApplet.width, pApplet.height); // Use the loaded backgroundImage
 
     for (Button button : buttons) {
       button.draw(pApplet);
     }
   }
 
+
   // BUTTON INTERACTION FUNCTIONS //
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
+        String buttonLabel = button.getLabel();
+        if (buttonLabel.equals("Start")) {
+          onStateChange.accept(GameState.PLAYING); // Update the gameState to PLAYING
+        } else if (buttonLabel.equals("Scoreboard")) {
+          onStateChange.accept(GameState.SCORE_BOARD);
+        } else if (buttonLabel.equals("Exit")) {
+          System.exit(0);
+        }
         button.onClick();
-        System.out.println("start menu buttion clicked ");
+        System.out.println("start menu button clicked");
       }
     }
   }
@@ -59,12 +67,11 @@ public class StartMenu extends PApplet{
   }
 
   public void startGame() {
-    LevelManager.getInstance().resetGame();
-    LevelManager.getInstance().setState(1);
+    onStateChange.accept(GameState.PLAYING);
   }
 
   public void openScoreboard() {
-    LevelManager.getInstance().setState(2); // Set the state to 0 (main menu)
+    onStateChange.accept(GameState.SCORE_BOARD);
   }
 
   public void exitGame() {

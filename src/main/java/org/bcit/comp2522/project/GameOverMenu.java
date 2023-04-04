@@ -14,9 +14,9 @@ public class GameOverMenu {
     private final int buttonSpacing;
     private final int startX;
     private final int startY;
-    private final Consumer<Integer> onStateChange;
+    private final Consumer<GameState> onStateChange;
 
-    public GameOverMenu(PApplet pApplet, Consumer<Integer> onStateChange) {
+    public GameOverMenu(PApplet pApplet, Consumer<GameState> onStateChange) {
         this.pApplet = pApplet;
         this.onStateChange = onStateChange;
         this.buttonWidth = 150;
@@ -50,7 +50,7 @@ public class GameOverMenu {
 
     public void goBackToMainMenu() {
         LevelManager.getInstance().resetGameOver();
-        LevelManager.getInstance().setState(0);
+        LevelManager.getInstance().setState(GameState.MAIN_MENU);
         LevelManager.getInstance().resetGame();
     }
 

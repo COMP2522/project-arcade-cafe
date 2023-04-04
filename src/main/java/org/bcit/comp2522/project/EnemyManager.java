@@ -1,6 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class EnemyManager {
