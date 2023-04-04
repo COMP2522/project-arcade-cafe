@@ -15,6 +15,7 @@ To run the game, clone this repository into your local computer, open in Intelli
 of bullets from the arraylist while still iterating through it.
 
 **Requirement 3:** After pausing the game and clicking the <Save & Exit> button, the game state is saved in a JSON file.
+In addition, with every new wave of enemies, the game state is saved.
 
 **Requirement 4:** BulletManager utilizes the iterator to iterate through the bullet arraylist.
 
