@@ -2,6 +2,8 @@ package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -14,13 +16,17 @@ public class StartMenu extends PApplet{
   private final int BUTTON_WIDTH = 150;
   private final int BUTTON_HEIGHT = 50;
   private final int FONT_SIZE = 20;
+
+  private final int OFFSET0 = -50;
   private final int OFFSET1 = 25;
   private final int OFFSET2 = 100;
   private final int OFFSET3 = 175;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
   private Consumer<GameState> onStateChange;
+
   private Button goBackButton;
+
   private GameState gameState;
   PImage backgroundImage;
 
@@ -47,8 +53,13 @@ public class StartMenu extends PApplet{
     int HALF_WIDTH = pApplet.width / 2;
     int HALF_HEIGHT = pApplet.height / 2;
     if (!buttonsInitialized) {
-      addButton("Start", HALF_WIDTH, HALF_HEIGHT + OFFSET1, BUTTON_WIDTH,
-          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startGame);
+      File file = new File("save.json");
+      if(file.exists()){
+        addButton("Continue", HALF_WIDTH, HALF_HEIGHT + OFFSET0, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::continueGame);
+      }
+      addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1, BUTTON_WIDTH,
+          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
       addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2, BUTTON_WIDTH,
           BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
       addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3, BUTTON_WIDTH,
@@ -101,9 +112,21 @@ public class StartMenu extends PApplet{
   }
 
   /**
-   Changes the game state to PLAYING when the Start button is clicked.
+   Changes the game state to PLAYING and parses save file when the Continue button is clicked.
    */
-  public void startGame() {
+  public void continueGame() {
+    SaveHandler saveHandler = new SaveHandler();
+    saveHandler.parseSave();
+  }
+  /**
+   Changes the game state to PLAYING and clears save files when the New Game button is clicked.
+   */
+  public void startNewGame() {
+    File file = new File("save.json");
+    if(file.exists()){
+      file.delete();
+    }
+    EnemyManager.getInstance().addEnemy();
     onStateChange.accept(GameState.PLAYING);
   }
 
