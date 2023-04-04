@@ -8,14 +8,23 @@ public class Sprite {
   protected int x;
   protected int y;
   protected int size;
-  protected Color color;
+//  protected Color color;
   protected Window window;
 
-  public Sprite(int xPos, int yPos, int size, Color color, Window window) {
+  //constructor with color
+//  public Sprite(int xPos, int yPos, int size, Color color, Window window) {
+//    this.x = xPos;
+//    this.y = yPos;
+//    this.size = size;
+//    this.color = color;
+//    this.window = window;
+//  }
+
+  //new constructor without
+  public Sprite(int xPos, int yPos, int size, Window window) {
     this.x = xPos;
     this.y = yPos;
     this.size = size;
-    this.color = color;
     this.window = window;
   }
 
@@ -36,7 +45,7 @@ public class Sprite {
   }
   public void draw() {
     window.pushStyle();
-    window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
+//    window.fill(this.color.getRed(), this.color.getGreen(), this.color.getBlue());
     window.ellipse(this.x, this.y, size, size);
     window.popStyle();
   }
@@ -56,7 +65,4 @@ public class Sprite {
     return window;
   }
 
-  public PApplet getPApplet() {
-    return window;
-  }
 }
