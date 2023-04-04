@@ -58,6 +58,8 @@ public class Window extends PApplet {
     int currentState = lm.getState(); // Get the current state from LevelManager
     if (currentState == 1) { // Only update and draw the game elements if state is 1
       update();
+    }
+    if (currentState == 1 || currentState == 4) { // Only update and draw the game elements if state is 1
       lm.draw();
     }
     menuManager.draw(currentState); // Draw the menu based on the current state

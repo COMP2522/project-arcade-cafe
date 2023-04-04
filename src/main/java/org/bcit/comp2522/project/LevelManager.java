@@ -58,8 +58,10 @@ public class LevelManager{
   public void pause(){
     if(paused){
       paused = false;
+      state = 1;
     } else{
       paused = true;
+      state = 4;
     }
   }
   private boolean gameOver = false;
@@ -125,6 +127,10 @@ public class LevelManager{
     sc.resetScore();
     em.resetEnemy();
     // Add any other necessary resets here
+  }
+
+  public void saveState() {
+
   }
 
   public void resetPlayerLives() {

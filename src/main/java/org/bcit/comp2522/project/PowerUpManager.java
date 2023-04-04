@@ -164,7 +164,7 @@ public class PowerUpManager {
 
                     if (player.getFireRateIncreases() < 4) {
 
-                        int increasedFireRate = Math.max(player.getFireRate() - 5, 1);
+                        int increasedFireRate = Math.max(player.getFireRate() - 5, 4);
                         player.setFireRate(increasedFireRate);
                         player.setFireRateIncreases(player.getFireRateIncreases() + 1);
                     }

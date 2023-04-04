@@ -44,6 +44,7 @@ public class PauseMenu extends PApplet{
         BUTTON_WIDTH, BUTTON_HEIGHT,
         BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
         () -> {
+          LevelManager.getInstance().saveState();
           System.exit(0);
         });
 //    quitButton.setBackgroundColor(QUIT_BUTTON_COLOUR);
