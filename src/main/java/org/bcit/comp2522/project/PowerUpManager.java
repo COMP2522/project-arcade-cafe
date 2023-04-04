@@ -183,4 +183,7 @@ public class PowerUpManager {
         }
     }
 
+  public void add(PowerUp p) {
+      powerUps.add(p);
+  }
 }

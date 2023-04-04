@@ -2,9 +2,10 @@ package org.bcit.comp2522.project;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -21,7 +22,6 @@ public class LevelManager{
   private ScoreManager sc;
   private MenuManager Mm;
   private int state = 0;
-  private int highscore;
 
   private GameState gameState;
 
@@ -32,9 +32,6 @@ public class LevelManager{
     player = Player.getInstance();
     gameState = GameState.MAIN_MENU;
     lives = new LivesManager(player, player.window, 3); // set initial HP to 1
-    //TODO: read this from database
-    highscore = 0;
-    this.setup();
     sc = ScoreManager.getInstance(player.window);
     Mm = new MenuManager(player.window, this::setState);
   }
@@ -56,9 +53,7 @@ public class LevelManager{
     return paused;
   }
 
-  public void setup(){
-    em.addEnemy();
-  }
+
 
   public void pause(){
     if(paused){
@@ -115,6 +110,10 @@ public class LevelManager{
       pm.checkCollisions(player,lives);
 
       if (player.getHp() == 0) {
+        File file = new File("save.json");
+        if(file.exists()){
+          file.delete();
+        }
         setState(GameState.GAME_OVER);
         resetGame();
 //        Mm.setState(); // Set the state to 3 (game over)
@@ -135,6 +134,10 @@ public class LevelManager{
   }
 
   public void resetGame() {
+    File file = new File("save.json");
+    if(file.exists()){
+      file.delete();
+    }
     resetGameOver();
     resetPlayerLives();
     sc.resetScore();
@@ -204,6 +207,62 @@ public class LevelManager{
     pw.flush();
     pw.close();
     System.out.println("Game State Saved");
+
+
+  }
+
+  public void readFromFile(String file) throws IOException, ParseException {
+    JSONParser parser = new JSONParser();
+    Object obj = parser.parse(new FileReader(file)); //the location of the file
+    JSONObject jsonObject = (JSONObject) obj;
+    //parse score and time since last powerup
+    sc.increaseScore(Long.valueOf((long)jsonObject.get("score")).intValue());
+    pm.setLastPower(Long.valueOf((long)jsonObject.get("lastPower")).intValue());
+
+    //parse player stats
+    JSONObject playerStats = (JSONObject) jsonObject.get("player");
+    player.setX(Long.valueOf((long)playerStats.get("x")).intValue());
+    player.setY(Long.valueOf((long)playerStats.get("y")).intValue());
+    player.setHp(Long.valueOf((long)playerStats.get("hp")).intValue());
+    player.setFireRate(Long.valueOf((long)playerStats.get("fireRate")).intValue());
+
+    //parsing bullet info
+    JSONArray bullets = (JSONArray) jsonObject.get("bullets");
+    for(int i = 0; i < bullets.size(); i++) {
+      JSONObject bulletInfo = (JSONObject) bullets.get(i);
+      Bullet bullet = new Bullet(
+              Long.valueOf((long)bulletInfo.get("x")).intValue(),
+              Long.valueOf((long)bulletInfo.get("y")).intValue(),
+              20, player.getWindow(), Long.valueOf((long)bulletInfo.get("speed")).intValue());
+      bm.add(bullet);
+    }
+
+    //parsing enemies
+    JSONArray enemies = (JSONArray) jsonObject.get("enemies");
+    for(int i = 0; i < enemies.size(); i++) {
+      JSONObject enemyInfo = (JSONObject) enemies.get(i);
+      Enemy enemy = new Enemy(Long.valueOf((long)enemyInfo.get("x")).intValue(),
+              Long.valueOf((long)enemyInfo.get("y")).intValue(),
+              30, player.getWindow());
+      em.add(enemy);
+    }
+
+    //parsing powerups
+    JSONArray powerups = (JSONArray) jsonObject.get("powerups");
+    for(int i = 0; i < powerups.size(); i++) {
+      JSONObject powerupInfo = (JSONObject) powerups.get(i);
+      PowerUp powerup = new PowerUp(Long.valueOf((long)powerupInfo.get("x")).intValue(),
+              Long.valueOf((long)powerupInfo.get("y")).intValue(),
+              5, player.getWindow(), (String) powerupInfo.get("type"));
+      pm.add(powerup);
+    }
+
+    //parsing enemy manager info
+    JSONObject emStats = (JSONObject) jsonObject.get("enemyManager");
+    em.setWave(Long.valueOf((long)emStats.get("wave")).intValue());
+    em.setYStart(Long.valueOf((long)emStats.get("yStart")).intValue());
+    System.out.println("Parsing Complete");
+    gameState = GameState.PLAYING;
   }
 
   public void resetPlayerLives() {

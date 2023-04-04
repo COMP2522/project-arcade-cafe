@@ -65,6 +65,10 @@ public class EnemyManager {
     return yStart;
   };
 
+  public void add(Enemy e) {
+    enemies.add(e);
+  }
+
   /**
    Adds a new wave of enemies to the game with the specified number of rows and enemies per row.
    */
@@ -119,8 +123,10 @@ public class EnemyManager {
     numRows += 1;
     yStart -= SIZE + ENEMY_PADDING;
 
-    SaveHandler saveHandler = new SaveHandler();
-    new Thread (() -> saveHandler.saveState()).start();
+//    if(Player.getInstance().getHp() > 0) {
+//      SaveHandler saveHandler = new SaveHandler();
+//      new Thread(() -> saveHandler.saveState()).start();
+//    }
     addEnemy();
   }
 }
@@ -163,6 +169,13 @@ public class EnemyManager {
 
     // Add the initial enemies back
     addEnemy();
+  }
+
+  public void setWave(int n){
+    numRows = n;
+  }
+  public void setYStart(int n){
+    yStart = n;
   }
 
 }

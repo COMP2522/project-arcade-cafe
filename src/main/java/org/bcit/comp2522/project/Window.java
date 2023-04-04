@@ -138,7 +138,6 @@ public class Window extends PApplet {
     menuManager.mousePressed(lm.getState());
   }
   public static void main(String[] args) {
-
     String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
