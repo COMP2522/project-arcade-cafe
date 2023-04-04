@@ -54,17 +54,31 @@ public class StartMenu extends PApplet{
     int HALF_HEIGHT = pApplet.height / 2;
     if (!buttonsInitialized) {
       File file = new File("save.json");
-      if(file.exists()){
-        addButton("Continue", HALF_WIDTH, HALF_HEIGHT + OFFSET0, BUTTON_WIDTH,
+
+      if (file.exists()) {
+
+        int extraOffset = 30;
+
+        addButton("Continue", HALF_WIDTH, HALF_HEIGHT + OFFSET0 + extraOffset, BUTTON_WIDTH,
                 BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::continueGame);
+        addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
+        addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
+        addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::exitGame);
+        buttonsInitialized = true;
+
+      } else if (!file.exists()) {
+
+        addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
+        addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
+        addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::exitGame);
+        buttonsInitialized = true;
       }
-      addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1, BUTTON_WIDTH,
-          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
-      addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2, BUTTON_WIDTH,
-          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
-      addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3, BUTTON_WIDTH,
-          BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::exitGame);
-      buttonsInitialized = true;
     }
 
     pApplet.image(backgroundImage, 0, 0, pApplet.width, pApplet.height); // Use the loaded backgroundImage
