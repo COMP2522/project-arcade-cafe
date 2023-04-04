@@ -83,8 +83,8 @@ public class ScoreboardMenu {
             System.out.println("Empty");
         }
 
-        // Draw the 2nd to 10th highest scores
-        for (int i = 1; i < Math.min(topScores.size(), 10); i++) {
+        // Draw the 1st to 5th highest scores
+        for (int i = 0; i < Math.min(topScores.size(), 5); i++) {
             Document score = topScores.get(i);
             int value = score.getInteger("score");
             pApplet.text(String.format("%d. %d", i + 1, value), pApplet.width / HALF, y);

@@ -42,7 +42,7 @@ public class StartMenu extends PApplet{
     this.pApplet = pApplet;
     this.onStateChange = onStateChange;
     buttons = new ArrayList<>();
-    backgroundImage = pApplet.loadImage("src/bgImg/galagaSpace.png"); // Load the background image
+    backgroundImage = pApplet.loadImage("src/bgImg/gameTitle.png"); // Load the background image
   }
 
   /**
