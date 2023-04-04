@@ -20,7 +20,7 @@ public class Sprite {
 //    this.window = window;
 //  }
 
-  //new construtor without
+  //new constructor without
   public Sprite(int xPos, int yPos, int size, Window window) {
     this.x = xPos;
     this.y = yPos;
