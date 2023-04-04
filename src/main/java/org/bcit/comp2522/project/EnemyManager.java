@@ -50,6 +50,22 @@ public class EnemyManager {
   }
 
   /**
+   * Returns the number of rows in enemy wave.
+   * @return the number of rows in enemy wave
+   */
+  public int getNumRows(){
+    return numRows;
+  };
+
+  /**
+   * Returns the starting y-coordinate position.
+   * @return the starting y-coordinate position
+   */
+  public int getYStart(){
+    return yStart;
+  };
+
+  /**
    Adds a new wave of enemies to the game with the specified number of rows and enemies per row.
    */
   public void addEnemy() {
@@ -89,20 +105,25 @@ public class EnemyManager {
       }
     }
 
-    if (enemiesAtBottom == enemies.size() && enemies.size() != 0) {
-      // if all enemies have reached the bottom and array size is not 0, create a new wave of enemies
-      enemies.clear();
-      // if any enemies in a wave reach the bottom alive, player loses an HP.
-      int decreaseHP = Player.getInstance().getHp() - 1;
-      Player.getInstance().setHp(decreaseHP);
-      addEnemy();
-    } else if (enemies.size() == 0) {
-      // if the entire wave has been defeated, create a new wave with an additional row of enemies
-      numRows += 1;
-      yStart -= SIZE + ENEMY_PADDING;
-      addEnemy();
-    }
+  if (enemiesAtBottom == enemies.size() && enemies.size() != 0) {
+    // all enemies have reached the bottom, create a new wave of enemies
+    enemies.clear();
+    //When any enemies reach the bottom of the screen, player loses an HP.
+    int decreaseHP = Player.getInstance().getHp() - 1;
+    Player.getInstance().setHp(decreaseHP);
+    SaveHandler saveHandler = new SaveHandler();
+    new Thread (() -> saveHandler.saveState()).start();
+    addEnemy();
+  } else if (enemies.size() == 0) {
+    // the wave has been defeated, create a new wave with increased difficulty
+    numRows += 1;
+    yStart -= SIZE + ENEMY_PADDING;
+
+    SaveHandler saveHandler = new SaveHandler();
+    new Thread (() -> saveHandler.saveState()).start();
+    addEnemy();
   }
+}
 
   /**
    Returns an ArrayList of all the enemies currently managed by this EnemyManager.

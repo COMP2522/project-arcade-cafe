@@ -2,6 +2,7 @@ package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+import java.io.FileNotFoundException;
 
 /**
  PauseMenu is a class representing the pause menu for the game.
@@ -49,6 +50,12 @@ public class PauseMenu extends PApplet{
         BUTTON_WIDTH, BUTTON_HEIGHT,
         BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
         () -> {
+          try{
+            LevelManager.getInstance().writeToFile("save.json");
+          }
+          catch (FileNotFoundException o) {
+            throw new RuntimeException(o);
+          }
           System.exit(0);
         });
   }

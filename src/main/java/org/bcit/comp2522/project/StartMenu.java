@@ -64,7 +64,6 @@ public class StartMenu extends PApplet{
 
 
   /**
-
    Handles mouse button press events on the StartMenu.
    Calls corresponding onClickAction methods for each button if clicked.
    */
