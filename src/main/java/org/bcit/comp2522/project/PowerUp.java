@@ -7,8 +7,16 @@ import processing.core.PImage;
  * The PowerUp class represents a power-up object in the game.
  * A power-up can have different types, such as "hp" (health) or "fireRate" (fire rate).
  * The power-up object moves vertically and is drawn with a corresponding image.
+ *
+ * @author Eric Cho, Samuel Chua, Helen Liu, Mina Park, Mylo Yu
+ * @version 2023-04-03
  */
 public class PowerUp extends Sprite {
+
+    /**
+     * Constant for image size for power up.
+     */
+    private static final int POWERUP_IMAGE_SIZE = 30;
 
     /**
      * The type of the power-up. Possible values are "hp" (health) and "fireRate" (fire rate).
@@ -48,9 +56,9 @@ public class PowerUp extends Sprite {
         super(xPos, yPos, size, window);
         this.type = type;
         hpImage = window.loadImage("src/img/hpPowerUp.png");
-        hpImage.resize(30,30);
+        hpImage.resize(POWERUP_IMAGE_SIZE,POWERUP_IMAGE_SIZE);
         fireRateImage = window.loadImage("src/img/frPowerUp.png");
-        fireRateImage.resize(30,30);
+        fireRateImage.resize(POWERUP_IMAGE_SIZE,POWERUP_IMAGE_SIZE);
     }
 
     /**
@@ -82,9 +90,11 @@ public class PowerUp extends Sprite {
         window.pushMatrix();
         window.translate(getX(), getY());
         if (type.equals("hp")) {
-            window.image(hpImage, -30 / 2, -30 / 2, 30, 30);
+            window.image(hpImage,-POWERUP_IMAGE_SIZE / 2, -POWERUP_IMAGE_SIZE / 2,
+                        POWERUP_IMAGE_SIZE, POWERUP_IMAGE_SIZE);
         } else if (type.equals("fireRate")) {
-            window.image(fireRateImage,-30 / 2, -30 / 2, 30, 30);
+            window.image(fireRateImage,-POWERUP_IMAGE_SIZE / 2, -POWERUP_IMAGE_SIZE / 2,
+                        POWERUP_IMAGE_SIZE, POWERUP_IMAGE_SIZE);
         }
         window.popMatrix();
     }

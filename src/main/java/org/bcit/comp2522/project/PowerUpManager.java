@@ -11,8 +11,41 @@ import java.util.Random;
  * of the class in the program. The class is responsible for spawning power-ups
  * at random positions and intervals, updating their positions, and checking for
  * collisions with the player.
+ *
+ * @author Eric Cho, Samuel Chua, Helen Liu, Mina Park, Mylo Yu
+ * @version 2023-04-03
  */
 public class PowerUpManager {
+
+    /**
+     * The size of the PowerUp objects in the game.
+     */
+    private static final int POWER_UP_SIZE = 5;
+
+    /**
+     * The threshold for the number of fire rate increases allowed before the fire rate starts to decrease.
+     */
+    private static final int FIRE_RATE_INCREASE_THRESHOLD = 4;
+
+    /**
+     * The interval (in milliseconds) after which the fire rate starts decreasing if the fire rate increase threshold is reached.
+     */
+    private static final long FIRE_RATE_DECREASE_INTERVAL = 15000;
+
+    /**
+     * The amount by which the fire rate decreases after the fire rate decrease interval has passed.
+     */
+    private static final int FIRE_RATE_DECREASE_AMOUNT = 5;
+
+    /**
+     * The maximum allowed fire rate for the player.
+     */
+    private static final int MAX_FIRE_RATE = 60;
+
+    /**
+     * The minimum allowed fire rate for the player.
+     */
+    private static final int MIN_FIRE_RATE = 1;
 
     /**
      * Singleton instance of the PowerUpManager class.
@@ -105,7 +138,7 @@ public class PowerUpManager {
         Random random = new Random();
         int xPos = random.nextInt(spawnArea) + window.width/2 - spawnArea/2;
         int yPos = 0;
-        int size = 5; //to edit
+        int size = POWER_UP_SIZE; //to edit
         String type = random.nextBoolean() ? "hp" : "fireRate";
         PowerUp newPowerUp = new PowerUp(xPos, yPos, size, window, type);
         powerUps.add(newPowerUp);
@@ -133,10 +166,11 @@ public class PowerUpManager {
         lastPower--;
 
         // Continuously decrease fire rate once after fireRate power up reaches 4 counts
-        if (player.getFireRateIncreases() >= 4 && System.currentTimeMillis() - player.getFireRateDecreaseStartTime() >= 15000) {
-            int decreasedFireRate = Math.min(player.getFireRate() + 5, 60); // Decrease fire rate by the same rate it increased (5 in this case)
+        if (player.getFireRateIncreases() >= FIRE_RATE_INCREASE_THRESHOLD && System.currentTimeMillis() -
+            player.getFireRateDecreaseStartTime() >= FIRE_RATE_DECREASE_INTERVAL ) {
+            int decreasedFireRate = Math.min(player.getFireRate() + FIRE_RATE_DECREASE_AMOUNT, MAX_FIRE_RATE); // Decrease fire rate by the same rate it increased (5 in this case)
             player.setFireRate(decreasedFireRate);
-            player.setFireRateIncreases(player.getFireRateIncreases() - 1);
+            player.setFireRateIncreases(player.getFireRateIncreases() - MIN_FIRE_RATE);
             player.setFireRateDecreaseStartTime(0);
         }
         if (lastPower <= 0) {
@@ -162,13 +196,14 @@ public class PowerUpManager {
                     lives.gainLife();
                 } else if (powerUp.getType().equals("fireRate")) {
 
-                    if (player.getFireRateIncreases() < 4) {
+                    if (player.getFireRateIncreases() < FIRE_RATE_INCREASE_THRESHOLD ) {
 
-                        int increasedFireRate = Math.max(player.getFireRate() - 5, 1);
+                        int increasedFireRate = Math.max(player.getFireRate() - FIRE_RATE_DECREASE_AMOUNT,
+                                                MIN_FIRE_RATE);
                         player.setFireRate(increasedFireRate);
-                        player.setFireRateIncreases(player.getFireRateIncreases() + 1);
+                        player.setFireRateIncreases(player.getFireRateIncreases() + MIN_FIRE_RATE );
                     }
-                    if (player.getFireRateIncreases() == 4) {
+                    if (player.getFireRateIncreases() == FIRE_RATE_INCREASE_THRESHOLD ) {
                         player.setFireRateDecreaseStartTime(System.currentTimeMillis());
                     }
                 }

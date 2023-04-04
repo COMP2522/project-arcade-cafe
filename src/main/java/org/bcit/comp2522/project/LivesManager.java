@@ -10,6 +10,8 @@ import static processing.core.PApplet.dist;
  * Defines a LivesManager that handles the player's lives in the game.
  * Lives are represented by hearts displayed on the screen using the draw() method.
  *
+ *  @author Eric Cho, Samuel Chua, Helen Liu, Mina Park, Mylo Yu
+ *  @version 2023-04-03
  */
 public class LivesManager {
 
@@ -42,6 +44,21 @@ public class LivesManager {
     private static final int MAX_HP = 5;
 
     /**
+     * Heart image size.
+     */
+    private static final int SIZE = 30;
+
+    /**
+     * Padding/space between heart images.
+     */
+    private static final int PADDING = 5;
+
+    /**
+     * Leftmost padding between heart image and window.
+     */
+    private static final int EDGEPADDING = 20;
+
+    /**
      * Constructs a LivesManager object with the specified player, window, and initialHP.
      *
      * @param player The player object.
@@ -51,9 +68,9 @@ public class LivesManager {
     public LivesManager(Player player, Window window, int initialHP) {
         this.player = player;
         this.window = window;
-        this.heartSize = 30;
-        this.heartPadding = 5;
-        this.leftPadding = 20;
+        this.heartSize = SIZE;
+        this.heartPadding = PADDING;
+        this.leftPadding = EDGEPADDING;
         heartImage = window.loadImage("src/img/heartLife.png");
         heartImage.resize(heartSize, heartSize);
         player.setHp(initialHP);
@@ -71,15 +88,6 @@ public class LivesManager {
     }
 
     /**
-     * Decreases the player's lives by 1.
-     */
-    public void loseLife() {
-        if (player.getHp() > 0) {
-            player.setHp(player.getHp() - 1);
-        }
-    }
-
-    /**
      * Increases the player's lives by 1, up to the maximum HP allowed at a given time.
      */
     public void gainLife() {
@@ -87,22 +95,5 @@ public class LivesManager {
             player.setHp(player.getHp() + 1);
         }
     }
-
-    /**
-     * Resets the player's lives to 1.
-     */
-    public void resetLives() {
-        player.setHp(3); // Set the initial HP to 3 or any other value you prefer
-    }
-
-    /**
-     * Returns the number of lives the player currently has.
-     *
-     * @return The number of lives the player has.
-     */
-    public int getLives() {
-        return player.getHp();
-    }
-
 
 }
