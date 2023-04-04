@@ -24,10 +24,9 @@ public class Bullet extends Sprite {
   @Override
   public void draw() {
     bulletImage = window.loadImage("src/img/bullet.png");
-    PApplet pApplet = getPApplet();
-//    pApplet.ellipse(x, y, size, size);
-    pApplet.imageMode(pApplet.CENTER);
-    pApplet.image(bulletImage, x, y );
+    Window window = getWindow();
+    window.imageMode(window.CENTER);
+    window.image(bulletImage, x, y );
   }
 }
 

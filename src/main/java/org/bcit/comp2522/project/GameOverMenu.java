@@ -22,16 +22,10 @@ public class GameOverMenu {
         this.buttonWidth = 150;
         this.buttonHeight = 50;
         this.buttonSpacing = 20;
-        startX = pApplet.width / 2 - buttonWidth / 2;
+        startX = pApplet.width / 2;
         startY = pApplet.height / 2 + 50;
         addButton("Main Menu", startX, startY, buttonWidth, buttonHeight, 20, 0xFFFFFFFF, this::goBackToMainMenu);
     }
-
-//    public void setState() {
-//        if (onStateChange != null) {
-//            onStateChange.accept(3);
-//        }
-//    }
 
     public void draw() {
         pApplet.background(0);

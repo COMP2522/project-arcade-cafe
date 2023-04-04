@@ -24,7 +24,7 @@ public class LevelManager{
     bm = BulletManager.getInstance();
     pm = PowerUpManager.getInstance();
     player = Player.getInstance();
-    lives = new LivesManager(player, player.window, 1); // set initial HP to 1
+    lives = new LivesManager(player, player.window, 3); // set initial HP to 1
     score = 0;
     //TODO: read this from database
     highscore = 0;
@@ -101,6 +101,7 @@ public class LevelManager{
 
       if (player.getHp() == 0) {
         setState(3);
+        resetGame();
 //        Mm.setState(); // Set the state to 3 (game over)
 //        gameOver = true; // Update the gameOver flag to true
       }
@@ -121,11 +122,13 @@ public class LevelManager{
   public void resetGame() {
     resetGameOver();
     resetPlayerLives();
+    sc.resetScore();
+    em.resetEnemy();
     // Add any other necessary resets here
   }
 
   public void resetPlayerLives() {
-    player.setHp(1); // Set the initial HP to 3 or any other value you prefer
+    player.setHp(3); // Set the initial HP to 3 or any other value you prefer
   }
 
   public void checkBulletCollisions(BulletManager bulletManager, EnemyManager enemyManager, PowerUpManager powerUpManager) {

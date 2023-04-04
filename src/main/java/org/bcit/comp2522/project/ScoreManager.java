@@ -30,6 +30,10 @@ public class ScoreManager {
         window.text("Score: " + score, 60, 60);
     }
 
+    public void resetScore() {
+        this.score = 0;
+    }
+
     public int getScore() {
         return score;
     }
