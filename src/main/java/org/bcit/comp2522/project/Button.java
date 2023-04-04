@@ -43,4 +43,8 @@ public class Button {
       onClickAction.run();
     }
   }
+
+  public String getLabel() {
+    return this.label;
+  }
 }
