@@ -12,12 +12,12 @@ import java.io.FileNotFoundException;
 public class PauseMenu extends PApplet{
 
   private final float MENU_OPACITY = 127.5f; // 50% opacity
-  private final float BUTTON_WIDTH = 120;
-  private final float BUTTON_HEIGHT = 60;
-  private final float BUTTON_MARGIN = 20;
-  private final int BUTTON_FONT_SIZE = 24;
+  private final float BUTTON_WIDTH = 150;
+  private final float BUTTON_HEIGHT = 50;
+  private final float BUTTON_MARGIN = 75;
+  private final int BUTTON_FONT_SIZE = 20;
   private final int BUTTON_FONT_COLOUR = 255;
-  private final float DIVISION = 2.0f;
+  private final int DIVISION = 2;
   private PApplet pApplet;
   private Button resumeButton;
   private Button quitButton;
@@ -30,12 +30,12 @@ public class PauseMenu extends PApplet{
   public PauseMenu(PApplet pApplet) {
     this.pApplet = pApplet;
 
-    float centerX = pApplet.width / DIVISION;
-    float centerY = pApplet.height / DIVISION;
+    int centerX = pApplet.width / DIVISION;
+    int centerY = pApplet.height / DIVISION;
 
     // Create the resume button centered horizontally, and positioned just below the vertical center of the screen.
-    float resumeButtonX = centerX - (BUTTON_WIDTH / DIVISION);
-    float resumeButtonY = centerY + (BUTTON_MARGIN / DIVISION);
+    float resumeButtonX = centerX;
+    float resumeButtonY = centerY;
     resumeButton = new Button("Resume", resumeButtonX, resumeButtonY,
         BUTTON_WIDTH, BUTTON_HEIGHT,
         BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
@@ -44,8 +44,8 @@ public class PauseMenu extends PApplet{
         });
 
     // Create the quit button centered horizontally, and positioned just above the vertical center of the screen.
-    float quitButtonX = centerX - (BUTTON_WIDTH / DIVISION);
-    float quitButtonY = centerY - (BUTTON_HEIGHT / DIVISION) - (BUTTON_MARGIN / DIVISION);
+    float quitButtonX = centerX;
+    float quitButtonY = centerY + BUTTON_MARGIN;
     quitButton = new Button("Quit", quitButtonX, quitButtonY,
         BUTTON_WIDTH, BUTTON_HEIGHT,
         BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
