@@ -21,7 +21,7 @@ public class GameOverMenu {
     private final int FONT_SIZE = 20;
     private final int SHIFT_DOWN = 50;
     private final Consumer<GameState> onStateChange;
-    private ScoreManager scoreManager;
+//    private ScoreManager scoreManager;
 
     /**
      * Constructs a GameOverMenu object.
@@ -58,9 +58,9 @@ public class GameOverMenu {
         pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2 - 50);
 
         // Retrieve the actual score value from the ScoreManager instance
-        int score = scoreManager.getScore();
-        System.out.println(score);
-        pApplet.text("Score: " + score, pApplet.width/2, pApplet.height/2);
+//        int score = scoreManager.getScore();
+//        System.out.println(score);
+        pApplet.text("Score: " + 0, pApplet.width/2, pApplet.height/2);
 
         for (Button button : buttons) {
             button.draw(pApplet);
