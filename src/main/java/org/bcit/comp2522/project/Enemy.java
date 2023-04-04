@@ -2,8 +2,6 @@ package org.bcit.comp2522.project;
 
 import processing.core.PImage;
 
-import java.awt.*;
-
 public class Enemy extends Sprite {
   private int health;
   private final int shift = 1;

@@ -1,13 +1,26 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
+import processing.core.PImage;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class StartMenu extends PApplet{
 
   private PApplet pApplet;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
+  private Consumer<Integer> onStateChange;
+
+  private Button goBackButton;
+
+  PImage backgroundImage;
+
+  DatabaseHandler db;
+
 
   // MENU SETUP //
   public StartMenu(PApplet pApplet) {
@@ -17,13 +30,15 @@ public class StartMenu extends PApplet{
 
   public void draw() {
     if (!buttonsInitialized) {
-      addButton("Start", pApplet.width / 2, pApplet.height / 2 - 50, 100, 50, 20, 0xFFFFFFFF, this::startGame);
-      addButton("Scoreboard", pApplet.width / 2, pApplet.height / 2 + 50, 100, 50, 20, 0xFFFFFFFF, this::openScoreboard);
-      addButton("Exit", pApplet.width / 2, pApplet.height / 2 + 150, 100, 50, 20, 0xFFFFFFFF, this::exitGame);
+      addButton("Start", pApplet.width / 2, pApplet.height / 2 + 25, 150, 50, 20, 0xFFFFFFFF, this::startGame);
+      addButton("Scoreboard", pApplet.width / 2, pApplet.height / 2 + 100, 150, 50, 20, 0xFFFFFFFF, this::openScoreboard);
+      addButton("Exit", pApplet.width / 2, pApplet.height / 2 + 175, 150, 50, 20, 0xFFFFFFFF, this::exitGame);
       buttonsInitialized = true;
     }
 
-    pApplet.background(0);
+    PImage background = pApplet.loadImage("src/bgImg/galagaSpace.png");
+    pApplet.image(background, 0, 0, pApplet.width, pApplet.height);
+
     for (Button button : buttons) {
       button.draw(pApplet);
     }

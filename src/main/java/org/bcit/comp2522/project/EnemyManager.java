@@ -48,27 +48,26 @@ public class EnemyManager {
     }
   }
 
-  public void update() {
-    boolean reachedBottom = false;
-    if (enemies.size() == 0) {
-      numWaves += 1;
-      yStart -= size + enemyPad;
-      addEnemy();
-    }
-    for (Enemy enemy : enemies) {
-      enemy.update();
-      if (enemy.getY() + enemy.getSize() > height) {
-        reachedBottom = true;
-      }
-    }
-
-    if (reachedBottom) {
-      // create a new wave of enemies
-      enemies.clear();
-      System.out.println("ystart = " + yStart);
-      addEnemy();
+public void update() {
+  int enemiesAtBottom = 0;
+  for (Enemy enemy : enemies) {
+    enemy.update();
+    if (enemy.getY() + enemy.getSize() > height) {
+      enemiesAtBottom++;
     }
   }
+
+  if (enemiesAtBottom == enemies.size() && enemies.size() != 0) {
+    // all enemies have reached the bottom, create a new wave of enemies
+    enemies.clear();
+    addEnemy();
+  } else if (enemies.size() == 0) {
+    // the wave has been defeated, create a new wave with increased difficulty
+    numWaves += 1;
+    yStart -= size + enemyPad;
+    addEnemy();
+  }
+}
 
   public ArrayList<Enemy> getEnemies() {
     return enemies;
