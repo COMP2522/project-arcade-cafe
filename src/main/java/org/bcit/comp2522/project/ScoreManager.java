@@ -7,6 +7,7 @@ public class ScoreManager {
     private int score;
     private PApplet window;
 
+
     private ScoreManager(PApplet window) {
         this.score = 0;
         this.window = window;
@@ -27,6 +28,10 @@ public class ScoreManager {
         window.textSize(32);
         window.fill(255);
         window.text("Score: " + score, 60, 60);
+    }
+
+    public void resetScore() {
+        this.score = 0;
     }
 
     public int getScore() {

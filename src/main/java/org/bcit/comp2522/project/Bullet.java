@@ -10,8 +10,8 @@ public class Bullet extends Sprite {
   private PImage bulletImage;
 
 
-  public Bullet(int xPos, int yPos, int size, Color color, Window window, int dy) {
-    super(xPos, yPos, size, color, window);
+  public Bullet(int xPos, int yPos, int size, Window window, int dy) {
+    super(xPos, yPos, size, window);
     this.dy = dy;
     bulletImage = window.loadImage("src/img/bullet.png");
   }
@@ -24,11 +24,9 @@ public class Bullet extends Sprite {
   @Override
   public void draw() {
     bulletImage = window.loadImage("src/img/bullet.png");
-    PApplet pApplet = getPApplet();
-//    pApplet.fill(color.getRGB());
-//    pApplet.ellipse(x, y, size, size);
-    pApplet.imageMode(pApplet.CENTER);
-    pApplet.image(bulletImage, x, y );
+    Window window = getWindow();
+    window.imageMode(window.CENTER);
+    window.image(bulletImage, x, y );
   }
 }
 

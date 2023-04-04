@@ -1,6 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class EnemyManager {
@@ -36,7 +35,7 @@ public class EnemyManager {
       int y = yStart + (size) * j;
       for (int i = 0; i < numEnemies; i++) {
         int x = xStart + (size + enemyPad) * i;
-        Enemy enemy = new Enemy(x, y, size, new Color(255, 0, 255), window, health);
+        Enemy enemy = new Enemy(x, y, size, window, health);
         this.enemies.add(enemy);
       }
     }
@@ -48,27 +47,30 @@ public class EnemyManager {
     }
   }
 
-  public void update() {
-    boolean reachedBottom = false;
-    if (enemies.size() == 0) {
-      numWaves += 1;
-      yStart -= size + enemyPad;
-      addEnemy();
-    }
-    for (Enemy enemy : enemies) {
-      enemy.update();
-      if (enemy.getY() + enemy.getSize() > height) {
-        reachedBottom = true;
-      }
-    }
-
-    if (reachedBottom) {
-      // create a new wave of enemies
-      enemies.clear();
-      System.out.println("ystart = " + yStart);
-      addEnemy();
+public void update() {
+  int enemiesAtBottom = 0;
+  for (Enemy enemy : enemies) {
+    enemy.update();
+    if (enemy.getY() + enemy.getSize() > height) {
+      enemiesAtBottom++;
     }
   }
+
+  if (enemiesAtBottom == enemies.size() && enemies.size() != 0) {
+    // all enemies have reached the bottom, create a new wave of enemies
+    enemies.clear();
+    //When any enemies reach the bottom of the screen, player loses an HP.
+    int decreaseHP = Player.getInstance().getHp() - 1;
+    Player.getInstance().setHp(decreaseHP);
+
+    addEnemy();
+  } else if (enemies.size() == 0) {
+    // the wave has been defeated, create a new wave with increased difficulty
+    numWaves += 1;
+    yStart -= size + enemyPad;
+    addEnemy();
+  }
+}
 
   public ArrayList<Enemy> getEnemies() {
     return enemies;
@@ -82,4 +84,19 @@ public class EnemyManager {
       }
     }
   }
+
+  public void resetEnemy() {
+    // Reset the enemies list
+    enemies.clear();
+
+    // Reset the number of waves
+    numWaves = 1;
+
+    // Reset the starting y-coordinate
+    yStart = 20;
+
+    // Add the initial enemies back
+    addEnemy();
+  }
+
 }
