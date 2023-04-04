@@ -38,7 +38,6 @@ public class Window extends PApplet {
     PowerUpManager.getInstance(500, width*4/5, this);
     Player.getInstance(500, 490, 20, this, 5, 20);
     lm = LevelManager.getInstance();
-    pauseMenu = new PauseMenu(this);
 
     sprites = new ArrayList<Sprite>();
     sprites.add(Player.getInstance());
