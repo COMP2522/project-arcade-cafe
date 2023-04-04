@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class SaveHandler {
   public void saveState() {
     try {
-      LevelManager.getInstance().writeToFile("src/data/save.json");
+      LevelManager.getInstance().writeToFile("save.json");
     } catch (FileNotFoundException e){
       throw new RuntimeException(e);
     }

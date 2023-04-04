@@ -63,10 +63,10 @@ public class LevelManager{
   public void pause(){
     if(paused){
       paused = false;
-      state = 1;
+      gameState = GameState.PLAYING;
     } else{
       paused = true;
-      state = 4;
+      gameState = GameState.PAUSED;
     }
   }
   private boolean gameOver = false;
@@ -79,7 +79,7 @@ public class LevelManager{
   }
 
   public void draw() {
-    if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD || gameState == GameState.PAUSED) {
+    if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD) {
       Mm.draw(gameState);
     } else {
       em.draw();
@@ -88,6 +88,9 @@ public class LevelManager{
       player.draw();
       lives.draw();
       sc.draw();
+      if(gameState == GameState.PAUSED){
+        Mm.draw(GameState.PAUSED);
+      }
     }
   }
 //  public void draw() {

@@ -47,7 +47,7 @@ public class PauseMenu extends PApplet{
         BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
         () -> {
           try{
-            LevelManager.getInstance().writeToFile("src/data/save.json");
+            LevelManager.getInstance().writeToFile("save.json");
           }
           catch (FileNotFoundException o) {
             throw new RuntimeException(o);
