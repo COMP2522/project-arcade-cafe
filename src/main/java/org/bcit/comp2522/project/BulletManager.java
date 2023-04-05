@@ -1,6 +1,5 @@
 package org.bcit.comp2522.project;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,9 +30,13 @@ public class BulletManager {
 
   public void shootBullet(int xPos, int yPos, int dy) {
     synchronized (lock) {
-      Bullet bullet = new Bullet(xPos, yPos - 40, 20, new Color(255, 255, 0), window, dy);
+      Bullet bullet = new Bullet(xPos, yPos - 40, 20, window, dy);
       bullets.add(bullet);
     }
+  }
+
+  public void add(Bullet b) {
+    bullets.add(b);
   }
 
   public void update() {

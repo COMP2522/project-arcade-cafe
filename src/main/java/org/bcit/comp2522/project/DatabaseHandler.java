@@ -10,40 +10,36 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import java.time.LocalDateTime;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import static com.mongodb.client.model.Filters.eq;
-
 public class DatabaseHandler {
   MongoDatabase database;
   String myCollection;
   public DatabaseHandler(String username, String password) {
     ConnectionString connectionString = new ConnectionString(
-            String.format("mongodb+srv://%s:%s@cluster0.t1r3fam.mongodb.net/?retryWrites=true&w=majority", username, password));
+        String.format("mongodb+srv://%s:%s@cluster0.t1r3fam.mongodb.net/?retryWrites=true&w=majority", username, password));
     MongoClientSettings settings = MongoClientSettings.builder()
-            .applyConnectionString(connectionString)
-            .serverApi(ServerApi.builder()
-                    .version(ServerApiVersion.V1)
-                    .build())
-            .build();
+        .applyConnectionString(connectionString)
+        .serverApi(ServerApi.builder()
+            .version(ServerApiVersion.V1)
+            .build())
+        .build();
     MongoClient mongoClient = MongoClients.create(settings);
-    this.database = mongoClient.getDatabase("test");
-    this.myCollection = "new";
-//    try {
-//      this.database.createCollection((this.myCollection));
-//    } catch (Exception e) {
-//      System.out.println("Collection alreday exists");
-//    }
+    this.database = mongoClient.getDatabase("Arcade_cafe");
+    this.myCollection = "score";
   }
 
   public void put(String key, int value) {
     Document document = new Document();
     document.append(key, value);
-    new Thread(() -> database.getCollection(myCollection).insertOne(document)).start();
+    document.append("date", LocalDateTime.now().toString());
+    database.getCollection(myCollection).insertOne(document);
+    System.out.println("Successfully stored in DB!");
   }
 
   public static class Config {
@@ -74,10 +70,10 @@ public class DatabaseHandler {
 
     // Find the top 10 scores by sorting the collection by score in descending order
     database.getCollection(myCollection)
-            .find()
-            .sort(new Document("score", -1).append("_id", 1))
-            .limit(10)
-            .forEach((Consumer<Document>) topScores::add);
+        .find()
+        .sort(new Document("score", -1).append("_id", 1))
+        .limit(10)
+        .forEach((Consumer<Document>) topScores::add);
 
     return topScores;
   }
@@ -95,11 +91,5 @@ public class DatabaseHandler {
     DatabaseHandler db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
     db.put("score", 11);
     db.put("score", 113);
-//    Document find = db.database
-//            .getCollection("new")
-//            .find(eq("Hello", "world"))
-//            .first();
-
-//    System.out.println(find);
   }
 }

@@ -1,149 +1,161 @@
 package org.bcit.comp2522.project;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bson.Document;
 import processing.core.PApplet;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.function.Consumer;
 import processing.core.PImage;
 
-import javax.xml.crypto.Data;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
+/**
+ A StartMenu class for displaying the game's starting menu.
+ Extends PApplet to use Processing's graphical capabilities.
+ */
 public class StartMenu extends PApplet{
-
   private PApplet pApplet;
+  private final int BUTTON_WIDTH = 150;
+  private final int BUTTON_HEIGHT = 50;
+  private final int FONT_SIZE = 20;
+
+  private final int OFFSET0 = -50;
+  private final int OFFSET1 = 25;
+  private final int OFFSET2 = 100;
+  private final int OFFSET3 = 175;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
-  private Consumer<Integer> onStateChange;
+  private Consumer<GameState> onStateChange;
 
   private Button goBackButton;
+
+  private GameState gameState;
+  PImage backgroundImage;
 
   DatabaseHandler db;
 
 
-  // MENU SETUP //
-
-  public StartMenu(PApplet pApplet, Consumer<Integer> onStateChange) {
+  /**
+   Constructor for the StartMenu class.
+   @param pApplet         The PApplet instance to use Processing's graphical capabilities.
+   @param onStateChange   A Consumer to change the game state when buttons are clicked.
+   */
+  public StartMenu(PApplet pApplet,Consumer<GameState> onStateChange) {
     this.pApplet = pApplet;
-    buttons = new ArrayList<>();
     this.onStateChange = onStateChange;
-    ObjectMapper mapper = new ObjectMapper();
-    DatabaseHandler.Config config;
-    try {
-      config = mapper.readValue(new File("src/main/java/org/bcit/comp2522/project/config.json"), DatabaseHandler.Config.class);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    // Use the values from the Config object to create the DatabaseHandler
-    db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
+    buttons = new ArrayList<>();
+    backgroundImage = pApplet.loadImage("src/bgImg/gameTitle.png"); // Load the background image
   }
 
+  /**
+   Draw the StartMenu to the screen.
+   Initializes the buttons and loads the background image.
+   */
   public void draw() {
+    int HALF_WIDTH = pApplet.width / 2;
+    int HALF_HEIGHT = pApplet.height / 2;
     if (!buttonsInitialized) {
-      addButton("Start", pApplet.width / 2, pApplet.height / 2 - 50, 100, 50, 20, 0xFFFFFFFF, this::startGame);
-      addButton("Scoreboard", pApplet.width / 2, pApplet.height / 2 + 50, 100, 50, 20, 0xFFFFFFFF, this::openScoreboard);
-      addButton("Exit", pApplet.width / 2, pApplet.height / 2 + 150, 100, 50, 20, 0xFFFFFFFF, this::exitGame);
-      buttonsInitialized = true;
+      File file = new File("save.json");
+
+      if (file.exists()) {
+
+        int extraOffset = 30;
+
+        addButton("Continue", HALF_WIDTH, HALF_HEIGHT + OFFSET0 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::continueGame);
+        addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
+        addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
+        addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3 + extraOffset, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::exitGame);
+        buttonsInitialized = true;
+
+      } else if (!file.exists()) {
+
+        addButton("New Game", HALF_WIDTH, HALF_HEIGHT + OFFSET1, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::startNewGame);
+        addButton("Scoreboard", HALF_WIDTH, HALF_HEIGHT + OFFSET2, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::openScoreboard);
+        addButton("Exit", HALF_WIDTH, HALF_HEIGHT + OFFSET3, BUTTON_WIDTH,
+                BUTTON_HEIGHT, FONT_SIZE, 0xFFFFFFFF, this::exitGame);
+        buttonsInitialized = true;
+      }
     }
 
-    pApplet.background(0);
+    pApplet.image(backgroundImage, 0, 0, pApplet.width, pApplet.height); // Use the loaded backgroundImage
+
     for (Button button : buttons) {
       button.draw(pApplet);
     }
   }
 
-  // BUTTON INTERACTION FUNCTIONS //
+
+  /**
+   Handles mouse button press events on the StartMenu.
+   Calls corresponding onClickAction methods for each button if clicked.
+   */
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
+        String buttonLabel = button.getLabel();
+        if (buttonLabel.equals("Start")) {
+          onStateChange.accept(GameState.PLAYING); // Update the gameState to PLAYING
+        } else if (buttonLabel.equals("Scoreboard")) {
+          onStateChange.accept(GameState.SCORE_BOARD);
+        } else if (buttonLabel.equals("Exit")) {
+          System.exit(0);
+        }
         button.onClick();
+        System.out.println("start menu button clicked");
       }
     }
   }
 
+  /**
+   Adds a new button to the Start Menu with the given label, position, size, font size, font color, and on-click action.
+   @param label           the text displayed on the button
+   @param x               the x-coordinate of the center of the button
+   @param y               the y-coordinate of the center of the button
+   @param buttonWidth     the width of the button in pixels
+   @param buttonHeight    the height of the button in pixels
+   @param fontSize        the size of the font used for the button label
+   @param fontColour      the color of the font used for the button label in hexadecimal notation
+   @param onClickAction   the action to perform when the button is clicked
+   */
   private void addButton(String label, float x, float y, float buttonWidth, float buttonHeight, int fontSize, int fontColour, Runnable onClickAction) {
     buttons.add(new Button(label, x, y, buttonWidth, buttonHeight, fontSize, fontColour, onClickAction));
   }
 
-  public void startGame() {
-    //TODO: Implement this method to start the game
-    if (onStateChange != null) {
-      onStateChange.accept(1); // Set the state to 1
+  /**
+   Changes the game state to PLAYING and parses save file when the Continue button is clicked.
+   */
+  public void continueGame() {
+    SaveHandler saveHandler = new SaveHandler();
+    saveHandler.parseSave();
+  }
+  /**
+   Changes the game state to PLAYING and clears save files when the New Game button is clicked.
+   */
+  public void startNewGame() {
+    File file = new File("save.json");
+    if(file.exists()){
+      file.delete();
     }
+    EnemyManager.getInstance().addEnemy();
+    onStateChange.accept(GameState.PLAYING);
   }
 
+  /**
+   Changes the game state to SCORE_BOARD when the Scoreboard button is clicked.
+   */
   public void openScoreboard() {
-    if (onStateChange != null) {
-      onStateChange.accept(2); // Set the state to 2 for the Scoreboard
-    }
+    onStateChange.accept(GameState.SCORE_BOARD);
   }
 
+  /**
+   Exits the game when the Exit button is clicked.
+   */
   public void exitGame() {
     pApplet.exit();
-  }
-
-  public void drawScoreboard() {
-    ArrayList<Document> topScores = db.getTopScores();
-
-    // Clear the screen
-    pApplet.background(0);
-
-    // Draw the title
-    pApplet.textSize(64);
-    pApplet.fill(255);
-    pApplet.textAlign(PApplet.CENTER);
-    pApplet.text("High Scores", pApplet.width / 2, pApplet.height / 8);
-
-    // Draw the highest score
-    pApplet.textSize(32);
-    pApplet.fill(255);
-    pApplet.textAlign(PApplet.CENTER);
-    int y = pApplet.height / 4;
-    if (!topScores.isEmpty()) {
-//      pApplet.text("High Scores", pApplet.width , pApplet.height);
-      Document highestScore = topScores.get(0);
-      int value = highestScore.getInteger("score");
-      pApplet.text(String.format("Highest Score: %d", value), pApplet.width / 2, y);
-      y += 50;
-    } else {
-      System.out.println("empty");
-    }
-
-    // Draw the 2nd to 10th highest scores
-    for (int i = 1; i < Math.min(topScores.size(), 10); i++) {
-      Document score = topScores.get(i);
-      int value = score.getInteger("score");
-      pApplet.text(String.format("%d. %d", i + 1, value), pApplet.width / 2, y);
-      y += 50;
-    }
-
-    // Draw the go back button
-    if (goBackButton == null) {
-      goBackButton = new Button("Go Back", pApplet.width / 2, pApplet.height - 50, 100, 50, 20, 0xFFFFFFFF, this::goBackToMainMenu);
-    }
-    goBackButton.draw(pApplet);
-  }
-
-
-
-
-
-
-
-
-  public void goBackToMainMenu() {
-    if (onStateChange != null) {
-      onStateChange.accept(0); // Set the state to 0 (main menu)
-    }
-  }
-
-  public void mousePressedScoreboard() {
-    if (goBackButton != null && goBackButton.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
-      goBackButton.onClick();
-    }
   }
 }
 
