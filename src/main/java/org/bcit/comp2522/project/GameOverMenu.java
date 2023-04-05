@@ -1,9 +1,24 @@
 package org.bcit.comp2522.project;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.model.Sorts;
+import org.bson.Document;
+import org.json.simple.parser.ParseException;
 import processing.core.PApplet;
+
+import java.awt.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
+
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Indexes.descending;
 
 /**
  The GameOverMenu class provides a graphical user interface for displaying the game over screen and
@@ -12,6 +27,7 @@ import java.util.function.Consumer;
 public class GameOverMenu {
 
     private PApplet pApplet;
+    private Window window;
     private ArrayList<Button> buttons;
     private final int BUTTON_WIDTH;
     private final int BUTTON_HEIGHT;
@@ -21,7 +37,12 @@ public class GameOverMenu {
     private final int FONT_SIZE = 20;
     private final int SHIFT_DOWN = 50;
     private final Consumer<GameState> onStateChange;
+    private MenuManager menuManager;
+    private LevelManager levelManager;
     private ScoreManager scoreManager;
+
+    private DatabaseHandler db;
+//    private int score;
 
     /**
      * Constructs a GameOverMenu object.
@@ -37,10 +58,23 @@ public class GameOverMenu {
         this.BUTTON_WIDTH = 150;
         this.BUTTON_HEIGHT = 50;
         this.BUTTON_SPACING = 20;
+//        this.levelManager = LevelManager.getInstance();
+        this.scoreManager = ScoreManager.getInstance(pApplet);
+//        this.menuManager = menuManager.getInstance(pApplet, onStateChange);
         STARTX = halfWidth;
         STARTY = halfHeight + SHIFT_DOWN;
         addButton("Main Menu", STARTX, STARTY, BUTTON_WIDTH, BUTTON_HEIGHT,
                     FONT_SIZE, 0xFFFFFFFF, this::goBackToMainMenu);
+
+        ObjectMapper mapper = new ObjectMapper();
+        DatabaseHandler.Config config;
+        try {
+            config = mapper.readValue(new File("src/main/java/org/bcit/comp2522/project/config.json"), DatabaseHandler.Config.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // Use the values from the Config object to create the DatabaseHandler
+        db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
     }
 
 
@@ -57,10 +91,13 @@ public class GameOverMenu {
 
         pApplet.text("GAME OVER", pApplet.width / 2, pApplet.height / 2 - 50);
 
-        // Retrieve the actual score value from the ScoreManager instance
-//        int score = scoreManager.getScore();
-//        System.out.println(score);
-        pApplet.text("Score: " + 0, pApplet.width/2, pApplet.height/2);
+        Document mostRecentScore = db.database.getCollection("score")
+                .find()
+                .sort(Sorts.descending("date"))
+                .first();
+        int score = mostRecentScore.getInteger("score");
+
+        pApplet.text("Score: " + score, pApplet.width/2, pApplet.height/2);
 
         for (Button button : buttons) {
             button.draw(pApplet);

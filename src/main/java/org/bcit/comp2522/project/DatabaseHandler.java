@@ -10,6 +10,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import java.time.LocalDateTime;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,19 +30,16 @@ public class DatabaseHandler {
             .build())
         .build();
     MongoClient mongoClient = MongoClients.create(settings);
-    this.database = mongoClient.getDatabase("test");
-    this.myCollection = "new";
-//    try {
-//      this.database.createCollection((this.myCollection));
-//    } catch (Exception e) {
-//      System.out.println("Collection alreday exists");
-//    }
+    this.database = mongoClient.getDatabase("Arcade_cafe");
+    this.myCollection = "score";
   }
 
   public void put(String key, int value) {
     Document document = new Document();
     document.append(key, value);
-    new Thread(() -> database.getCollection(myCollection).insertOne(document)).start();
+    document.append("date", LocalDateTime.now().toString());
+    database.getCollection(myCollection).insertOne(document);
+    System.out.println("Successfully stored in DB!");
   }
 
   public static class Config {
@@ -93,11 +91,5 @@ public class DatabaseHandler {
     DatabaseHandler db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
     db.put("score", 11);
     db.put("score", 113);
-//    Document find = db.database
-//            .getCollection("new")
-//            .find(eq("Hello", "world"))
-//            .first();
-
-//    System.out.println(find);
   }
 }
