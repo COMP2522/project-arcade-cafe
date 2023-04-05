@@ -1,8 +1,11 @@
 package org.bcit.comp2522.project;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Window extends PApplet {
@@ -11,7 +14,7 @@ public class Window extends PApplet {
   private LevelManager lm;
 
   private GameState gameState;
-  private int state = 0;
+  private int finalScore;
   private int bgY;
 
   PImage backgroundImage;
@@ -23,24 +26,25 @@ public class Window extends PApplet {
 
     public void settings() {
       size(960, 540);
+
     }
     public void setState(GameState gameState) {
 //      this.state = newState;
       lm.setState(gameState); // Set the state in the LevelManager instance as well
     }
     public void setup() {
-    menuManager = new MenuManager(this, this::setState);
+      menuManager = MenuManager.getInstance(this, this::setState);
+
     backgroundImage = loadImage("src/bgImg/galagaSpace.png");
     backgroundImage.resize(2000, 1200);
 
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
-    PowerUpManager.getInstance(500, width*4/5, this);
     Player.getInstance(500, 490, 20, this, 5, 20);
-    lm = LevelManager.getInstance();
+    ScoreManager.getInstance(this);
+    PowerUpManager.getInstance(500, width*4/5, this);
 
-    sprites = new ArrayList<Sprite>();
-    sprites.add(Player.getInstance());
+    lm = LevelManager.getInstance();
   }
 
   public void scrollingBg() {
@@ -57,16 +61,6 @@ public class Window extends PApplet {
       }
     }
   }
-
-//  public void scrollingBg() {
-//    image(backgroundImage, 0, bgY);
-//    image(backgroundImage, 0, bgY - backgroundImage.height);
-//    backgroundImage.resize(2000,1200);
-//    bgY += 2;
-//    if (bgY >= backgroundImage.height) {
-//      bgY -= backgroundImage.height;
-//    }
-//  }
 
   public void draw() {
     GameState currentState = lm.getState(); // Get the current state from LevelManager
@@ -87,17 +81,6 @@ public class Window extends PApplet {
 
     menuManager.draw(currentState); // Draw the menu based on the current state
   }
-
-//  public void draw() {
-//    image(backgroundImage, 0, 0);
-//    scrollingBg();
-//    GameState currentState = lm.getState(); // Get the current state from LevelManager
-//    if (currentState == GameState.MAIN_MENU) { // Only update and draw the game elements if state is 1
-//      update();
-//      lm.draw();
-//    }
-//    menuManager.draw(currentState); // Draw the menu based on the current state
-//  }
 
   @Override
   public void keyPressed() {
@@ -130,16 +113,26 @@ public class Window extends PApplet {
   }
 
   public void update() {
+
     lm.update();
-//    System.out.println(state);
+    if (lm.isGameOver()) { // Check if the game is over
+      finalScore = ScoreManager.getInstance(this).getScore(); // Store the score in the finalScore variable
+      lm.setState(GameState.GAME_OVER); // Change the game state to GAME_OVER
+      System.out.println(finalScore);
+    }
   }
+
+
   @Override
   public void mousePressed() {
     menuManager.mousePressed(lm.getState());
   }
+
   public static void main(String[] args) {
+
     String[] processingArgs = {"Window"};
     Window window = new Window();
     PApplet.runSketch(processingArgs, window);
+
   }
 }

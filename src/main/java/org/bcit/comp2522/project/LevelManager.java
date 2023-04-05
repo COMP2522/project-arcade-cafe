@@ -1,5 +1,6 @@
 package org.bcit.comp2522.project;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,7 +22,8 @@ public class LevelManager{
   private LivesManager lives;
   private ScoreManager sc;
   private MenuManager Mm;
-  private int state = 0;
+  private DatabaseHandler db;
+  private int highscore = 0;
 
   private GameState gameState;
 
@@ -34,6 +36,17 @@ public class LevelManager{
     lives = new LivesManager(player, player.window, 3); // set initial HP to 1
     sc = ScoreManager.getInstance(player.window);
     Mm = new MenuManager(player.window, this::setState);
+
+    ObjectMapper mapper = new ObjectMapper();
+    DatabaseHandler.Config config;
+    try {
+      config = mapper.readValue(new File("src/main/java/org/bcit/comp2522/project/config.json"), DatabaseHandler.Config.class);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    // Use the values from the Config object to create the DatabaseHandler
+    db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
   }
 
   public void setState(GameState newState) {
@@ -88,17 +101,6 @@ public class LevelManager{
       }
     }
   }
-//  public void draw() {
-//    em.draw();
-//    bm.draw();
-//    pm.draw();
-//    player.draw();
-//    lives.draw();
-//    sc.draw();
-//    if (isGameOver()) {
-//      Mm.draw(getState());
-//    }
-//  }
 
   public void update(){
     if(!paused) {
@@ -110,10 +112,13 @@ public class LevelManager{
       pm.checkCollisions(player,lives);
 
       if (player.getHp() == 0) {
+        highscore = ScoreManager.getInstance(player.window).getScore();
+        System.out.println(highscore);
         File file = new File("save.json");
         if(file.exists()){
           file.delete();
         }
+        db.put("score", getHighscore());
         setState(GameState.GAME_OVER);
         resetGame();
 //        Mm.setState(); // Set the state to 3 (game over)
@@ -131,6 +136,9 @@ public class LevelManager{
         }
       }
     }
+  }
+  public int getHighscore() {
+    return this.highscore;
   }
 
   public void resetGame() {
@@ -264,6 +272,15 @@ public class LevelManager{
     System.out.println("Parsing Complete");
     gameState = GameState.PLAYING;
   }
+  public int readScoreFromFile(String file) throws IOException, ParseException {
+    JSONParser parser = new JSONParser();
+    Object obj = parser.parse(new FileReader(file)); //the location of the file
+    JSONObject jsonObject = (JSONObject) obj;
+    // Get the score value from the JSON object
+    long scoreValue = (long) jsonObject.get("score");
+
+    return (int) scoreValue;
+  }
 
   public void resetPlayerLives() {
     player.setHp(3); // Set the initial HP to 3 or any other value you prefer
@@ -286,6 +303,7 @@ public class LevelManager{
           enemyIterator.remove(); // remove the enemy if it collided with a bullet
           bulletIterator.remove(); // remove the bullet if it collided with an enemy
           sc.increaseScore(1); // increase the score by 1
+          highscore ++;
           break;
         }
       }

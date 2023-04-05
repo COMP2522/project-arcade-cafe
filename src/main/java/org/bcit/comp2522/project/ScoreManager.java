@@ -35,6 +35,6 @@ public class ScoreManager {
     }
 
     public int getScore() {
-        return score;
+        return this.score;
     }
 }

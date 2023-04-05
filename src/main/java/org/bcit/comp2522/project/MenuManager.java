@@ -11,8 +11,10 @@ public class MenuManager {
     private PauseMenu pauseMenu;
 
     private GameState gameState;
-
+    private static MenuManager singleton;
     private ScoreboardMenu scoreboardMenu;
+    private LevelManager levelManager;
+    private int score;
 
     public MenuManager(PApplet pApplet, Consumer<GameState> onStateChange) {
         this.pApplet = pApplet;
@@ -21,6 +23,12 @@ public class MenuManager {
         this.gameOverMenu = new GameOverMenu(pApplet, onStateChange);
         this.pauseMenu = new PauseMenu(pApplet);
         this.scoreboardMenu = new ScoreboardMenu(pApplet);
+    }
+    public static MenuManager getInstance(PApplet pApplet, Consumer<GameState> onStateChange) {
+        if (singleton == null) {
+            singleton = new MenuManager(pApplet, onStateChange);
+        }
+        return singleton;
     }
 
     public void draw(GameState gameState) {
