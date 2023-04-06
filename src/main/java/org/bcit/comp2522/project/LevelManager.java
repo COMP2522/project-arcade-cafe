@@ -46,7 +46,7 @@ public class LevelManager{
     }
 
     // Use the values from the Config object to create the DatabaseHandler
-    db = new DatabaseHandler(config.getDB_USERNAME(), config.getDB_PASSWORD());
+    db = new DatabaseHandler(config.getDbUsername(), config.getDbPassword());
   }
 
   public void setState(GameState newState) {
