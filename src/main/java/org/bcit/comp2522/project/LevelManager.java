@@ -1,18 +1,30 @@
 package org.bcit.comp2522.project;
 
+import static processing.core.PApplet.dist;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import static processing.core.PApplet.dist;
-
-public class LevelManager{
+/**
+ * The LevelManager class manages the game state, updates and draws all game objects.
+ * Implements the Singleton design pattern.
+ * Responsible for updating the player, enemies, bullets, power-ups and score.
+ * Handles collisions between objects, manages the player's lives and high score.
+ *
+ * @author Sungmok Cho, Samuel Chua, Helen Liu, Sunmin Park, Mylo Yu
+ * @version 2023-04-05
+ */
+public class LevelManager {
   private static LevelManager lm;
   public boolean paused = false;
   private Player player;
@@ -21,7 +33,7 @@ public class LevelManager{
   private PowerUpManager pm;
   private LivesManager lives;
   private ScoreManager sc;
-  private MenuManager Mm;
+  private MenuManager menuManager;
   private DatabaseHandler db;
   private int highscore = 0;
 
@@ -35,12 +47,14 @@ public class LevelManager{
     gameState = GameState.MAIN_MENU;
     lives = new LivesManager(player, player.window, 3); // set initial HP to 1
     sc = ScoreManager.getInstance(player.window);
-    Mm = new MenuManager(player.window, this::setState);
+    menuManager = new MenuManager(player.window, this::setState);
 
     ObjectMapper mapper = new ObjectMapper();
     DatabaseHandler.Config config;
     try {
-      config = mapper.readValue(new File("src/main/java/org/bcit/comp2522/project/config.json"), DatabaseHandler.Config.class);
+      config = mapper.readValue(new File(
+                               "src/main/java/org/bcit/comp2522/project/config.json"),
+                                DatabaseHandler.Config.class);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -52,12 +66,21 @@ public class LevelManager{
   public void setState(GameState newState) {
     this.gameState = newState;
   }
+
+  /**
+   * Returns the single instance of the LevelManager class.
+   * If the instance has not been created yet, it creates a new instance.
+   * This method ensures that there is only one instance of the LevelManager class in the game.
+   *
+   * @return The single instance of the LevelManager class.
+   */
   public static LevelManager getInstance() {
-    if(lm == null) {
+    if (lm == null) {
       lm = new LevelManager();
     }
     return lm;
   }
+
   public GameState getState() {
     return gameState;
   }
@@ -66,29 +89,38 @@ public class LevelManager{
     return paused;
   }
 
-
-
-  public void pause(){
-    if(paused){
+  /**
+   * Pauses or unpauses the game depending on the current pause status.
+   */
+  public void pause() {
+    if (paused) {
       paused = false;
       gameState = GameState.PLAYING;
-    } else{
+    } else {
       paused = true;
       gameState = GameState.PAUSED;
     }
   }
+
   private boolean gameOver = false;
 
   public boolean isGameOver() {
     return gameOver;
   }
+
   public void resetGameOver() {
     this.gameOver = false;
   }
 
+  /**
+   * This method is responsible for updating the screen with the current state of the game.
+   * Draws all the game objects to the screen.
+   */
   public void draw() {
-    if (gameState == GameState.MAIN_MENU || gameState == GameState.GAME_OVER || gameState == GameState.SCORE_BOARD) {
-      Mm.draw(gameState);
+    if (gameState == GameState.MAIN_MENU
+        || gameState == GameState.GAME_OVER
+        || gameState == GameState.SCORE_BOARD) {
+      menuManager.draw(gameState);
     } else {
       em.draw();
       bm.draw();
@@ -96,38 +128,42 @@ public class LevelManager{
       player.draw();
       lives.draw();
       sc.draw();
-      if(gameState == GameState.PAUSED){
-        Mm.draw(GameState.PAUSED);
+      if (gameState == GameState.PAUSED) {
+        menuManager.draw(GameState.PAUSED);
       }
     }
   }
 
-  public void update(){
-    if(!paused) {
+  /**
+   * This method is responsible for updating the objects and detecting collisions between them.
+   * Updates the state of the game objects and checks for collisions.
+   */
+  public void update() {
+    if (!paused) {
       em.update();
       bm.update();
       pm.update(player);
       player.update();
-      checkBulletCollisions(bm, em,pm);
-      pm.checkCollisions(player,lives);
+      checkBulletCollisions(bm, em, pm);
+      pm.checkCollisions(player, lives);
 
       if (player.getHp() == 0) {
         highscore = ScoreManager.getInstance(player.window).getScore();
         System.out.println(highscore);
         File file = new File("save.json");
-        if(file.exists()){
+        if (file.exists()) {
           file.delete();
         }
         db.put("score", getHighscore());
         setState(GameState.GAME_OVER);
         resetGame();
-//        Mm.setState(); // Set the state to 3 (game over)
-//        gameOver = true; // Update the gameOver flag to true
+        //        Mm.setState(); // Set the state to 3 (game over)
+        //        gameOver = true; // Update the gameOver flag to true
       }
 
       ArrayList<Enemy> copy = new ArrayList<>(em.getEnemy());
       for (Enemy enemy : copy) {
-        if (collidesWithEnemy(enemy, player)) {
+        if (playerCollidesWithEnemy(enemy, player)) {
           // Remove the enemy from the list
           em.removeEnemy(enemy);
           // Player has been hit by an enemy, decrease HP
@@ -137,22 +173,37 @@ public class LevelManager{
       }
     }
   }
+
+  /**
+   * getter for high score.
+   *
+   * @return highscore
+   */
   public int getHighscore() {
     return this.highscore;
   }
 
+  /**
+   * This method resets the game objects to their initial values.
+   * Resets the game state to its initial values.
+   */
   public void resetGame() {
     File file = new File("save.json");
-    if(file.exists()){
+    if (file.exists()) {
       file.delete();
     }
     resetGameOver();
     resetPlayerLives();
     sc.resetScore();
     em.resetEnemy();
-    // Add any other necessary resets here
   }
 
+  /**
+   * Writes the current game state to a JSON file with the specified file name.
+   *
+   * @param file the name of the file to write to
+   * @throws FileNotFoundException f the file cannot be found or written to
+   */
   public void writeToFile(String file) throws FileNotFoundException {
     JSONObject jo = new JSONObject();
     //storing score
@@ -172,7 +223,7 @@ public class LevelManager{
     //storing bullet info
     JSONArray bullets = new JSONArray();
     ArrayList<Bullet> bulletList = bm.getBullets();
-    for(Bullet b : bulletList) {
+    for (Bullet b : bulletList) {
       JSONObject bulletStats = new JSONObject();
       bulletStats.put("x", b.getX());
       bulletStats.put("y", b.getY());
@@ -184,7 +235,7 @@ public class LevelManager{
     //storing enemies
     JSONArray enemies = new JSONArray();
     ArrayList<Enemy> enemyList = em.getEnemy();
-    for(Enemy e : enemyList) {
+    for (Enemy e : enemyList) {
       JSONObject enemyStats = new JSONObject();
       enemyStats.put("x", e.getX());
       enemyStats.put("y", e.getY());
@@ -195,7 +246,7 @@ public class LevelManager{
     //storing powerups
     JSONArray powerups = new JSONArray();
     ArrayList<PowerUp> powerupList = pm.getPowerUp();
-    for(PowerUp p : powerupList) {
+    for (PowerUp p : powerupList) {
       JSONObject powerupStats = new JSONObject();
       powerupStats.put("x", p.getX());
       powerupStats.put("y", p.getY());
@@ -219,59 +270,75 @@ public class LevelManager{
 
   }
 
+  /**
+   * Reads game state data from a JSON file and updates the game accordingly.
+   *
+   * @param file the path to the JSON file to read from
+   * @throws IOException if an I/O error occurs while reading the file
+   * @throws ParseException if the JSON file is incorrectly formatted
+   */
   public void readFromFile(String file) throws IOException, ParseException {
     JSONParser parser = new JSONParser();
     Object obj = parser.parse(new FileReader(file)); //the location of the file
     JSONObject jsonObject = (JSONObject) obj;
     //parse score and time since last powerup
-    sc.increaseScore(Long.valueOf((long)jsonObject.get("score")).intValue());
-    pm.setLastPower(Long.valueOf((long)jsonObject.get("lastPower")).intValue());
+    sc.increaseScore(Long.valueOf((long) jsonObject.get("score")).intValue());
+    pm.setLastPower(Long.valueOf((long) jsonObject.get("lastPower")).intValue());
 
     //parse player stats
     JSONObject playerStats = (JSONObject) jsonObject.get("player");
-    player.setX(Long.valueOf((long)playerStats.get("x")).intValue());
-    player.setY(Long.valueOf((long)playerStats.get("y")).intValue());
-    player.setHp(Long.valueOf((long)playerStats.get("hp")).intValue());
-    player.setFireRate(Long.valueOf((long)playerStats.get("fireRate")).intValue());
+    player.setX(Long.valueOf((long) playerStats.get("x")).intValue());
+    player.setY(Long.valueOf((long) playerStats.get("y")).intValue());
+    player.setHp(Long.valueOf((long) playerStats.get("hp")).intValue());
+    player.setFireRate(Long.valueOf((long) playerStats.get("fireRate")).intValue());
 
     //parsing bullet info
     JSONArray bullets = (JSONArray) jsonObject.get("bullets");
-    for(int i = 0; i < bullets.size(); i++) {
+    for (int i = 0; i < bullets.size(); i++) {
       JSONObject bulletInfo = (JSONObject) bullets.get(i);
       Bullet bullet = new Bullet(
-              Long.valueOf((long)bulletInfo.get("x")).intValue(),
-              Long.valueOf((long)bulletInfo.get("y")).intValue(),
-              20, player.getWindow(), Long.valueOf((long)bulletInfo.get("speed")).intValue());
+              Long.valueOf((long) bulletInfo.get("x")).intValue(),
+              Long.valueOf((long) bulletInfo.get("y")).intValue(),
+              20, player.getWindow(), Long.valueOf((long) bulletInfo.get("speed")).intValue());
       bm.add(bullet);
     }
 
     //parsing enemies
     JSONArray enemies = (JSONArray) jsonObject.get("enemies");
-    for(int i = 0; i < enemies.size(); i++) {
+    for (int i = 0; i < enemies.size(); i++) {
       JSONObject enemyInfo = (JSONObject) enemies.get(i);
-      Enemy enemy = new Enemy(Long.valueOf((long)enemyInfo.get("x")).intValue(),
-              Long.valueOf((long)enemyInfo.get("y")).intValue(),
+      Enemy enemy = new Enemy(Long.valueOf((long) enemyInfo.get("x")).intValue(),
+              Long.valueOf((long) enemyInfo.get("y")).intValue(),
               30, player.getWindow());
       em.add(enemy);
     }
 
     //parsing powerups
     JSONArray powerups = (JSONArray) jsonObject.get("powerups");
-    for(int i = 0; i < powerups.size(); i++) {
+    for (int i = 0; i < powerups.size(); i++) {
       JSONObject powerupInfo = (JSONObject) powerups.get(i);
-      PowerUp powerup = new PowerUp(Long.valueOf((long)powerupInfo.get("x")).intValue(),
-              Long.valueOf((long)powerupInfo.get("y")).intValue(),
+      PowerUp powerup = new PowerUp(Long.valueOf((long) powerupInfo.get("x")).intValue(),
+              Long.valueOf((long) powerupInfo.get("y")).intValue(),
               5, player.getWindow(), (String) powerupInfo.get("type"));
       pm.add(powerup);
     }
 
     //parsing enemy manager info
     JSONObject emStats = (JSONObject) jsonObject.get("enemyManager");
-    em.setWave(Long.valueOf((long)emStats.get("wave")).intValue());
-    em.setYStart(Long.valueOf((long)emStats.get("yStart")).intValue());
+    em.setWave(Long.valueOf((long) emStats.get("wave")).intValue());
+    em.setYStart(Long.valueOf((long) emStats.get("yStart")).intValue());
     System.out.println("Parsing Complete");
     gameState = GameState.PLAYING;
   }
+
+  /**
+   * Reads the score value from a JSON file.
+   *
+   * @param file the location of the JSON file to read from
+   * @return the score value read from the file as an integer
+   * @throws IOException if there is an error reading the file
+   * @throws ParseException if there is an error parsing the JSON file
+   */
   public int readScoreFromFile(String file) throws IOException, ParseException {
     JSONParser parser = new JSONParser();
     Object obj = parser.parse(new FileReader(file)); //the location of the file
@@ -286,7 +353,18 @@ public class LevelManager{
     player.setHp(3); // Set the initial HP to 3 or any other value you prefer
   }
 
-  public void checkBulletCollisions(BulletManager bulletManager, EnemyManager enemyManager, PowerUpManager powerUpManager) {
+  /**
+   * Checks for collisions between bullets and enemies,
+   * removes the bullet and enemy if they collide,
+   * and increases the player's score.
+   *
+   * @param bulletManager the BulletManager object that manages bullets in the game
+   * @param enemyManager the EnemyManager object that manages enemies in the game
+   * @param powerUpManager the PowerUpManager object that manages power-ups in the game
+   */
+  public void checkBulletCollisions(BulletManager bulletManager,
+                                    EnemyManager enemyManager,
+                                    PowerUpManager powerUpManager) {
     ArrayList<Bullet> bullets = bulletManager.getBullets();
     ArrayList<Enemy> enemies = enemyManager.getEnemy();
     ArrayList<PowerUp> powerUps = powerUpManager.getPowerUp();
@@ -299,24 +377,38 @@ public class LevelManager{
       while (enemyIterator.hasNext()) {
         Enemy enemy = enemyIterator.next();
 
-        if (collidesWith(bullet, enemy)) {
+        if (bulletCollidesWithEnemy(bullet, enemy)) {
           enemyIterator.remove(); // remove the enemy if it collided with a bullet
           bulletIterator.remove(); // remove the bullet if it collided with an enemy
           sc.increaseScore(1); // increase the score by 1
-          highscore ++;
+          highscore++;
           break;
         }
       }
     }
   }
 
-  public boolean collidesWith(Bullet bullet, Enemy enemy) {
+  /**
+   * Checks if a given bullet collides with a given enemy.
+   *
+   * @param bullet the bullet to check for collision
+   * @param enemy the enemy to check for collision
+   * @return true if the bullet collides with the enemy, false otherwise
+   */
+  public boolean bulletCollidesWithEnemy(Bullet bullet, Enemy enemy) {
     float distance = dist(bullet.getX(), bullet.getY(), enemy.getX(), enemy.getY());
     float minDistance = (bullet.getSize() + enemy.getSize()) / 2;
     return distance <= minDistance;
   }
 
-  public boolean collidesWithEnemy(Enemy enemy, Player player) {
+  /**
+   * Checks if a given enemy collides with the player.
+   *
+   * @param enemy the enemy to check for collision
+   * @param player the player to check for collision
+   * @return true if the enemy collides with the player, false otherwise
+   */
+  public boolean playerCollidesWithEnemy(Enemy enemy, Player player) {
     float distance = dist(player.getX(), player.getY(), enemy.getX(), enemy.getY());
     float minDistance = (player.getSize() + enemy.getSize()) / 2;
 
