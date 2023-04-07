@@ -27,6 +27,7 @@ import org.json.simple.parser.ParseException;
 public class LevelManager {
   private static LevelManager lm;
   public boolean paused = false;
+  private boolean saveExists = false;
   private Player player;
   private EnemyManager em;
   private BulletManager bm;
@@ -40,6 +41,12 @@ public class LevelManager {
   private GameState gameState;
 
   private LevelManager() {
+    File file = new File("save.json");
+    if(file.exists()){
+      saveExists = true;
+    } else {
+      saveExists = false;
+    }
     em = EnemyManager.getInstance();
     bm = BulletManager.getInstance();
     pm = PowerUpManager.getInstance();
@@ -84,6 +91,8 @@ public class LevelManager {
   public GameState getState() {
     return gameState;
   }
+  public boolean saveExists() {return saveExists;}
+  public void setSaveExists(boolean b) {saveExists = b;}
 
   public boolean getPauseStatus() {
     return paused;
@@ -144,19 +153,19 @@ public class LevelManager {
       bm.update();
       pm.update(player);
       player.update();
-      checkBulletCollisions(bm, em, pm);
+      checkBulletCollisions(bm, em);
       pm.checkCollisions(player, lives);
 
-      if (player.getHp() == 0) {
+      if (player.getHp() <= 0) {
         highscore = ScoreManager.getInstance(player.window).getScore();
         System.out.println(highscore);
+        db.put("score", getHighscore());
         File file = new File("save.json");
         if (file.exists()) {
           file.delete();
+          saveExists = false;
         }
-        db.put("score", getHighscore());
         setState(GameState.GAME_OVER);
-        resetGame();
         //        Mm.setState(); // Set the state to 3 (game over)
         //        gameOver = true; // Update the gameOver flag to true
       }
@@ -188,12 +197,8 @@ public class LevelManager {
    * Resets the game state to its initial values.
    */
   public void resetGame() {
-    File file = new File("save.json");
-    if (file.exists()) {
-      file.delete();
-    }
-    resetGameOver();
-    resetPlayerLives();
+    player.setHp(3);
+    player.setFireRate(20);
     sc.resetScore();
     em.resetEnemy();
   }
@@ -218,6 +223,7 @@ public class LevelManager {
     playerStats.put("y", player.getY());
     playerStats.put("hp", player.getHp());
     playerStats.put("fireRate", player.getFireRate());
+    playerStats.put("shotLast", player.getShotLast());
     jo.put("player", playerStats);
 
     //storing bullet info
@@ -266,8 +272,7 @@ public class LevelManager {
     pw.flush();
     pw.close();
     System.out.println("Game State Saved");
-
-
+    saveExists = true;
   }
 
   /**
@@ -291,6 +296,8 @@ public class LevelManager {
     player.setY(Long.valueOf((long) playerStats.get("y")).intValue());
     player.setHp(Long.valueOf((long) playerStats.get("hp")).intValue());
     player.setFireRate(Long.valueOf((long) playerStats.get("fireRate")).intValue());
+    player.setShotLast(Long.valueOf((long) playerStats.get("shotLast")).intValue());
+
 
     //parsing bullet info
     JSONArray bullets = (JSONArray) jsonObject.get("bullets");
@@ -349,9 +356,6 @@ public class LevelManager {
     return (int) scoreValue;
   }
 
-  public void resetPlayerLives() {
-    player.setHp(3); // Set the initial HP to 3 or any other value you prefer
-  }
 
   /**
    * Checks for collisions between bullets and enemies,
@@ -360,14 +364,11 @@ public class LevelManager {
    *
    * @param bulletManager the BulletManager object that manages bullets in the game
    * @param enemyManager the EnemyManager object that manages enemies in the game
-   * @param powerUpManager the PowerUpManager object that manages power-ups in the game
    */
   public void checkBulletCollisions(BulletManager bulletManager,
-                                    EnemyManager enemyManager,
-                                    PowerUpManager powerUpManager) {
+                                    EnemyManager enemyManager) {
     ArrayList<Bullet> bullets = bulletManager.getBullets();
     ArrayList<Enemy> enemies = enemyManager.getEnemy();
-    ArrayList<PowerUp> powerUps = powerUpManager.getPowerUp();
 
     Iterator<Bullet> bulletIterator = bullets.iterator();
     while (bulletIterator.hasNext()) {

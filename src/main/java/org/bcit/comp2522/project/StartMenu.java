@@ -3,6 +3,8 @@ package org.bcit.comp2522.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -12,7 +14,7 @@ import processing.core.PImage;
  A StartMenu class for displaying the game's starting menu.
  Extends PApplet to use Processing's graphical capabilities.
  */
-public class StartMenu extends PApplet {
+public class StartMenu{
   private final PApplet papplet;
   private final int buttonWidth = 150;
   private final int buttonHeight = 50;
@@ -24,6 +26,9 @@ public class StartMenu extends PApplet {
   private final int offset3 = 175;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
+  //this variable is legitimately haunted. i dont know how or what, but it always managed to flip
+  //itself to true despite the one function setting it to true
+  //being behind an if statement that only runs if it's false. and that statement never ran.
   private final Consumer<GameState> onStateChange;
   private PImage backgroundImage;
 
@@ -50,38 +55,20 @@ public class StartMenu extends PApplet {
   public void draw() {
     int halfWidth = papplet.width / 2;
     int halfHeight = papplet.height / 2;
-    if (!buttonsInitialized) {
-      File file = new File("save.json");
-
-      if (file.exists()) {
-
-        int extraOffset = 30;
-
+    buttons.clear();
+      int extraOffset = 0;
+      if(LevelManager.getInstance().saveExists()) {
+        extraOffset = 30;
         addButton("Continue", halfWidth, halfHeight + offset0
                         + extraOffset, buttonWidth, buttonHeight, fontSize,
                 0xFFFFFFFF, this::continueGame);
-        addButton("New Game", halfWidth, halfHeight + offset1
-                        + extraOffset, buttonWidth, buttonHeight, fontSize,
-                0xFFFFFFFF, this::startNewGame);
-        addButton("Scoreboard", halfWidth, halfHeight + offset2
-                        + extraOffset, buttonWidth, buttonHeight, fontSize,
-                0xFFFFFFFF, this::openScoreboard);
-        addButton("Exit", halfWidth, halfHeight + offset3
-                        + extraOffset, buttonWidth, buttonHeight, fontSize,
-                0xFFFFFFFF, this::exitGame);
-        buttonsInitialized = true;
-
-      } else if (!file.exists()) {
-
-        addButton("New Game", halfWidth, halfHeight + offset1, buttonWidth,
-                buttonHeight, fontSize, 0xFFFFFFFF, this::startNewGame);
-        addButton("Scoreboard", halfWidth, halfHeight + offset2, buttonWidth,
-                buttonHeight, fontSize, 0xFFFFFFFF, this::openScoreboard);
-        addButton("Exit", halfWidth, halfHeight + offset3, buttonWidth,
-                buttonHeight, fontSize, 0xFFFFFFFF, this::exitGame);
-        buttonsInitialized = true;
       }
-    }
+      addButton("New Game", halfWidth, halfHeight + offset1 + extraOffset, buttonWidth,
+              buttonHeight, fontSize, 0xFFFFFFFF, this::startNewGame);
+      addButton("Scoreboard", halfWidth, halfHeight + offset2 + extraOffset, buttonWidth,
+              buttonHeight, fontSize, 0xFFFFFFFF, this::openScoreboard);
+      addButton("Exit", halfWidth, halfHeight + offset3 + extraOffset, buttonWidth,
+              buttonHeight, fontSize, 0xFFFFFFFF, this::exitGame);
 
     papplet.image(backgroundImage, 0, 0, papplet.width, papplet.height);
 
@@ -154,6 +141,7 @@ public class StartMenu extends PApplet {
     File file = new File("save.json");
     if (file.exists()) {
       file.delete();
+      LevelManager.getInstance().setSaveExists(false);
     }
     EnemyManager.getInstance().addEnemy();
     onStateChange.accept(GameState.PLAYING);
