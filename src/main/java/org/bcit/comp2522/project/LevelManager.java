@@ -126,11 +126,6 @@ public class LevelManager {
    * Draws all the game objects to the screen.
    */
   public void draw() {
-    if (gameState == GameState.MAIN_MENU
-        || gameState == GameState.GAME_OVER
-        || gameState == GameState.SCORE_BOARD) {
-      menuManager.draw(gameState);
-    } else {
       em.draw();
       bm.draw();
       pm.draw();
@@ -140,7 +135,6 @@ public class LevelManager {
       if (gameState == GameState.PAUSED) {
         menuManager.draw(GameState.PAUSED);
       }
-    }
   }
 
   /**
@@ -199,8 +193,12 @@ public class LevelManager {
   public void resetGame() {
     player.setHp(3);
     player.setFireRate(20);
+    player.setX(500);
+    player.setY(490);
     sc.resetScore();
     em.resetEnemy();
+    bm.resetBullet();
+    pm.resetPowerUp();
   }
 
   /**

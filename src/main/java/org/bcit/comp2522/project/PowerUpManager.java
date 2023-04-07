@@ -48,6 +48,14 @@ public class PowerUpManager {
    */
   private int fireRateDecreaseCounter = 0;
 
+  public void resetPowerUp() {
+    // Reset the enemies list
+    powerUps.clear();
+
+    // Reset the number of waves
+    lastPower = spawnTime;
+  }
+
   /**
    * Constructs a new PowerUpManager object with the specified properties.
    *
