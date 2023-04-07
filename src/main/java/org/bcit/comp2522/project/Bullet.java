@@ -7,8 +7,8 @@ public class Bullet extends Sprite {
   private PImage bulletImage;
 
 
-  public Bullet(int xPos, int yPos, int size, Window window, int dy) {
-    super(xPos, yPos, size, window);
+  public Bullet(int xpos, int ypos, int size, Window window, int dy) {
+    super(xpos, ypos, size, window);
     this.dy = dy;
     bulletImage = window.loadImage("src/img/bullet.png");
   }
@@ -23,10 +23,10 @@ public class Bullet extends Sprite {
     bulletImage = window.loadImage("src/img/bullet.png");
     Window window = getWindow();
     window.imageMode(window.CENTER);
-    window.image(bulletImage, x, y );
+    window.image(bulletImage, x, y);
   }
 
-  public int getSpeed(){
+  public int getSpeed() {
     return dy;
   }
 }
