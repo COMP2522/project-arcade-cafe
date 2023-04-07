@@ -1,23 +1,17 @@
 package org.bcit.comp2522.project;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+
 
 public class Window extends PApplet {
 
   private MenuManager menuManager;
   private LevelManager lm;
-  private GameState gameState;
-  private int finalScore;
   private int bgY;
 
   PImage backgroundImage;
-  ArrayList<Sprite> sprites;
 
   public boolean leftPressed = false;
   public boolean rightPressed = false;
@@ -115,7 +109,7 @@ public class Window extends PApplet {
 
     lm.update();
     if (lm.isGameOver()) { // Check if the game is over
-      finalScore = ScoreManager.getInstance(this).getScore(); // Store the score in the finalScore variable
+      int finalScore = ScoreManager.getInstance(this).getScore(); // Store the score in the finalScore variable
       lm.setState(GameState.GAME_OVER); // Change the game state to GAME_OVER
       System.out.println(finalScore);
     }

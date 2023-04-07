@@ -27,26 +27,23 @@ import org.json.simple.parser.ParseException;
 public class LevelManager {
   private static LevelManager lm;
   public boolean paused = false;
-  private boolean saveExists = false;
-  private Player player;
-  private EnemyManager em;
-  private BulletManager bm;
-  private PowerUpManager pm;
-  private LivesManager lives;
-  private ScoreManager sc;
-  private MenuManager menuManager;
-  private DatabaseHandler db;
+  private boolean saveExists;
+  private final Player player;
+  private final EnemyManager em;
+  private final BulletManager bm;
+  private final PowerUpManager pm;
+  private final LivesManager lives;
+  private final ScoreManager sc;
+  private final MenuManager menuManager;
+  private final DatabaseHandler db;
   private int highscore = 0;
 
   private GameState gameState;
 
   private LevelManager() {
     File file = new File("save.json");
-    if(file.exists()){
-      saveExists = true;
-    } else {
-      saveExists = false;
-    }
+      saveExists = file.exists();
+
     em = EnemyManager.getInstance();
     bm = BulletManager.getInstance();
     pm = PowerUpManager.getInstance();
@@ -94,9 +91,6 @@ public class LevelManager {
   public boolean saveExists() {return saveExists;}
   public void setSaveExists(boolean b) {saveExists = b;}
 
-  public boolean getPauseStatus() {
-    return paused;
-  }
 
   /**
    * Pauses or unpauses the game depending on the current pause status.
@@ -155,13 +149,10 @@ public class LevelManager {
         System.out.println(highscore);
         db.put("score", getHighscore());
         File file = new File("save.json");
-        if (file.exists()) {
-          file.delete();
+        if (file.delete()) {
           saveExists = false;
         }
         setState(GameState.GAME_OVER);
-        //        Mm.setState(); // Set the state to 3 (game over)
-        //        gameOver = true; // Update the gameOver flag to true
       }
 
       ArrayList<Enemy> copy = new ArrayList<>(em.getEnemy());
@@ -208,11 +199,12 @@ public class LevelManager {
    * @throws FileNotFoundException f the file cannot be found or written to
    */
   public void writeToFile(String file) throws FileNotFoundException {
-    JSONObject jo = new JSONObject();
+    JSONObject jo;
+    jo = new JSONObject();
     //storing score
     jo.put("score", sc.getScore());
 
-    //storing time since last powerup
+    //storing time since last power
     jo.put("lastPower", pm.getLastPower());
 
     //storing player info
@@ -299,8 +291,8 @@ public class LevelManager {
 
     //parsing bullet info
     JSONArray bullets = (JSONArray) jsonObject.get("bullets");
-    for (int i = 0; i < bullets.size(); i++) {
-      JSONObject bulletInfo = (JSONObject) bullets.get(i);
+    for (Object o : bullets) {
+      JSONObject bulletInfo = (JSONObject) o;
       Bullet bullet = new Bullet(
               Long.valueOf((long) bulletInfo.get("x")).intValue(),
               Long.valueOf((long) bulletInfo.get("y")).intValue(),
@@ -310,8 +302,8 @@ public class LevelManager {
 
     //parsing enemies
     JSONArray enemies = (JSONArray) jsonObject.get("enemies");
-    for (int i = 0; i < enemies.size(); i++) {
-      JSONObject enemyInfo = (JSONObject) enemies.get(i);
+    for (Object o : enemies) {
+      JSONObject enemyInfo = (JSONObject) o;
       Enemy enemy = new Enemy(Long.valueOf((long) enemyInfo.get("x")).intValue(),
               Long.valueOf((long) enemyInfo.get("y")).intValue(),
               30, player.getWindow());
@@ -320,8 +312,8 @@ public class LevelManager {
 
     //parsing powerups
     JSONArray powerups = (JSONArray) jsonObject.get("powerups");
-    for (int i = 0; i < powerups.size(); i++) {
-      JSONObject powerupInfo = (JSONObject) powerups.get(i);
+    for (Object o : powerups) {
+      JSONObject powerupInfo = (JSONObject) o;
       PowerUp powerup = new PowerUp(Long.valueOf((long) powerupInfo.get("x")).intValue(),
               Long.valueOf((long) powerupInfo.get("y")).intValue(),
               5, player.getWindow(), (String) powerupInfo.get("type"));
@@ -334,24 +326,6 @@ public class LevelManager {
     em.setYStart(Long.valueOf((long) emStats.get("yStart")).intValue());
     System.out.println("Parsing Complete");
     gameState = GameState.PLAYING;
-  }
-
-  /**
-   * Reads the score value from a JSON file.
-   *
-   * @param file the location of the JSON file to read from
-   * @return the score value read from the file as an integer
-   * @throws IOException if there is an error reading the file
-   * @throws ParseException if there is an error parsing the JSON file
-   */
-  public int readScoreFromFile(String file) throws IOException, ParseException {
-    JSONParser parser = new JSONParser();
-    Object obj = parser.parse(new FileReader(file)); //the location of the file
-    JSONObject jsonObject = (JSONObject) obj;
-    // Get the score value from the JSON object
-    long scoreValue = (long) jsonObject.get("score");
-
-    return (int) scoreValue;
   }
 
 
@@ -396,7 +370,7 @@ public class LevelManager {
    */
   public boolean bulletCollidesWithEnemy(Bullet bullet, Enemy enemy) {
     float distance = dist(bullet.getX(), bullet.getY(), enemy.getX(), enemy.getY());
-    float minDistance = (bullet.getSize() + enemy.getSize()) / 2;
+    float minDistance = (float) (bullet.getSize() + enemy.getSize()) / 2;
     return distance <= minDistance;
   }
 
@@ -409,7 +383,7 @@ public class LevelManager {
    */
   public boolean playerCollidesWithEnemy(Enemy enemy, Player player) {
     float distance = dist(player.getX(), player.getY(), enemy.getX(), enemy.getY());
-    float minDistance = (player.getSize() + enemy.getSize()) / 2;
+    float minDistance = (float) (player.getSize() + enemy.getSize()) / 2;
 
     if (distance <= minDistance) {
       player.setHp(player.getHp() - 1);

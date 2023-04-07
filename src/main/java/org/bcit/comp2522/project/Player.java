@@ -2,19 +2,8 @@ package org.bcit.comp2522.project;
 
 import processing.core.PImage;
 
-import java.awt.*;
 
 public class Player extends Sprite{
-
-  /**
-   * Constant for player speed.
-   */
-  private static final int SPEED = 10;
-
-  /**
-   * Constant for player size.
-   */
-  private static final int PLAYER_IMAGE_SIZE = 100;
 
   /**
    * The Singleton instance of the Player.
@@ -37,11 +26,6 @@ public class Player extends Sprite{
    * The time since the player last shot.
    */
   private int shotLast = 0;
-
-  /**
-   * player speed.
-   */
-  private final int speed = 10;
 
   /**
    * The player's image.
@@ -83,7 +67,6 @@ public class Player extends Sprite{
   /**
    * Retrieves the Singleton instance of the Player. If not instantiated, logs an error message.
    *
-   * @return the Singleton instance of the Player.
    */
   public void isMovingRight(){
     playerImage = window.loadImage("src/img/playerImgMovingRight.png");
@@ -97,13 +80,11 @@ public class Player extends Sprite{
 
   // Checks the returned int values to call according directional animations.
   public void playerAnimation(String animCase) {
-    if (animCase == "Idle") {
-      isIdle();
-    }else if (animCase == "MovingLeft"){
-      isMovingLeft();
-    } else if (animCase == "MovingRight") {
-        isMovingRight();
-      }
+    switch (animCase) {
+      case "Idle" -> isIdle();
+      case "MovingLeft" -> isMovingLeft();
+      case "MovingRight" -> isMovingRight();
+    }
   }
 
 
@@ -247,6 +228,7 @@ public class Player extends Sprite{
       shotLast = fireRate;
     }
 
+    int speed = 10;
     if (window.leftPressed) {
       move(speed * -1, 0);
       if(x <= size) {
