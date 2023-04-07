@@ -13,7 +13,6 @@ public class MenuManager {
     private GameState gameState;
     private static MenuManager singleton;
     private ScoreboardMenu scoreboardMenu;
-    private LevelManager levelManager;
     private int score;
 
     public MenuManager(PApplet pApplet, Consumer<GameState> onStateChange) {
@@ -49,6 +48,7 @@ public class MenuManager {
                 break;
         }
     }
+
 
     public void mousePressed(GameState gameState) {
         switch (gameState) {

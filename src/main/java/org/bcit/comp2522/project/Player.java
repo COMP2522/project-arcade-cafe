@@ -148,6 +148,11 @@ public class Player extends Sprite{
   public int getHp() {return hp;}
 
   /**
+   * @return the time since last shot of the player
+   */
+  public int getShotLast(){return shotLast;}
+
+  /**
    * @return the fire rate of the player
    */
   public int getFireRate(){return fireRate;}
@@ -172,6 +177,13 @@ public class Player extends Sprite{
    * @param hp the new hit points
    */
   public void setHp(int hp) {this.hp = hp;}
+
+  /**
+   * Sets the fire rate of the player.
+   *
+   * @param sl the new fire rate
+   */
+  public void setShotLast(int sl) {this.shotLast = sl;}
 
   /**
    * Sets the fire rate of the player.

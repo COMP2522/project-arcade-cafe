@@ -160,9 +160,6 @@ public class EnemyManager {
 
     // Reset the starting y-coordinate
     yStart = 20;
-
-    // Add the initial enemies back
-    addEnemy();
   }
 
   public void setWave(int n){

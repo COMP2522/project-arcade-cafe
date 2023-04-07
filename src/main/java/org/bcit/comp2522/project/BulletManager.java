@@ -31,6 +31,10 @@ public final class BulletManager {
     return singleton;
   }
 
+  public void resetBullet(){
+    bullets.clear();
+  }
+
   public void shootBullet(final int xpos,
                           final int ypos,
                           final int dy) {

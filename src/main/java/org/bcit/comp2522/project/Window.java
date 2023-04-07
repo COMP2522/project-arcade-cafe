@@ -12,7 +12,6 @@ public class Window extends PApplet {
 
   private MenuManager menuManager;
   private LevelManager lm;
-
   private GameState gameState;
   private int finalScore;
   private int bgY;
@@ -40,7 +39,7 @@ public class Window extends PApplet {
 
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
-    Player.getInstance(500, 490, 20, this, 5, 20);
+    Player.getInstance(500, 490, 20, this, 3, 20);
     ScoreManager.getInstance(this);
     PowerUpManager.getInstance(500, width*4/5, this);
 
