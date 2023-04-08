@@ -5,37 +5,48 @@ import processing.core.PApplet;
 public class Button {
 
   private String label;
-  private float x;
-  private float y;
+  private float xcoordinate;
+  private float ycooridnate;
   private float width;
   private float height;
   private int fontSize;
   private int fontColour;
   private Runnable onClickAction;
+  private static final int BUTTON_COLOR = 100;
 
-  public Button(String label, float x, float y, float width, float height, int fontSize, int fontColour, Runnable onClickAction) {
-    this.label = label;
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.fontSize = fontSize;
-    this.fontColour = fontColour;
-    this.onClickAction = onClickAction;
+  public Button(final String buttonLabel,
+                final float buttonXcoordinate,
+                final float buttonYcoordinate,
+                final float buttonWidth,
+                final float buttonHeight,
+                final int buttonFontSize,
+                final int buttonFontColour,
+                final Runnable buttonOnClickAction) {
+    this.label = buttonLabel;
+    this.xcoordinate = buttonXcoordinate;
+    this.ycooridnate = buttonYcoordinate;
+    this.width = buttonWidth;
+    this.height = buttonHeight;
+    this.fontSize = buttonFontSize;
+    this.fontColour = buttonFontColour;
+    this.onClickAction = buttonOnClickAction;
   }
 
-  public void draw(PApplet pApplet) {
-    pApplet.rectMode(PApplet.CENTER);
-    pApplet.fill(100);
-    pApplet.rect(x, y, width, height);
-    pApplet.fill(fontColour);
-    pApplet.textSize(fontSize);
-    pApplet.textAlign(PApplet.CENTER, PApplet.CENTER);
-    pApplet.text(label, x, y);
+  public void draw(final PApplet papplet) {
+    papplet.rectMode(PApplet.CENTER);
+    papplet.fill(BUTTON_COLOR);
+    papplet.rect(xcoordinate, ycooridnate, width, height);
+    papplet.fill(fontColour);
+    papplet.textSize(fontSize);
+    papplet.textAlign(PApplet.CENTER, PApplet.CENTER);
+    papplet.text(label, xcoordinate, ycooridnate);
   }
 
-  public boolean isMouseOver(float mouseX, float mouseY) {
-    return mouseX > x - width / 2 && mouseX < x + width / 2 && mouseY > y - height / 2 && mouseY < y + height / 2;
+  public boolean isMouseOver(final float mouseX, final float mouseY) {
+    return mouseX > xcoordinate - width / 2
+            && mouseX < xcoordinate + width / 2
+            && mouseY > ycooridnate - height / 2
+            && mouseY < ycooridnate + height / 2;
   }
 
   public void onClick() {

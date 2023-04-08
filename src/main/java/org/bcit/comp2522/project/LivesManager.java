@@ -1,10 +1,9 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PImage;
+import static processing.core.PApplet.dist;
 
 import java.util.List;
-
-import static processing.core.PApplet.dist;
+import processing.core.PImage;
 
 /**
  * Defines a LivesManager that handles the player's lives in the game.
@@ -13,96 +12,96 @@ import static processing.core.PApplet.dist;
  */
 public class LivesManager {
 
-    private Player player;
-    private Window window;
+  private Player player;
+  private Window window;
 
-    /**
-     * The heart image used to represent a life.
-     */
-    private PImage heartImage;
+  /**
+   * The heart image used to represent a life.
+   */
+  private PImage heartImage;
 
-    /**
-     * The size of the heart image.
-     */
-    private int heartSize;
+  /**
+   * The size of the heart image.
+   */
+  private int heartSize;
 
-    /**
-     * The padding between heart images.
-     */
-    private int heartPadding;
+  /**
+   * The padding between heart images.
+   */
+  private int heartPadding;
 
-    /**
-     * The padding from the left side of the window.
-     */
-    private int leftPadding;
+  /**
+   * The padding from the left side of the window.
+   */
+  private int leftPadding;
 
-    /**
-     * The maximum number of HP allowed.
-     */
-    private static final int MAX_HP = 5;
+  /**
+   * The maximum number of HP allowed.
+   */
+  private static final int MAX_HP = 5;
 
-    /**
-     * Constructs a LivesManager object with the specified player, window, and initialHP.
-     *
-     * @param player The player object.
-     * @param window The window object.
-     * @param initialHP The initial number of lives for the player.
-     */
-    public LivesManager(Player player, Window window, int initialHP) {
-        this.player = player;
-        this.window = window;
-        this.heartSize = 30;
-        this.heartPadding = 5;
-        this.leftPadding = 20;
-        heartImage = window.loadImage("src/img/heartLife.png");
-        heartImage.resize(heartSize, heartSize);
-        player.setHp(initialHP);
+  /**
+   * Constructs a LivesManager object with the specified player, window, and initialHP.
+   *
+   * @param player The player object.
+   * @param window The window object.
+   * @param initialHp The initial number of lives for the player.
+   */
+  public LivesManager(Player player, Window window, int initialHp) {
+    this.player = player;
+    this.window = window;
+    this.heartSize = 30;
+    this.heartPadding = 5;
+    this.leftPadding = 20;
+    heartImage = window.loadImage("src/img/heartLife.png");
+    heartImage.resize(heartSize, heartSize);
+    player.setHp(initialHp);
+  }
+
+  /**
+   * Draws the lives (hearts) on the window.
+   */
+  public void draw() {
+    for (int i = 0; i < player.getHp(); i++) {
+      int xpos = leftPadding + heartPadding + (i * (heartSize + heartPadding));
+      int ypos = heartPadding + leftPadding;
+      window.image(heartImage, xpos, ypos);
     }
+  }
 
-    /**
-     * Draws the lives (hearts) on the window.
-     */
-    public void draw() {
-        for (int i = 0; i < player.getHp(); i++) {
-            int xPos = leftPadding + heartPadding + (i * (heartSize + heartPadding));
-            int yPos = heartPadding + leftPadding;
-            window.image(heartImage, xPos, yPos);
-        }
+  /**
+   * Decreases the player's lives by 1.
+   */
+  public void loseLife() {
+    if (player.getHp() > 0) {
+      player.setHp(player.getHp() - 1);
     }
+  }
 
-    /**
-     * Decreases the player's lives by 1.
-     */
-    public void loseLife() {
-        if (player.getHp() > 0) {
-            player.setHp(player.getHp() - 1);
-        }
+  /**
+   * Increases the player's lives by 1, up to the maximum HP allowed at a given time.
+   */
+  public void gainLife() {
+    if (player.getHp() < MAX_HP) {
+      player.setHp(player.getHp() + 1);
     }
+  }
 
-    /**
-     * Increases the player's lives by 1, up to the maximum HP allowed at a given time.
-     */
-    public void gainLife() {
-        if (player.getHp() < MAX_HP) {
-            player.setHp(player.getHp() + 1);
-        }
-    }
+  /**
+   * Resets the player's lives to 1.
+   */
+  public void resetLives() {
+    player.setHp(3); // Set the initial HP to 3 or any other value you prefer
+  }
 
-    /**
-     * Resets the player's lives to 1.
-     */
-    public void resetLives() {
-        player.setHp(3); // Set the initial HP to 3 or any other value you prefer
-    }
-
-    /**
-     * Returns the number of lives the player currently has.
-     *
-     * @return The number of lives the player has.
-     */
-    public int getLives() {
-        return player.getHp();
-    }
+  /**
+   * Returns the number of lives the player currently has.
+   *
+   * @return The number of lives the player has.
+   */
+  public int getLives() {
+    return player.getHp();
+  }
 
 
 }
