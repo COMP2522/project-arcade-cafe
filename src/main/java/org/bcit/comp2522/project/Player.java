@@ -45,17 +45,17 @@ public class Player extends Sprite{
   /**
    * Private constructor for the Player class.
    *
-   * @param x      initial x position of the player
-   * @param y      initial y position of the player
-   * @param s      size of the player
+   * @param xpos      initial x position of the player
+   * @param ypos      initial y position of the player
+   * @param size      size of the player
    * @param window reference to the Window class
    * @param hp     initial hit points of the player
-   * @param fr     initial fire rate of the player
+   * @param fireRate     initial fire rate of the player
    */
-  private Player(int x, int y, int s, Window window, int hp, int fr){
-    super(x,y,s, window);
+  private Player(int xpos, int ypos, int size, Window window, int hp, int fireRate){
+    super(xpos, ypos, size, window);
     this.hp = hp;
-    fireRate = fr;
+    this.fireRate = fireRate;
     isIdle();
   }
 
@@ -98,17 +98,17 @@ public class Player extends Sprite{
   /**
    * Retrieves the Singleton instance of the Player or creates a new instance with the given parameters.
    *
-   * @param x      initial x position
-   * @param y      initial y position
-   * @param s      size of the player
+   * @param xpos      initial x position
+   * @param ypos      initial y position
+   * @param size      size of the player
    * @param window the window the player will be drawn in
    * @param hp     initial hit points
-   * @param fr     initial fire rate
+   * @param fireRate     initial fire rate
    * @return the Singleton instance of the Player
    */
-  public static Player getInstance(int x, int y, int s, Window window, int hp, int fr) {
+  public static Player getInstance(int xpos, int ypos, int size, Window window, int hp, int fireRate) {
     if(player == null) {
-      player = new Player(x,y,s,window,hp,fr);
+      player = new Player(xpos, ypos, size, window,hp,fireRate);
     }
     return player;
   }
@@ -141,16 +141,16 @@ public class Player extends Sprite{
   /**
    * Sets the x position of the player.
    *
-   * @param x the new x position
+   * @param xpos the new x position
    */
-  public void setX(int x) {this.x = x;}
+  public void setX(int xpos) {this.x = xpos;}
 
   /**
    * Sets the y position of the player.
    *
-   * @param y the new y position
+   * @param ypos the new y position
    */
-  public void setY(int y) {this.y = y;}
+  public void setY(int ypos) {this.y = ypos;}
 
   /**
    * Sets the hit points of the player.
@@ -162,16 +162,16 @@ public class Player extends Sprite{
   /**
    * Sets the fire rate of the player.
    *
-   * @param sl the new fire rate
+   * @param shotLast the new fire rate
    */
-  public void setShotLast(int sl) {this.shotLast = sl;}
+  public void setShotLast(int shotLast) {this.shotLast = shotLast;}
 
   /**
    * Sets the fire rate of the player.
    *
-   * @param fr the new fire rate
+   * @param fireRate the new fire rate
    */
-  public void setFireRate(int fr) {this.fireRate = fr;}
+  public void setFireRate(int fireRate) {this.fireRate = fireRate;}
 
   /**
    * Shoots a bullet from the specified position.
@@ -266,7 +266,6 @@ public class Player extends Sprite{
     window.image(playerImage, 0, 0);
     window.popMatrix();
   }
-
 
 }
 
