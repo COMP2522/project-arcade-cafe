@@ -11,7 +11,7 @@ import processing.core.PImage;
  *
  */
 public class LivesManager {
-
+  private static LivesManager singleton;
   private Player player;
   private Window window;
 
@@ -36,6 +36,11 @@ public class LivesManager {
   private int leftPadding;
 
   /**
+   * The sum of heartPadding and leftPadding.
+   */
+  private int paddingSum;
+
+  /**
    * The maximum number of HP allowed.
    */
   private static final int MAX_HP = 5;
@@ -53,18 +58,45 @@ public class LivesManager {
     this.heartSize = 30;
     this.heartPadding = 5;
     this.leftPadding = 20;
+    this.paddingSum = heartPadding + leftPadding;
     heartImage = window.loadImage("src/img/heartLife.png");
     heartImage.resize(heartSize, heartSize);
     player.setHp(initialHp);
   }
 
   /**
+   * Returns the singleton instance of the LivesManager object.
+   *
+   * @return the singleton instance of the LivesManager object
+   */
+  public static LivesManager getInstance() {
+    return singleton;
+  }
+
+  /**
+   * Returns the singleton instance of the LivesManager object with the specified player, window, and initialHP.
+   * If the singleton does not exist, it is created.
+   *
+   * @param player The player object.
+   * @param window The window object.
+   * @param initialHp The initial number of lives for the player.
+   * @return the singleton instance of the LivesManager object
+   */
+  public static LivesManager getInstance(Player player, Window window, int initialHp) {
+    if (singleton == null) {
+      singleton = new LivesManager(player, window, initialHp);
+    }
+    return singleton;
+  }
+
+
+  /**
    * Draws the lives (hearts) on the window.
    */
   public void draw() {
     for (int i = 0; i < player.getHp(); i++) {
-      int xpos = leftPadding + heartPadding + (i * (heartSize + heartPadding));
-      int ypos = heartPadding + leftPadding;
+      int xpos = paddingSum + (i * (heartSize + heartPadding));
+      int ypos = paddingSum;
       window.image(heartImage, xpos, ypos);
     }
   }
@@ -102,6 +134,5 @@ public class LivesManager {
   public int getLives() {
     return player.getHp();
   }
-
 
 }
