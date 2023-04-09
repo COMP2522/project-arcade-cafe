@@ -1,5 +1,9 @@
 package org.bcit.comp2522.project;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -66,6 +70,22 @@ public final class BulletManager {
   }
 
   /**
+   * Sets up audio to play for when the player has fired a bullet.
+   * @param soundFilePath specifies what is indicated through the filepath to play audio.
+   */
+  public static void playShootSound(String soundFilePath) {
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    } catch (Exception ex) {
+      System.out.println("Error playing firing sound.");
+      ex.printStackTrace();
+    }
+  }
+
+  /**
    * Creates a new Bullet object and adds it to the screen.
    *
    * @param xpos the x-coordinate of the bullet's starting position
@@ -81,6 +101,7 @@ public final class BulletManager {
               BULLET_WIDTH,
               window,
               dy);
+      playShootSound("src/sfx/sfx_shot.wav");
       bullets.add(bullet);
     }
   }

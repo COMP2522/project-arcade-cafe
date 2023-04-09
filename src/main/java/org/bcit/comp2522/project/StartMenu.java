@@ -3,6 +3,7 @@ package org.bcit.comp2522.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import javax.sound.sampled.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PFont;
@@ -51,6 +52,22 @@ public class StartMenu {
     buttons = new ArrayList<>();
     backgroundImage = papplet.loadImage("src/bgImg/gameTitle.png");
     pixelFont = papplet.createFont("src/font/pixelFont.ttf", fontSize);
+  }
+
+  /**
+   *  This method allows audio to play upon menu click interaction.
+   * @param soundFilePath specifies what is indicated through the filepath to play audio.
+   */
+  public static void playButtonSound(String soundFilePath) {
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    } catch (Exception ex) {
+      System.out.println("Error playing button click sound.");
+      ex.printStackTrace();
+    }
   }
 
   /**
@@ -103,6 +120,7 @@ public class StartMenu {
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(papplet.mouseX, papplet.mouseY)) {
+        playButtonSound("src/sfx/ui_select.wav");
         String buttonLabel = button.getLabel();
         if (buttonLabel.equals("Start")) {
           onStateChange.accept(GameState.PLAYING);
@@ -112,7 +130,7 @@ public class StartMenu {
           System.exit(0);
         }
         button.onClick();
-        System.out.println("start menu button clicked");
+        System.out.println("Start menu button clicked");
       }
     }
   }

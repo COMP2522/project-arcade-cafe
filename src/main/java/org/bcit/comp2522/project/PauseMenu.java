@@ -1,8 +1,13 @@
 package org.bcit.comp2522.project;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import processing.core.PApplet;
 import processing.core.PConstants;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  * PauseMenu is a class representing the pause menu for the game.
@@ -25,6 +30,8 @@ public class PauseMenu extends PApplet {
   private Button resumeButton;
   private Button quitButton;
 
+  private boolean soundPlayed = false;
+
   /**
    * Constructs a new PauseMenu object with the given PApplet instance.
    * The pause menu consiste of a transparent background and two buttons: "Resume" and "Quit".
@@ -33,6 +40,8 @@ public class PauseMenu extends PApplet {
    */
   public PauseMenu(PApplet papplet) {
     this.papplet = papplet;
+
+
 
     int centerX = papplet.width / division;
     int centerY = papplet.height / division;
@@ -66,6 +75,22 @@ public class PauseMenu extends PApplet {
   }
 
   /**
+   *  This method allows audio to play various audio specified by the file.
+   * @param soundFilePath specifies what is indicated through the filepath to play audio.
+   */
+  public static void playSound(String soundFilePath) {
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    } catch (Exception ex) {
+      System.out.println("Error playing sound.");
+      ex.printStackTrace();
+    }
+  }
+
+  /**
    * Draws the pause menu on the screen.
    * This method is called every frame by the Processing engine.
    */
@@ -88,8 +113,10 @@ public class PauseMenu extends PApplet {
    */
   public void onMousePressed() {
     if (resumeButton.isMouseOver(papplet.mouseX, papplet.mouseY)) {
+      playSound("src/sfx/ui_select.wav");
       resumeButton.onClick();
     } else if (quitButton.isMouseOver(papplet.mouseX, papplet.mouseY)) {
+      playSound("src/sfx/ui_select.wav");
       quitButton.onClick();
     }
   }

@@ -15,6 +15,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 /**
  * The LevelManager class manages the game state, updates and draws all game objects.
  * Implements the Singleton design pattern.
@@ -110,6 +114,7 @@ public class LevelManager {
       gameState = GameState.PLAYING;
     } else {
       paused = true;
+      playSound("src/sfx/pause_fx.wav");
       gameState = GameState.PAUSED;
     }
   }
@@ -141,6 +146,22 @@ public class LevelManager {
   }
 
   /**
+   *  This method allows audio to play various audio specified by the file.
+   * @param soundFilePath specifies what is indicated through the filepath to play audio.
+   */
+  public static void playSound(String soundFilePath) {
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    } catch (Exception ex) {
+      System.out.println("Error playing sound.");
+      ex.printStackTrace();
+    }
+  }
+
+  /**
    * This method is responsible for updating the objects and detecting collisions between them.
    * Updates the state of the game objects and checks for collisions.
    */
@@ -154,6 +175,7 @@ public class LevelManager {
       pm.checkCollisions(player, lives);
 
       if (player.getHp() <= 0) {
+        playSound("src/sfx/death_sfx.wav");
         highscore = ScoreManager.getInstance(player.window).getScore();
         System.out.println(highscore);
         db.put("score", getHighscore());
@@ -171,6 +193,7 @@ public class LevelManager {
           em.removeEnemy(enemy);
           // Player has been hit by an enemy, decrease HP
           // You could also add other effects, like playing a sound or showing an animation
+          playSound("src/sfx/hurt_sfx.wav");
           System.out.println("Player hit by enemy, HP decreased by 1");
         }
       }
@@ -360,6 +383,7 @@ public class LevelManager {
         Enemy enemy = enemyIterator.next();
 
         if (bulletCollidesWithEnemy(bullet, enemy)) {
+          playSound("src/sfx/impact_sfx.wav");
           enemyIterator.remove(); // remove the enemy if it collided with a bullet
           bulletIterator.remove(); // remove the bullet if it collided with an enemy
           sc.increaseScore(1); // increase the score by 1
@@ -395,6 +419,7 @@ public class LevelManager {
     float minDistance = (float) (player.getSize() + enemy.getSize()) / 2;
 
     if (distance <= minDistance) {
+      playSound("src/sfx/impact_sfx.wav");
       player.setHp(player.getHp() - 1);
       return true;
     }
