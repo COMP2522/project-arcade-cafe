@@ -11,6 +11,9 @@ import org.json.simple.parser.ParseException;
  * for loading a previously saved game. The class catches exceptions
  * that may occur during the saving or parsing process and
  * throws a RuntimeException if an exception occurs.
+ *
+ * @author Mylo Yu
+ *
  */
 public class SaveHandler {
 
@@ -19,6 +22,11 @@ public class SaveHandler {
    * The LevelManager is used to write the game state to the file specified
    * by the file name "save.json". If the file is not found, a FileNotFoundException
    * is caught and a RuntimeException is thrown.
+   *
+   * @author Mylo Yu
+   * @author Eric Cho
+   * @author Samuel Chua
+   *
    */
   public void saveState() {
     try {

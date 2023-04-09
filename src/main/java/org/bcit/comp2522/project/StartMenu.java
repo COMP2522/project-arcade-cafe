@@ -7,10 +7,15 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PFont;
 
-
 /**
- A StartMenu class for displaying the game's starting menu.
- Extends PApplet to use Processing's graphical capabilities.
+ * A StartMenu class for displaying the game's starting menu.
+ * Extends PApplet to use Processing's graphical capabilities.
+ *
+ * @author Helen Liu
+ * @author Eric Cho
+ * @author Mylo Yu
+ * @author Samuel Chua
+ *
  */
 public class StartMenu {
   private final PApplet papplet;

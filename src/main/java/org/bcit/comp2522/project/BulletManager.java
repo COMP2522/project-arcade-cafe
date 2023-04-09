@@ -8,6 +8,11 @@ import java.util.Iterator;
  * It tracks the bullets on the screen, updates
  * their positions, and removes them if they go off the screen.
  * It also provides a method for shooting a new bullet.
+ *
+ * @author Eric Cho
+ * @author Samuel Chua
+ * @author Mylo Yu
+ *
  */
 public final class BulletManager {
   private static BulletManager singleton;

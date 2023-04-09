@@ -9,6 +9,10 @@ import processing.core.PImage;
  * Defines a LivesManager that handles the player's lives in the game.
  * Lives are represented by hearts displayed on the screen using the draw() method.
  *
+ * @author Mina Park
+ * @author Mylo Yu
+ * @author Eric Cho
+ *
  */
 public class LivesManager {
 

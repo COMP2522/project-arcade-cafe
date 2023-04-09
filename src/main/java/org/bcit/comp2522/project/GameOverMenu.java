@@ -11,9 +11,13 @@ import processing.core.PApplet;
 
 
 /**
- The GameOverMenu class provides a graphical user interface
- for displaying the game over screen and
- allowing the user to navigate back to the main menu.
+ * The GameOverMenu class provides a graphical user interface
+ * for displaying the game over screen and
+ * allowing the user to navigate back to the main menu.
+ *
+ * @author Eric Cho
+ * @author Helen Liu
+ *
  */
 public class GameOverMenu {
 
