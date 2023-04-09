@@ -13,6 +13,8 @@ import processing.core.PImage;
  * @author Helen Liu
  * @author Sunmin Park
  * @author Samuel Chua
+ * It also initializes and manages the different game components such as the menu, player, enemies, and score.
+ *
  */
 public class Window extends PApplet {
 
