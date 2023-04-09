@@ -15,7 +15,6 @@ To run the game, clone this repository into your local computer, open in Intelli
 of bullets from the arraylist while still iterating through it.
 
 **Requirement 3:** After pausing the game and clicking the <Save & Exit> button, the game state is saved in a JSON file.
-In addition, with every new wave of enemies, the game state is saved.
 
 **Requirement 4:** BulletManager utilizes the iterator to iterate through the bullet arraylist.
 
@@ -33,7 +32,7 @@ communication, questions and requests. Meetings are also held on discord in the 
 3. Add menus, including start, pause, game over, and scoreboard.
 4. Be able to save game state.
 
-## Initial UML Diagrams (group, 1%)
+## UML Diagram (group, 1%)
 
 
 ## Initial GitHub Issues
