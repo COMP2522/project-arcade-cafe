@@ -15,8 +15,8 @@ public class Window extends PApplet {
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
-    public void settings() {
-      size(960, 540);
+  public void settings() {
+    size(960, 540);
 
     }
     public void setState(GameState gameState) {
@@ -28,11 +28,11 @@ public class Window extends PApplet {
       backgroundImageInGame= loadImage("src/bgImg/galagaSpace.png");
       backgroundImageInGame.resize(2000,1200);
 
-      BulletManager.getInstance(this);
-      EnemyManager.getInstance(this);
-      Player.getInstance(500, 490, 20, this, 3, 20);
-      ScoreManager.getInstance(this);
-      PowerUpManager.getInstance(500, width*4/5, this);
+    BulletManager.getInstance(this);
+    EnemyManager.getInstance(this);
+    Player.getInstance(500, 490, 20, this, 3, 20);
+    ScoreManager.getInstance(this);
+    PowerUpManager.getInstance(500, width * 4 / 5, this);
 
       lm = LevelManager.getInstance();
    }
@@ -55,6 +55,8 @@ public class Window extends PApplet {
       lm.draw();
       update();
     }
+
+    menuManager.draw(currentState); // Draw the menu based on the current state
   }
 
   @Override
@@ -64,35 +66,39 @@ public class Window extends PApplet {
       lm.pause();
       wasPaused = true;
     }
-    if(key == CODED) {
-      if(keyCode == LEFT) {
+    if (key == CODED) {
+      if (keyCode == LEFT) {
         leftPressed = true;
       }
-      if(keyCode == RIGHT) {
+      if (keyCode == RIGHT) {
         rightPressed = true;
       }
     }
   }
   @Override
   public void keyReleased() {
-    if(key == ' ' && wasPaused) {
+    if (key == ' ' && wasPaused) {
       wasPaused = false;
     }
-    if(key == CODED) {
-      if(keyCode == LEFT) {
+    if (key == CODED) {
+      if (keyCode == LEFT) {
         leftPressed = false;
       }
-      if(keyCode == RIGHT) {
+      if (keyCode == RIGHT) {
         rightPressed = false;
       }
     }
   }
 
   public void update() {
+
     lm.update();
-    if (lm.isGameOver()) { // Check if the game is over
-      int finalScore = ScoreManager.getInstance(this).getScore(); // Store the score in the finalScore variable
-      lm.setState(GameState.GAME_OVER); // Change the game state to GAME_OVER
+    // Check if the game is over
+    if (lm.isGameOver()) {
+      // Store the score in the finalScore variable
+      int finalScore = ScoreManager.getInstance(this).getScore();
+      // Change the game state to GAME_OVER
+      lm.setState(GameState.GAME_OVER);
       System.out.println(finalScore);
     }
   }
