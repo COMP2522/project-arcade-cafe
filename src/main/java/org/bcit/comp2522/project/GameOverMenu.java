@@ -11,13 +11,14 @@ import processing.core.PApplet;
 
 
 /**
- * The GameOverMenu class provides a graphical user interface
- * for displaying the game over screen and allowing the user
- * to navigate back to the main menu.
+ The GameOverMenu class provides a graphical user interface
+ for displaying the game over screen and
+ allowing the user to navigate back to the main menu.
  */
 public class GameOverMenu {
 
   private PApplet papplet;
+  private Window window;
   private ArrayList<Button> buttons;
   private final int buttonWidth;
   private final int buttonHeight;
@@ -31,6 +32,8 @@ public class GameOverMenu {
   private static final int FONT_SIZE_LARGE = 32;
   private static final int FONT_SIZE_MEDIUM = 20;
   private final Consumer<GameState> onStateChange;
+  private MenuManager menuManager;
+  private LevelManager levelManager;
   private ScoreManager scoreManager;
   private DatabaseHandler db;
   private int halfWidth;

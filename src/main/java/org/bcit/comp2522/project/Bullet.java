@@ -11,9 +11,9 @@ public class Bullet extends Sprite {
   private int dy; //The speed of the bullet
   private PImage bulletImage; // Image that is used to draw the bullet.
 
-
   /**
    * Constructor for creating a Bullet object.
+   *
    * @param xpos The x-coordinate of the bullet object
    * @param ypos The y-coordinate of the bullet object
    * @param size The size of the bullet object
@@ -39,7 +39,6 @@ public class Bullet extends Sprite {
    */
   @Override
   public void draw() {
-    bulletImage = window.loadImage("src/img/bullet.png");
     Window window = getWindow();
     window.imageMode(window.CENTER);
     window.image(bulletImage, xpos, ypos);
@@ -47,6 +46,7 @@ public class Bullet extends Sprite {
 
   /**
    * Method to get the speed of the bullet.
+   *
    * @return The speed of the bullet
    */
   public int getSpeed() {

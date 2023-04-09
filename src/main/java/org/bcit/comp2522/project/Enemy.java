@@ -47,7 +47,7 @@ public class Enemy extends Sprite {
   /**
    * Method to draw the enemy object on the screen.
    */
-  public void enemyIdleAnim(){
+  public void enemyIdleAnim() {
     timer++;
     if (timer >= timerEnd) { // Change image every 10 frames
       imageIndex = (imageIndex + 1) % 2; // Cycle through the two images
@@ -56,7 +56,7 @@ public class Enemy extends Sprite {
   }
 
   /**
-   Method to draw the enemy object on the screen
+   Method to draw the enemy object on the screen.
    */
   @Override
   public void draw() {

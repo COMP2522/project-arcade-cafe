@@ -48,6 +48,9 @@ public class PowerUpManager {
    */
   private int fireRateDecreaseCounter = 0;
 
+  /**
+   * Resets the power-ups list and the number of waves.
+   */
   public void resetPowerUp() {
     // Reset the enemies list
     powerUps.clear();
