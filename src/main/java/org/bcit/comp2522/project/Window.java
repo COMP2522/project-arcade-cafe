@@ -56,8 +56,6 @@ public class Window extends PApplet {
       lm.draw();
       update();
     }
-
-    menuManager.draw(currentState); // Draw the menu based on the current state
   }
 
   @Override
