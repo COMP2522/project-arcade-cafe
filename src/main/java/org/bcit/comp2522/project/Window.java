@@ -58,6 +58,9 @@ public class Window extends PApplet {
     }
   }
 
+  /**
+   * Override method to check if a key has been pressed.
+   */
   @Override
   public void keyPressed() {
     GameState currentState = lm.getState();
@@ -75,6 +78,11 @@ public class Window extends PApplet {
     }
   }
 
+
+
+  /**
+   * Method to check if a key has been released.
+   */
   @Override
   public void keyReleased() {
     if (key == ' ' && wasPaused) {
@@ -90,6 +98,9 @@ public class Window extends PApplet {
     }
   }
 
+  /**
+   * Update method that checks the status of the game to read data.
+   */
   public void update() {
 
     lm.update();
@@ -103,12 +114,18 @@ public class Window extends PApplet {
     }
   }
 
-
+  /**
+   * Method to check the state of the mouse being clicked.
+   */
   @Override
   public void mousePressed() {
     menuManager.mousePressed(lm.getState());
   }
 
+  /**
+   * Main method
+   * @param args
+   */
   public static void main(String[] args) {
 
     String[] processingArgs = {"Window"};

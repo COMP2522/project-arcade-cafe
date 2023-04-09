@@ -13,10 +13,20 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import org.bson.Document;
 
+/**
+ * Class that handles interactions with a MongoDB database for storing and retrieving scores.
+ */
 public class DatabaseHandler {
+  // The MongoDB database being used.
   MongoDatabase database;
+  // The name of the collection where scores are stored.
   String myCollection;
 
+  /**
+   * Constructs a DatabaseHandler with a specified username and password for the MongoDB database.
+   * @param username the username for the MongoDB database
+   * @param password the password for the MongoDB database
+   */
   public DatabaseHandler(String username, String password) {
     ConnectionString connectionString = new ConnectionString(
             String.format("mongodb+srv://%s:%s@cluster0.t1r3fam.mongodb.net"
@@ -32,6 +42,11 @@ public class DatabaseHandler {
     this.myCollection = "score";
   }
 
+  /**
+   * Puts a key-value pair into the database, along with a timestamp.
+   * @param key the key to store
+   * @param value the value to store
+   */
   public void put(final String key, final int value) {
     Document document = new Document();
     document.append(key, value);
@@ -40,21 +55,30 @@ public class DatabaseHandler {
     System.out.println("Successfully stored in DB!");
   }
 
+  /**
+   * A class for deserializing configuration settings from a JSON file.
+   */
   public static class Config {
     private String dbUsername;
     private String dbPassword;
 
+    // The username for the MongoDB database.
     @JsonProperty("DB_USERNAME")
     public String getDbUsername() {
       return dbUsername;
     }
 
+    //The password for the MongoDB database.
     @JsonProperty("DB_PASSWORD")
     public String getDbPassword() {
       return dbPassword;
     }
   }
 
+  /**
+   * Gets the top 10 scores from the database in descending order.
+   * @return an ArrayList of Documents containing the top 10 scores
+   */
   public ArrayList<Document> getTopScores() {
     ArrayList<Document> topScores = new ArrayList<>();
 

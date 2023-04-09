@@ -47,13 +47,20 @@ public class Enemy extends Sprite {
   /**
    * Method to draw the enemy object on the screen.
    */
-  @Override
-  public void draw() {
+  public void enemyIdleAnim(){
     timer++;
     if (timer >= timerEnd) { // Change image every 10 frames
       imageIndex = (imageIndex + 1) % 2; // Cycle through the two images
       timer = 0;
     }
+  }
+
+  /**
+   Method to draw the enemy object on the screen
+   */
+  @Override
+  public void draw() {
+    enemyIdleAnim();
     window.pushMatrix();
     window.translate(getX(), getY());
     window.image(alienImages[imageIndex], imageRatio, imageRatio, imageSize, imageSize);
