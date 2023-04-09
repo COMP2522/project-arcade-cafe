@@ -2,6 +2,11 @@ package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
 
+/**
+ * This Button class represents the graphical buttons featured in the menus.
+ * The button can be customized with label, position, size, font size, font color,
+ * and an onClickAction method that is executed when the button is clicked.
+ */
 public class Button {
 
   private String label;
@@ -14,6 +19,17 @@ public class Button {
   private Runnable onClickAction;
   private static final int BUTTON_COLOR = 100;
 
+  /**
+   * Constructs a new Button object.
+   * @param buttonLabel the label to display on the button
+   * @param buttonXcoordinate the x-coordinate of the button's center
+   * @param buttonYcoordinate the y-coordinate of the button's center
+   * @param buttonWidth the width of the button
+   * @param buttonHeight the height of the button
+   * @param buttonFontSize the font size of the label
+   * @param buttonFontColour the color of the label
+   * @param buttonOnClickAction the action to execute when the button is clicked
+   */
   public Button(final String buttonLabel,
                 final float buttonXcoordinate,
                 final float buttonYcoordinate,
@@ -32,6 +48,10 @@ public class Button {
     this.onClickAction = buttonOnClickAction;
   }
 
+  /**
+   * Draws the button on the Processing sketch.
+   * @param papplet the PApplet object representing the sketch
+   */
   public void draw(final PApplet papplet) {
     papplet.rectMode(PApplet.CENTER);
     papplet.fill(BUTTON_COLOR);
@@ -42,6 +62,12 @@ public class Button {
     papplet.text(label, xcoordinate, ycooridnate);
   }
 
+  /**
+   * Determines if the given coordinates are over the button.
+   * @param mouseX the x-coordinate of the mouse
+   * @param mouseY the y-coordinate of the mouse
+   * @return true if the coordinates are over the button, false otherwise
+   */
   public boolean isMouseOver(final float mouseX, final float mouseY) {
     return mouseX > xcoordinate - width / 2
             && mouseX < xcoordinate + width / 2
@@ -49,12 +75,19 @@ public class Button {
             && mouseY < ycooridnate + height / 2;
   }
 
+  /**
+   * Executes the button's onClickAction.
+   */
   public void onClick() {
     if (onClickAction != null) {
       onClickAction.run();
     }
   }
 
+  /**
+   * Gets the label of the button.
+   * @return the button label
+   */
   public String getLabel() {
     return this.label;
   }

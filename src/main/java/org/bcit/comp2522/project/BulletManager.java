@@ -3,6 +3,10 @@ package org.bcit.comp2522.project;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * The BulletManager class manages the bullets in the game. It tracks the bullets on the screen, updates
+ * their positions, and removes them if they go off the screen. It also provides a method for shooting a new bullet.
+ */
 public final class BulletManager {
   private static BulletManager singleton;
   private ArrayList<Bullet> bullets;
@@ -13,17 +17,30 @@ public final class BulletManager {
   private static final int BULLET_HEIGHT = 40;
   private final Object lock = new Object();
 
-  private BulletManager(final Window inGameWindow) {
+  /**
+   * Constructs a new BulletManager object with the specified Window.
+   * @param inGameWindow the Window object that the bullets will be displayed.
+   */
+  BulletManager(final Window inGameWindow) {
     this.window = inGameWindow;
     bullets = new ArrayList<>();
     screenWidth = inGameWindow.width;
     screenHeight = inGameWindow.height;
   }
 
+  /**
+   * Returns the instance of the BulletManager class.
+   * @return the instance of the BulletManager class
+   */
   public static BulletManager getInstance() {
     return singleton;
   }
 
+  /**
+   * Returns the instance of the BulletManager class with the specified Window.
+   * @param window the Window object that the bullets will be displayed in
+   * @return the instance of the BulletManager class with the specified Window
+   */
   public static BulletManager getInstance(final Window window) {
     if (singleton == null) {
       singleton = new BulletManager(window);
@@ -31,10 +48,19 @@ public final class BulletManager {
     return singleton;
   }
 
+  /**
+   * Clears all bullets from the screen.
+   */
   public void resetBullet() {
     bullets.clear();
   }
 
+  /**
+   * Creates a new Bullet object and adds it to the screen.
+   * @param xpos the x-coordinate of the bullet's starting position
+   * @param ypos the y-coordinate of the bullet's starting position
+   * @param dy the speed at which the bullet will travel
+   */
   public void shootBullet(final int xpos,
                           final int ypos,
                           final int dy) {
@@ -48,10 +74,18 @@ public final class BulletManager {
     }
   }
 
+  /**
+   * Adds an existing Bullet object to the screen.
+   * @param b the Bullet object to add to the screen
+   */
   public void add(final Bullet b) {
     bullets.add(b);
   }
 
+  /**
+   * Updates the positions of all bullets on the screen, and
+   * removes any bullets that have gone off the screen.
+   */
   public void update() {
     synchronized (lock) {
       Iterator<Bullet> iter = bullets.iterator();
@@ -65,11 +99,20 @@ public final class BulletManager {
     }
   }
 
+  /**
+   * Determines whether or not a bullet is visible on the screen at the specified coordinates.
+   * @param x the x-coordinate to check
+   * @param y the y-coordinate to check
+   * @return true if the bullet is visible at the specified coordinates, false otherwise
+   */
   public boolean isVisible(final int x,
                            final int y) {
     return (x >= 0 && x < screenWidth) && (y >= 0 && y < screenHeight);
   }
 
+  /**
+   * Draws all bullets on the screen, and removes any bullets that have gone off the screen.
+   */
   public void draw() {
     synchronized (lock) {
       Iterator<Bullet> iterator = bullets.iterator();
@@ -85,6 +128,12 @@ public final class BulletManager {
     }
   }
 
+
+  /**
+   * Returns the list of all active bullets in the game.
+   * @return the ArrayList of Bullet objects representing all active bullets.
+   * @return
+   */
   public ArrayList<Bullet> getBullets() {
     return bullets;
   }
