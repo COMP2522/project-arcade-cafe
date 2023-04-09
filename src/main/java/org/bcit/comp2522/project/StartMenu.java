@@ -51,8 +51,11 @@ public class StartMenu {
    Initializes the buttons and loads the background image.
    */
   public void draw() {
+    papplet.imageMode(papplet.CORNER);
     int halfWidth = papplet.width / 2;
     int halfHeight = papplet.height / 2;
+    papplet.background(0);
+    papplet.image(backgroundImage, 0, 0);
     buttons.clear();
     int extraOffset = 0;
     if (LevelManager.getInstance().saveExists()) {
