@@ -36,7 +36,7 @@ communication, questions and requests. Meetings are also held on discord in the 
 4. Be able to save game state.
 
 ## UML Diagram (group, 1%)
-![JAVA Game - Final.jpeg](..%2F..%2FDownloads%2FJAVA%20Game%20-%20Final.jpeg)
+![image](https://user-images.githubusercontent.com/113309333/230802294-2a6a5be2-29b7-4aed-a237-7489d02f788f.png)
 
 ## Initial GitHub Issues
 Please see the closed GitHub Issues for reference.
