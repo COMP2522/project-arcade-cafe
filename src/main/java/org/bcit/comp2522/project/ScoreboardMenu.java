@@ -15,6 +15,9 @@ import processing.core.PApplet;
  * the scores from a MongoDB database.
  * The class also provides a "Go Back" button
  * to return to the main menu.
+ *
+ * @author Eric Cho
+ * @author Helen Liu
  */
 public class ScoreboardMenu {
   private final int buttonWidth = 150;

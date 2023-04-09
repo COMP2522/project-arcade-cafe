@@ -8,6 +8,8 @@ package org.bcit.comp2522.project;
  * PAUSED: the game is paused
  * GAME_OVER: the game has ended and the game over screen is displayed
  * SCORE_BOARD: the scoreboard screen is displayed
+ *
+ * @author Eric Cho
  */
 public enum GameState {
     MAIN_MENU,

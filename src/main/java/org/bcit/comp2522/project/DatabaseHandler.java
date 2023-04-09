@@ -15,6 +15,10 @@ import org.bson.Document;
 
 /**
  * Class that handles interactions with a MongoDB database for storing and retrieving scores.
+ *
+ * @author Eric Cho
+ * @author Samuel Chua
+ *
  */
 public class DatabaseHandler {
   // The MongoDB database being used.

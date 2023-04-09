@@ -10,6 +10,10 @@ import java.util.Random;
  * of the class in the program. The class is responsible for spawning power-ups
  * at random positions and intervals, updating their positions, and checking for
  * collisions with the player.
+ *
+ * @author Sunmin Park
+ * @author Mylo yu
+ *
  */
 public class PowerUpManager {
 

@@ -7,6 +7,12 @@ import processing.core.PImage;
  * The Window class is the main Processing sketch that handles the game loop and user input.
  * It also initializes and manages the different game components such as the menu, player,
  * enemies, and score.
+ *
+ * @author Mylo Yu
+ * @author Eric Cho
+ * @author Helen Liu
+ * @author Sunmin Park
+ * @author Samuel Chua
  */
 public class Window extends PApplet {
 

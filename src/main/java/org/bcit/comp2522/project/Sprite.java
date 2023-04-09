@@ -7,6 +7,9 @@ package org.bcit.comp2522.project;
  * collisions with other sprites, and obtaining the sprite's associated window.
  * Subclasses must provide their own implementation of the draw method to display
  * the sprite in the window.
+ *
+ * @author Helen Liu
+ *
  */
 public abstract class Sprite {
 

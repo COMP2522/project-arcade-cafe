@@ -2,21 +2,30 @@ package org.bcit.comp2522.project;
 
 import processing.core.PImage;
 
-
+/**
+ * This Player class handles movement, shooting, and
+ * image animations based on player actions.
+ *
+ * @author Sunmin Park
+ * @author Mylo Yu
+ * @author Helen Liu
+ * @author Samuel Chua
+ *
+ */
 public class Player extends Sprite {
 
   /**
-   * The Singleton instance of the Player.
+   * This is the Singleton instance of the Player.
    */
   private static Player player;
 
   /**
-   * Player's hp.
+   * Variable for the player's hp.
    */
   private int hp;
 
   /**
-   * Player's fire rate.
+   * Player's fire rate variable.
    */
   private int fireRate;
 
@@ -26,7 +35,7 @@ public class Player extends Sprite {
   private int shotLast = 0;
 
   /**
-   * The player's image.
+   * The player's image PImage.
    */
   private PImage playerImage;
 
@@ -36,7 +45,7 @@ public class Player extends Sprite {
   private int fireRateIncreases;
 
   /**
-   * The start time of the fire rate decrease.
+   * Variable of the start time of the fire rate decrease.
    */
   private long fireRateDecreaseStartTime;
 
@@ -110,9 +119,9 @@ public class Player extends Sprite {
    * @param xpos      initial x position
    * @param ypos      initial y position
    * @param size      size of the player
-   * @param window the window the player will be drawn in
-   * @param hp     initial hit points
-   * @param fireRate     initial fire rate
+   * @param window    the window the player will be drawn in
+   * @param hp        initial hit points
+   * @param fireRate  initial fire rate
    * @return the Singleton instance of the Player
    */
   public static Player getInstance(int xpos, int ypos, int size,

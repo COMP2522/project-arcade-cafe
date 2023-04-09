@@ -6,6 +6,10 @@ import processing.core.PImage;
  * The PowerUp class represents a power-up object in the game.
  * A power-up can have different types, such as "hp" (health) or "fireRate" (fire rate).
  * The power-up object moves vertically and is drawn with a corresponding image.
+ *
+ * @author Sunmin Park
+ * @author Helen Liu
+ *
  */
 public class PowerUp extends Sprite {
 

@@ -5,9 +5,12 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 
 /**
- PauseMenu is a class representing the pause menu for the game.
- It extends the PApplet class from the Processing library, which provides the functionality
- for drawing on the screen and handling user input.
+ * PauseMenu is a class representing the pause menu for the game.
+ * It extends the PApplet class from the Processing library, which provides the functionality
+ * for drawing on the screen and handling user input.
+ *
+ * @author Helen Liu
+ *
  */
 public class PauseMenu extends PApplet {
 

@@ -3,9 +3,14 @@ package org.bcit.comp2522.project;
 import java.util.ArrayList;
 
 /**
- The EnemyManager class handles the management of Enemy objects, including their creation,
- updates, and removal. It also keeps track of the state of the game, such as the number of
- rows of enemies.
+ * The EnemyManager class handles the management of Enemy objects, including their creation,
+ * updates, and removal. It also keeps track of the state of the game, such as the number of
+ * rows of enemies.
+ *
+ * @author Helen Liu
+ * @author Mylo Yu
+ * @author Eric Cho
+ * @author Samuel Chua
  */
 public class EnemyManager {
   private static EnemyManager singleton;

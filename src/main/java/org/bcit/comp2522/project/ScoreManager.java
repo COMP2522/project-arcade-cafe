@@ -5,6 +5,9 @@ import processing.core.PApplet;
 /**
  * The ScoreManager class handles the player's score during the game.
  * It provides methods to increase the score, reset it, get it, and display it on the screen.
+ *
+ * @author Eric Cho
+ *
  */
 public final class ScoreManager {
   private static ScoreManager singleton;
