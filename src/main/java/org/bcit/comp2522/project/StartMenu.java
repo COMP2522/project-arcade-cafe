@@ -111,7 +111,7 @@ public class StartMenu {
    *
    * @param buttonLabel the text displayed on the button
    * @param xbutton the x-coordinate of the center of the button
-   * @param y  the y-coordinate of the center of the button
+   * @param ybutton  the y-coordinate of the center of the button
    * @param addButtonWidth the width of the button in pixels
    * @param addButtonHeight the height of the button in pixels
    * @param addButtonFontSize  the size of the font used for the button label
@@ -120,13 +120,13 @@ public class StartMenu {
    */
   private void addButton(final String buttonLabel,
                          final float xbutton,
-                         final float y,
+                         final float ybutton,
                          final float addButtonWidth,
                          final float addButtonHeight,
                          final int addButtonFontSize,
                          final int fontColour,
                          final Runnable onClickAction) {
-    buttons.add(new Button(buttonLabel, xbutton, y, addButtonWidth,
+    buttons.add(new Button(buttonLabel, xbutton, ybutton, addButtonWidth,
             addButtonHeight, addButtonFontSize, fontColour, onClickAction));
   }
 
