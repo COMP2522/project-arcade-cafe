@@ -14,6 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import processing.core.PApplet;
 
 /**
  * The LevelManager class manages the game state, updates and draws all game objects.
@@ -37,12 +38,11 @@ public class LevelManager {
   private final MenuManager menuManager;
   private final DatabaseHandler db;
   private int highscore = 0;
-
   private GameState gameState;
 
   private LevelManager() {
     File file = new File("save.json");
-      saveExists = file.exists();
+    saveExists = file.exists();
 
     em = EnemyManager.getInstance();
     bm = BulletManager.getInstance();
@@ -111,7 +111,7 @@ public class LevelManager {
     return gameOver;
   }
 
-  public void resetGameOver() {
+  public void resetGameOverStatus() {
     this.gameOver = false;
   }
 
@@ -126,6 +126,7 @@ public class LevelManager {
       player.draw();
       lives.draw();
       sc.draw();
+
       if (gameState == GameState.PAUSED) {
         menuManager.draw(GameState.PAUSED);
       }

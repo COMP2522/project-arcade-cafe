@@ -19,7 +19,6 @@ public class StartMenu{
   private final int buttonWidth = 150;
   private final int buttonHeight = 50;
   private final int fontSize = 20;
-
   private final int offset0 = -50;
   private final int offset1 = 25;
   private final int offset2 = 100;
@@ -30,7 +29,7 @@ public class StartMenu{
   //itself to true despite the one function setting it to true
   //being behind an if statement that only runs if it's false. and that statement never ran.
   private final Consumer<GameState> onStateChange;
-  private PImage backgroundImage;
+  private static PImage backgroundImage;
 
 
   /**
@@ -53,8 +52,11 @@ public class StartMenu{
    Initializes the buttons and loads the background image.
    */
   public void draw() {
+    papplet.imageMode(papplet.CORNER);
     int halfWidth = papplet.width / 2;
     int halfHeight = papplet.height / 2;
+    papplet.background(0);
+    papplet.image(backgroundImage, 0,0,960, 540);
     buttons.clear();
       int extraOffset = 0;
       if(LevelManager.getInstance().saveExists()) {
@@ -63,6 +65,7 @@ public class StartMenu{
                         + extraOffset, buttonWidth, buttonHeight, fontSize,
                 0xFFFFFFFF, this::continueGame);
       }
+
       addButton("New Game", halfWidth, halfHeight + offset1 + extraOffset, buttonWidth,
               buttonHeight, fontSize, 0xFFFFFFFF, this::startNewGame);
       addButton("Scoreboard", halfWidth, halfHeight + offset2 + extraOffset, buttonWidth,
@@ -70,7 +73,12 @@ public class StartMenu{
       addButton("Exit", halfWidth, halfHeight + offset3 + extraOffset, buttonWidth,
               buttonHeight, fontSize, 0xFFFFFFFF, this::exitGame);
 
-    papplet.image(backgroundImage, 0, 0, papplet.width, papplet.height);
+      // Draw text at the bottom right corner of the window
+      papplet.textSize(20);
+      papplet.fill(255);
+      papplet.textAlign(PApplet.RIGHT, PApplet.BOTTOM);
+      papplet.text("Move: Left/Right Arrow Keys", papplet.width - 20, papplet.height - 20);
+      papplet.text("Pause: Space", papplet.width - 20, papplet.height - 40);
 
     for (Button button : buttons) {
       button.draw(papplet);

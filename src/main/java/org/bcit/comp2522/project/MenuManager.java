@@ -9,8 +9,6 @@ public class MenuManager {
     private StartMenu startMenu;
     private GameOverMenu gameOverMenu;
     private PauseMenu pauseMenu;
-
-    private GameState gameState;
     private static MenuManager singleton;
     private ScoreboardMenu scoreboardMenu;
     private int score;
@@ -49,7 +47,6 @@ public class MenuManager {
         }
     }
 
-
     public void mousePressed(GameState gameState) {
         switch (gameState) {
             case MAIN_MENU:
@@ -57,6 +54,7 @@ public class MenuManager {
                 break;
             case SCORE_BOARD:
                 scoreboardMenu.mousePressed();
+                break;
             case GAME_OVER:
                 gameOverMenu.mousePressed();
                 break;
