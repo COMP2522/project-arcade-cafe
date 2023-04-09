@@ -3,8 +3,6 @@ package org.bcit.comp2522.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -70,12 +68,12 @@ public class StartMenu {
     addButton("Exit", halfWidth, halfHeight + offset3 + extraOffset, buttonWidth,
             buttonHeight, fontSize, 0xFFFFFFFF, this::exitGame);
 
-      // Draw text at the bottom right corner of the window
-      papplet.textSize(20);
-      papplet.fill(255);
-      papplet.textAlign(PApplet.RIGHT, PApplet.BOTTOM);
-      papplet.text("Move: Left/Right Arrow Keys", papplet.width - 20, papplet.height - 20);
-      papplet.text("Pause: Space", papplet.width - 20, papplet.height - 40);
+    // Draw text at the bottom right corner of the window
+    papplet.textSize(20);
+    papplet.fill(255);
+    papplet.textAlign(PApplet.RIGHT, PApplet.BOTTOM);
+    papplet.text("Move: Left/Right Arrow Keys", papplet.width - 20, papplet.height - 20);
+    papplet.text("Pause: Space", papplet.width - 20, papplet.height - 40);
 
     for (Button button : buttons) {
       button.draw(papplet);

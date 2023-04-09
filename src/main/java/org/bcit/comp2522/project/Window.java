@@ -17,16 +17,17 @@ public class Window extends PApplet {
 
   public void settings() {
     size(960, 540);
+  }
 
-    }
-    public void setState(GameState gameState) {
-      lm.setState(gameState); // Set the state in the LevelManager instance as well
-    }
-    public void setup() {
-      menuManager = MenuManager.getInstance(this, this::setState);
+  public void setState(GameState gameState) {
+    lm.setState(gameState); // Set the state in the LevelManager instance as well
+  }
 
-      backgroundImageInGame= loadImage("src/bgImg/galagaSpace.png");
-      backgroundImageInGame.resize(2000,1200);
+  public void setup() {
+    menuManager = MenuManager.getInstance(this, this::setState);
+
+    backgroundImageInGame = loadImage("src/bgImg/galagaSpace.png");
+    backgroundImageInGame.resize(2000, 1200);
 
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
@@ -34,12 +35,12 @@ public class Window extends PApplet {
     ScoreManager.getInstance(this);
     PowerUpManager.getInstance(500, width * 4 / 5, this);
 
-      lm = LevelManager.getInstance();
-   }
+    lm = LevelManager.getInstance();
+  }
 
   public void draw() {
     GameState currentState = lm.getState(); // Get the current state from LevelManager
-     // Draw the menu based on the current state
+    // Draw the menu based on the current state
     menuManager.draw(currentState);
     if (currentState == GameState.PLAYING) {
 
@@ -62,7 +63,7 @@ public class Window extends PApplet {
   @Override
   public void keyPressed() {
     GameState currentState = lm.getState();
-    if(currentState == GameState.PLAYING && key == ' ' && !wasPaused) {
+    if (currentState == GameState.PLAYING && key == ' ' && !wasPaused) {
       lm.pause();
       wasPaused = true;
     }
@@ -75,6 +76,7 @@ public class Window extends PApplet {
       }
     }
   }
+
   @Override
   public void keyReleased() {
     if (key == ' ' && wasPaused) {

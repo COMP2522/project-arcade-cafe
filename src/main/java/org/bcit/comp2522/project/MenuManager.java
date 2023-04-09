@@ -1,7 +1,7 @@
 package org.bcit.comp2522.project;
 
-import processing.core.PApplet;
 import java.util.function.Consumer;
+import processing.core.PApplet;
 
 public class MenuManager {
   private PApplet papplet;
