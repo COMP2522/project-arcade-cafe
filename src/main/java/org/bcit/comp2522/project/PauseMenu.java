@@ -50,7 +50,7 @@ public class PauseMenu extends PApplet {
     // above the vertical center of the screen.
     float quitButtonX = centerX;
     float quitButtonY = centerY + buttonMargin;
-    quitButton = new Button("Quit", quitButtonX, quitButtonY,
+    quitButton = new Button("Save & Quit", quitButtonX, quitButtonY,
         buttonWidth, buttonHeight,
         fontSize, fontColour,
         () -> {
