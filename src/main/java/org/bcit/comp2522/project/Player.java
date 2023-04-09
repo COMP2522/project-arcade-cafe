@@ -93,6 +93,7 @@ public class Player extends Sprite {
 
   /**
    * Method play animations based on their case.
+   * @param animCase is the switch of the player status
    */
   public void playerAnimation(String animCase) {
     switch (animCase) {
@@ -201,7 +202,7 @@ public class Player extends Sprite {
   }
 
   /**
-   * Sets the fire rate of the player.
+   * Sets the time of 'last shot' from the player.
    * @param fireRate the new fire rate
    */
   public void setFireRate(int fireRate) {

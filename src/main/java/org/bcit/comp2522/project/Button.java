@@ -61,9 +61,11 @@ public class Button {
    */
   public void draw(final PApplet papplet) {
     papplet.rectMode(PApplet.CENTER);
-    papplet.fill(BUTTON_COLOR);
+    papplet.fill(148,4,50);
     papplet.rect(xcoordinate, ycooridnate, width, height);
     papplet.fill(fontColour);
+    papplet.stroke(95, 30, 42); // set the border color to white
+    papplet.strokeWeight(2); // set the border thickness
     papplet.textSize(fontSize);
     papplet.textAlign(PApplet.CENTER, PApplet.CENTER);
     papplet.text(label, xcoordinate, ycooridnate);
