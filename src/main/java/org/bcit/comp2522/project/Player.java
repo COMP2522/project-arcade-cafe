@@ -10,7 +10,6 @@ public class Player extends Sprite {
    */
   private static Player player;
 
-
   /**
    * Player's hp.
    */
@@ -20,7 +19,6 @@ public class Player extends Sprite {
    * Player's fire rate.
    */
   private int fireRate;
-
 
   /**
    * The time since the player last shot.

@@ -11,7 +11,7 @@ public class Button {
 
   private String label;
   private float xcoordinate;
-  private float ycooridnate;
+  private float ycoordinate;
   private float width;
   private float height;
   private int fontSize;
@@ -21,6 +21,7 @@ public class Button {
 
   /**
    * Constructs a new Button object.
+   *
    * @param buttonLabel the label to display on the button
    * @param buttonXcoordinate the x-coordinate of the button's center
    * @param buttonYcoordinate the y-coordinate of the button's center
@@ -40,7 +41,7 @@ public class Button {
                 final Runnable buttonOnClickAction) {
     this.label = buttonLabel;
     this.xcoordinate = buttonXcoordinate;
-    this.ycooridnate = buttonYcoordinate;
+    this.ycoordinate = buttonYcoordinate;
     this.width = buttonWidth;
     this.height = buttonHeight;
     this.fontSize = buttonFontSize;
@@ -50,20 +51,22 @@ public class Button {
 
   /**
    * Draws the button on the Processing sketch.
+   *
    * @param papplet the PApplet object representing the sketch
    */
   public void draw(final PApplet papplet) {
     papplet.rectMode(PApplet.CENTER);
     papplet.fill(BUTTON_COLOR);
-    papplet.rect(xcoordinate, ycooridnate, width, height);
+    papplet.rect(xcoordinate, ycoordinate, width, height);
     papplet.fill(fontColour);
     papplet.textSize(fontSize);
     papplet.textAlign(PApplet.CENTER, PApplet.CENTER);
-    papplet.text(label, xcoordinate, ycooridnate);
+    papplet.text(label, xcoordinate, ycoordinate);
   }
 
   /**
    * Determines if the given coordinates are over the button.
+   *
    * @param mouseX the x-coordinate of the mouse
    * @param mouseY the y-coordinate of the mouse
    * @return true if the coordinates are over the button, false otherwise
@@ -71,8 +74,8 @@ public class Button {
   public boolean isMouseOver(final float mouseX, final float mouseY) {
     return mouseX > xcoordinate - width / 2
             && mouseX < xcoordinate + width / 2
-            && mouseY > ycooridnate - height / 2
-            && mouseY < ycooridnate + height / 2;
+            && mouseY > ycoordinate - height / 2
+            && mouseY < ycoordinate + height / 2;
   }
 
   /**
@@ -86,6 +89,7 @@ public class Button {
 
   /**
    * Gets the label of the button.
+   *
    * @return the button label
    */
   public String getLabel() {

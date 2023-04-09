@@ -24,6 +24,7 @@ public class DatabaseHandler {
 
   /**
    * Constructs a DatabaseHandler with a specified username and password for the MongoDB database.
+   *
    * @param username the username for the MongoDB database
    * @param password the password for the MongoDB database
    */
@@ -44,6 +45,7 @@ public class DatabaseHandler {
 
   /**
    * Puts a key-value pair into the database, along with a timestamp.
+   *
    * @param key the key to store
    * @param value the value to store
    */
@@ -77,6 +79,7 @@ public class DatabaseHandler {
 
   /**
    * Gets the top 10 scores from the database in descending order.
+   *
    * @return an ArrayList of Documents containing the top 10 scores
    */
   public ArrayList<Document> getTopScores() {

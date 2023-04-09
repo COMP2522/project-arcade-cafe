@@ -14,7 +14,6 @@ public class MenuManager {
   private StartMenu startMenu;
   private GameOverMenu gameOverMenu;
   private PauseMenu pauseMenu;
-
   private GameState gameState;
   private static MenuManager singleton;
   private ScoreboardMenu scoreboardMenu;

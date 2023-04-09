@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * The BulletManager class manages the bullets in the game. It tracks the bullets on the screen, updates
- * their positions, and removes them if they go off the screen. It also provides a method for shooting a new bullet.
+ * The BulletManager class manages the bullets in the game. It tracks the bullets
+ * on the screen, updates their positions, and removes them if they go off the screen.
+ * It also provides a method for shooting a new bullet.
  */
 public final class BulletManager {
   private static BulletManager singleton;
@@ -19,6 +20,7 @@ public final class BulletManager {
 
   /**
    * Constructs a new BulletManager object with the specified Window.
+   *
    * @param inGameWindow the Window object that the bullets will be displayed.
    */
   BulletManager(final Window inGameWindow) {
@@ -30,6 +32,7 @@ public final class BulletManager {
 
   /**
    * Returns the instance of the BulletManager class.
+   *
    * @return the instance of the BulletManager class
    */
   public static BulletManager getInstance() {
@@ -38,6 +41,7 @@ public final class BulletManager {
 
   /**
    * Returns the instance of the BulletManager class with the specified Window.
+   *
    * @param window the Window object that the bullets will be displayed in
    * @return the instance of the BulletManager class with the specified Window
    */
@@ -57,6 +61,7 @@ public final class BulletManager {
 
   /**
    * Creates a new Bullet object and adds it to the screen.
+   *
    * @param xpos the x-coordinate of the bullet's starting position
    * @param ypos the y-coordinate of the bullet's starting position
    * @param dy the speed at which the bullet will travel
@@ -76,6 +81,7 @@ public final class BulletManager {
 
   /**
    * Adds an existing Bullet object to the screen.
+   *
    * @param b the Bullet object to add to the screen
    */
   public void add(final Bullet b) {
@@ -101,6 +107,7 @@ public final class BulletManager {
 
   /**
    * Determines whether or not a bullet is visible on the screen at the specified coordinates.
+   *
    * @param x the x-coordinate to check
    * @param y the y-coordinate to check
    * @return true if the bullet is visible at the specified coordinates, false otherwise
@@ -131,8 +138,8 @@ public final class BulletManager {
 
   /**
    * Returns the list of all active bullets in the game.
+   *
    * @return the ArrayList of Bullet objects representing all active bullets.
-   * @return
    */
   public ArrayList<Bullet> getBullets() {
     return bullets;
