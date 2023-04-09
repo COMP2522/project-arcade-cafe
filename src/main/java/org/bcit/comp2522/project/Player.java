@@ -133,6 +133,8 @@ public class Player extends Sprite {
   }
 
   /**
+   * This gets the x position of the player.
+   *
    * @return the x position of the player
    */
   public int getX() {
@@ -140,6 +142,8 @@ public class Player extends Sprite {
   }
 
   /**
+   * This gets the y position of the player.
+   *
    * @return the y position of the player
    */
   public int getY() {
@@ -147,6 +151,8 @@ public class Player extends Sprite {
   }
 
   /**
+   * This gets the HP of the player.
+   *
    * @return the hp count of the player
    */
   public int getHp() {
@@ -154,6 +160,8 @@ public class Player extends Sprite {
   }
 
   /**
+   * This gets the time since last shot from the player.
+   *
    * @return the time since last shot of the player
    */
   public int getShotLast() {
@@ -161,6 +169,8 @@ public class Player extends Sprite {
   }
 
   /**
+   * This gets the fire rate index of the player.
+   *
    * @return the fire rate of the player
    */
   public int getFireRate() {
