@@ -18,6 +18,8 @@ import processing.core.PApplet;
  *
  * @author Eric Cho
  * @author Helen Liu
+ * @author Samuel Chua
+ *
  */
 public class ScoreboardMenu {
   private final int buttonWidth = 150;
