@@ -4,21 +4,12 @@ import processing.core.PApplet;
 
 import java.awt.*;
 
-public class Sprite {
+public abstract class Sprite {
   protected int x;
   protected int y;
   protected int size;
 //  protected Color color;
   protected Window window;
-
-  //constructor with color
-//  public Sprite(int xPos, int yPos, int size, Color color, Window window) {
-//    this.x = xPos;
-//    this.y = yPos;
-//    this.size = size;
-//    this.color = color;
-//    this.window = window;
-//  }
 
   //new constructor without
   public Sprite(int xPos, int yPos, int size, Window window) {

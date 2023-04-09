@@ -3,8 +3,6 @@ package org.bcit.comp2522.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -14,7 +12,7 @@ import processing.core.PImage;
  A StartMenu class for displaying the game's starting menu.
  Extends PApplet to use Processing's graphical capabilities.
  */
-public class StartMenu{
+public class StartMenu {
   private final PApplet papplet;
   private final int buttonWidth = 150;
   private final int buttonHeight = 50;
@@ -56,19 +54,19 @@ public class StartMenu{
     int halfWidth = papplet.width / 2;
     int halfHeight = papplet.height / 2;
     buttons.clear();
-      int extraOffset = 0;
-      if(LevelManager.getInstance().saveExists()) {
-        extraOffset = 30;
-        addButton("Continue", halfWidth, halfHeight + offset0
-                        + extraOffset, buttonWidth, buttonHeight, fontSize,
-                0xFFFFFFFF, this::continueGame);
-      }
-      addButton("New Game", halfWidth, halfHeight + offset1 + extraOffset, buttonWidth,
-              buttonHeight, fontSize, 0xFFFFFFFF, this::startNewGame);
-      addButton("Scoreboard", halfWidth, halfHeight + offset2 + extraOffset, buttonWidth,
-              buttonHeight, fontSize, 0xFFFFFFFF, this::openScoreboard);
-      addButton("Exit", halfWidth, halfHeight + offset3 + extraOffset, buttonWidth,
-              buttonHeight, fontSize, 0xFFFFFFFF, this::exitGame);
+    int extraOffset = 0;
+    if (LevelManager.getInstance().saveExists()) {
+      extraOffset = 30;
+      addButton("Continue", halfWidth, halfHeight + offset0
+                      + extraOffset, buttonWidth, buttonHeight, fontSize,
+              0xFFFFFFFF, this::continueGame);
+    }
+    addButton("New Game", halfWidth, halfHeight + offset1 + extraOffset, buttonWidth,
+            buttonHeight, fontSize, 0xFFFFFFFF, this::startNewGame);
+    addButton("Scoreboard", halfWidth, halfHeight + offset2 + extraOffset, buttonWidth,
+            buttonHeight, fontSize, 0xFFFFFFFF, this::openScoreboard);
+    addButton("Exit", halfWidth, halfHeight + offset3 + extraOffset, buttonWidth,
+            buttonHeight, fontSize, 0xFFFFFFFF, this::exitGame);
 
     papplet.image(backgroundImage, 0, 0, papplet.width, papplet.height);
 
