@@ -1,5 +1,8 @@
 # Galaga 0.5
 ### Project Arcade Cafe
+<img width="958" alt="Screen Shot 2023-04-09 at 3 02 46 PM" src="https://user-images.githubusercontent.com/81988553/230798634-0967d6f7-bc78-415c-9639-4e67ffa3a56b.png">
+<img width="957" alt="Screen Shot 2023-04-09 at 3 02 55 PM" src="https://user-images.githubusercontent.com/81988553/230798638-a725d177-4c37-4ae7-a227-22633b73f754.png">
+<img width="946" alt="Screen Shot 2023-04-09 at 3 03 03 PM" src="https://user-images.githubusercontent.com/81988553/230798642-597a3f51-507a-43f6-b21e-ea1954a9d926.png">
 
 ## Project Pitch
 
