@@ -10,16 +10,13 @@ public class Window extends PApplet {
   private MenuManager menuManager;
   private LevelManager lm;
   private int bgY;
-
-  PImage backgroundImage;
-
+  PImage backgroundImageInGame;
   public boolean leftPressed = false;
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
   public void settings() {
     size(960, 540);
-
   }
 
   public void setState(GameState gameState) {
@@ -29,8 +26,8 @@ public class Window extends PApplet {
   public void setup() {
     menuManager = MenuManager.getInstance(this, this::setState);
 
-    backgroundImage = loadImage("src/bgImg/galagaSpace.png");
-    backgroundImage.resize(2000, 1200);
+    backgroundImageInGame = loadImage("src/bgImg/galagaSpace.png");
+    backgroundImageInGame.resize(2000, 1200);
 
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
@@ -41,46 +38,30 @@ public class Window extends PApplet {
     lm = LevelManager.getInstance();
   }
 
-  public void scrollingBg() {
-    GameState currentState = lm.getState();
-
-    if (currentState == GameState.PLAYING) {
-      image(backgroundImage, 0, bgY);
-      image(backgroundImage, 0, bgY - backgroundImage.height);
-      backgroundImage.resize(2000, 1200);
-      bgY += 2;
-
-      if (bgY >= backgroundImage.height) {
-        bgY -= backgroundImage.height;
-      }
-    }
-  }
-
   public void draw() {
     GameState currentState = lm.getState(); // Get the current state from LevelManager
-
-    scrollingBg();
-
-    if (currentState != GameState.PLAYING) {
-      background(0); // Clear the screen with a black background
-      image(backgroundImage, 0, 0);
-    }
-
-    // Only update the game elements if state is PLAYING
+    // Draw the menu based on the current state
+    menuManager.draw(currentState);
     if (currentState == GameState.PLAYING) {
+
+      // Draw the scrolling background
+      image(backgroundImageInGame, 0, bgY);
+      image(backgroundImageInGame, 0, bgY - backgroundImageInGame.height);
+      bgY += 2;
+
+      if (bgY >= backgroundImageInGame.height) {
+        bgY -= backgroundImageInGame.height;
+      }
+
+      lm.draw();
       update();
     }
-    // Only  draw the game elements if state is PLAYING or PAUSED
-    if (currentState == GameState.PLAYING || currentState == GameState.PAUSED) {
-      lm.draw();
-    }
-
-    menuManager.draw(currentState); // Draw the menu based on the current state
   }
 
   @Override
   public void keyPressed() {
-    if (key == ' ' && !wasPaused) {
+    GameState currentState = lm.getState();
+    if (currentState == GameState.PLAYING && key == ' ' && !wasPaused) {
       lm.pause();
       wasPaused = true;
     }

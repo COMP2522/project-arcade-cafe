@@ -18,7 +18,6 @@ import processing.core.PApplet;
 public class GameOverMenu {
 
   private PApplet papplet;
-  private Window window;
   private ArrayList<Button> buttons;
   private final int buttonWidth;
   private final int buttonHeight;
@@ -32,8 +31,6 @@ public class GameOverMenu {
   private static final int FONT_SIZE_LARGE = 32;
   private static final int FONT_SIZE_MEDIUM = 20;
   private final Consumer<GameState> onStateChange;
-  private MenuManager menuManager;
-  private LevelManager levelManager;
   private ScoreManager scoreManager;
   private DatabaseHandler db;
   private int halfWidth;
@@ -119,7 +116,7 @@ public class GameOverMenu {
    * Returns the player to the main menu.
    */
   public void goBackToMainMenu() {
-    LevelManager.getInstance().resetGameOver();
+    LevelManager.getInstance().resetGameOverStatus();
     LevelManager.getInstance().setState(GameState.MAIN_MENU);
     LevelManager.getInstance().resetGame();
   }

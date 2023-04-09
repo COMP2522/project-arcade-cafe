@@ -116,7 +116,7 @@ public class LevelManager {
     return gameOver;
   }
 
-  public void resetGameOver() {
+  public void resetGameOverStatus() {
     this.gameOver = false;
   }
 
