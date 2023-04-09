@@ -3,8 +3,13 @@ package org.bcit.comp2522.project;
 import processing.core.PImage;
 
 /**
- The Enemy class extends the Sprite class and represents an enemy object in a game.
- It has an array of alien images that it cycles through to animate its movement.
+ * The Enemy class extends the Sprite class and represents an enemy object in a game.
+ * It has an array of alien images that it cycles through to animate its movement.
+ *
+ * @author Helen Liu
+ * @author Eric Cho
+ * @author Samuel Chua
+ *
  */
 public class Enemy extends Sprite {
   // An array of alien images to be used for animation

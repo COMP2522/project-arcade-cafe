@@ -5,6 +5,12 @@ import processing.core.PImage;
 /**
  * The Bullet class extends the Sprite class and represents a bullet object in a game.
  * It moves vertically and is drawn on the screen as an image.
+ *
+ * @author Eric Cho
+ * @author Samuel Chua
+ * @author Helen Liu
+ * @author Mylo Yu
+ *
  */
 
 public class Bullet extends Sprite {

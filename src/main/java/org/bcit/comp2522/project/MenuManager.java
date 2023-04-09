@@ -7,6 +7,11 @@ import processing.core.PApplet;
  * The MenuManager class is responsible for managing the different menus and
  * screens that are displayed throughout the game. It keeps track of the current
  * game state and calls the appropriate methods of each menu when necessary.
+ *
+ * @author Eric Cho
+ * @author Helen Liu
+ * @author Samuel Chua
+ *
  */
 public class MenuManager {
   private PApplet papplet;

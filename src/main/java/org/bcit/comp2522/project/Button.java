@@ -7,6 +7,10 @@ import java.awt.Color;
  * This Button class represents the graphical buttons featured in the menus.
  * The button can be customized with label, position, size, font size, font color,
  * and an onClickAction method that is executed when the button is clicked.
+ *
+ * @author Eric Cho
+ * @author Samuel Chua
+ *
  */
 public class Button {
 

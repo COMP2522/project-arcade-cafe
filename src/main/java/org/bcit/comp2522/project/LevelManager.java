@@ -21,8 +21,12 @@ import org.json.simple.parser.ParseException;
  * Responsible for updating the player, enemies, bullets, power-ups and score.
  * Handles collisions between objects, manages the player's lives and high score.
  *
- * @author Sungmok Cho, Samuel Chua, Helen Liu, Sunmin Park, Mylo Yu
- * @version 2023-04-05
+ * @author Eric Cho
+ * @author Helen Liu
+ * @author Sunmin Park
+ * @author Mylo Yu
+ * @author Samuel Chua
+ *
  */
 public class LevelManager {
   private static LevelManager lm;
