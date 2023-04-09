@@ -1,6 +1,7 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
+import java.awt.Color;
 
 /**
  * This Button class represents the graphical buttons featured in the menus.

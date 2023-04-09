@@ -19,10 +19,10 @@ public class StartMenu {
   private final int buttonHeight = 50;
   private final int fontSize = 20;
 
-  private final int offset0 = -50;
-  private final int offset1 = 25;
-  private final int offset2 = 100;
-  private final int offset3 = 175;
+  private final int offset0 = 25;
+  private final int offset1 = 75;
+  private final int offset2 = 125;
+  private final int offset3 = 200;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
   //this variable is legitimately haunted. i dont know how or what, but it always managed to flip
