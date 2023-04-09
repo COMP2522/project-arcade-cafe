@@ -3,8 +3,6 @@ package org.bcit.comp2522.project;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-
-
 public class Window extends PApplet {
 
   private MenuManager menuManager;
@@ -102,7 +100,6 @@ public class Window extends PApplet {
       System.out.println(finalScore);
     }
   }
-
 
   @Override
   public void mousePressed() {

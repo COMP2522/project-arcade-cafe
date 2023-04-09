@@ -64,7 +64,7 @@ public class EnemyManager {
   /**
    * Sets the starting y-coordinate position.
    *
-   * @param y The starting y-coordinat e position.
+   * @param y The starting y-coordinate position.
    */
   public void setyStart(int y) {
     this.ystart = y;
@@ -88,6 +88,11 @@ public class EnemyManager {
     return ystart;
   }
 
+  /**
+   * Adds enemy to ArrayList.
+   *
+   * @param e The enemy object.
+   */
   public void add(Enemy e) {
     enemies.add(e);
   }
