@@ -17,7 +17,7 @@ public class StartMenu {
   private final PFont pixelFont;
   private final int buttonWidth = 150;
   private final int buttonHeight = 50;
-  private final int fontSize = 20;
+  private final int fontSize = 25;
 
   private final int offset0 = 25;
   private final int offset1 = 75;
