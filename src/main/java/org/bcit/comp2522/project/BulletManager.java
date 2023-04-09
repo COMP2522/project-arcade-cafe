@@ -13,7 +13,7 @@ public final class BulletManager {
   private static final int BULLET_HEIGHT = 40;
   private final Object lock = new Object();
 
-  private BulletManager(final Window inGameWindow) {
+  BulletManager(final Window inGameWindow) {
     this.window = inGameWindow;
     bullets = new ArrayList<>();
     screenWidth = inGameWindow.width;
