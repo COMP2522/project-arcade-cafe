@@ -48,7 +48,6 @@ public class Enemy extends Sprite {
     move(0, shiftDown);
   }
 
-
   /**
    * Method to draw the enemy object on the screen.
    */
@@ -71,5 +70,4 @@ public class Enemy extends Sprite {
     window.image(alienImages[imageIndex], imageRatio, imageRatio, imageSize, imageSize);
     window.popMatrix();
   }
-
 }

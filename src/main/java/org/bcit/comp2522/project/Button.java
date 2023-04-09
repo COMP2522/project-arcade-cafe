@@ -16,7 +16,7 @@ public class Button {
 
   private String label;
   private float xcoordinate;
-  private float ycooridnate;
+  private float ycoordinate;
   private float width;
   private float height;
   private int fontSize;
@@ -46,7 +46,7 @@ public class Button {
                 final Runnable buttonOnClickAction) {
     this.label = buttonLabel;
     this.xcoordinate = buttonXcoordinate;
-    this.ycooridnate = buttonYcoordinate;
+    this.ycoordinate = buttonYcoordinate;
     this.width = buttonWidth;
     this.height = buttonHeight;
     this.fontSize = buttonFontSize;
@@ -61,14 +61,16 @@ public class Button {
    */
   public void draw(final PApplet papplet) {
     papplet.rectMode(PApplet.CENTER);
+    papplet.fill(BUTTON_COLOR);
+    papplet.rect(xcoordinate, ycoordinate, width, height);
     papplet.fill(148,4,50);
-    papplet.rect(xcoordinate, ycooridnate, width, height);
+    papplet.rect(xcoordinate, ycoordinate, width, height);
     papplet.fill(fontColour);
     papplet.stroke(95, 30, 42); // set the border color to white
     papplet.strokeWeight(2); // set the border thickness
     papplet.textSize(fontSize);
     papplet.textAlign(PApplet.CENTER, PApplet.CENTER);
-    papplet.text(label, xcoordinate, ycooridnate);
+    papplet.text(label, xcoordinate, ycoordinate);
   }
 
   /**
@@ -81,8 +83,8 @@ public class Button {
   public boolean isMouseOver(final float mouseX, final float mouseY) {
     return mouseX > xcoordinate - width / 2
             && mouseX < xcoordinate + width / 2
-            && mouseY > ycooridnate - height / 2
-            && mouseY < ycooridnate + height / 2;
+            && mouseY > ycoordinate - height / 2
+            && mouseY < ycoordinate + height / 2;
   }
 
   /**
