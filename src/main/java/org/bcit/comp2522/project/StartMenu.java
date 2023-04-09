@@ -54,14 +54,18 @@ public class StartMenu {
     pixelFont = papplet.createFont("src/font/pixelFont.ttf", fontSize);
   }
 
-  public static void playSound(String soundFilePath) {
+  /**
+   *  This method allows audio to play upon menu click interaction.
+   * @param soundFilePath specifies what is indicated through the filepath to play audio.
+   */
+  public static void playButtonSound(String soundFilePath) {
     try {
       AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
       Clip clip = AudioSystem.getClip();
       clip.open(audioInputStream);
       clip.start();
     } catch (Exception ex) {
-      System.out.println("Error playing sound.");
+      System.out.println("Error playing button click sound.");
       ex.printStackTrace();
     }
   }
@@ -116,7 +120,7 @@ public class StartMenu {
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(papplet.mouseX, papplet.mouseY)) {
-        playSound("src/sfx/ui_select.mp3");
+        playButtonSound("src/sfx/ui_select.wav");
         String buttonLabel = button.getLabel();
         if (buttonLabel.equals("Start")) {
           onStateChange.accept(GameState.PLAYING);
@@ -126,7 +130,7 @@ public class StartMenu {
           System.exit(0);
         }
         button.onClick();
-        System.out.println("start menu button clicked");
+        System.out.println("Start menu button clicked");
       }
     }
   }
