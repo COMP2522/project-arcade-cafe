@@ -36,6 +36,11 @@ public class LivesManager {
   private int leftPadding;
 
   /**
+   * The sum of heartPadding and leftPadding.
+   */
+  private int paddingSum;
+
+  /**
    * The maximum number of HP allowed.
    */
   private static final int MAX_HP = 5;
@@ -53,6 +58,7 @@ public class LivesManager {
     this.heartSize = 30;
     this.heartPadding = 5;
     this.leftPadding = 20;
+    this.paddingSum = heartPadding + leftPadding;
     heartImage = window.loadImage("src/img/heartLife.png");
     heartImage.resize(heartSize, heartSize);
     player.setHp(initialHp);
@@ -63,8 +69,8 @@ public class LivesManager {
    */
   public void draw() {
     for (int i = 0; i < player.getHp(); i++) {
-      int xpos = leftPadding + heartPadding + (i * (heartSize + heartPadding));
-      int ypos = heartPadding + leftPadding;
+      int xpos = paddingSum + (i * (heartSize + heartPadding));
+      int ypos = paddingSum;
       window.image(heartImage, xpos, ypos);
     }
   }
