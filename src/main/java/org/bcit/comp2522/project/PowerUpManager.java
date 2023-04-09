@@ -1,5 +1,9 @@
 package org.bcit.comp2522.project;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -134,6 +138,22 @@ public class PowerUpManager {
   }
 
   /**
+   *  This method allows audio to play upon power up collision.
+   * @param soundFilePath specifies what is indicated through the filepath to play audio.
+   */
+  public static void playPowerUpSound(String soundFilePath) {
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    } catch (Exception ex) {
+      System.out.println("Error playing power up sound.");
+      ex.printStackTrace();
+    }
+  }
+
+  /**
    * Draws all PowerUp objects managed by the PowerUpManager.
    */
   public void draw() {
@@ -182,6 +202,7 @@ public class PowerUpManager {
     while (iterator.hasNext()) {
       PowerUp powerUp = iterator.next();
       if (Sprite.collided(player, powerUp)) {
+        playPowerUpSound("src/sfx/powerUp_sfx.wav");
         if (powerUp.getType().equals("hp")) {
           lives.gainLife();
         } else if (powerUp.getType().equals("fireRate")) {
@@ -199,6 +220,10 @@ public class PowerUpManager {
     }
   }
 
+  /**
+   * This adds powerups
+   * @param p is the variable for type powerup
+   */
   public void add(PowerUp p) {
     powerUps.add(p);
   }
