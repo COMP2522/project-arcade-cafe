@@ -3,6 +3,7 @@ package org.bcit.comp2522.project;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import javax.sound.sampled.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PFont;
@@ -51,6 +52,18 @@ public class StartMenu {
     buttons = new ArrayList<>();
     backgroundImage = papplet.loadImage("src/bgImg/gameTitle.png");
     pixelFont = papplet.createFont("src/font/pixelFont.ttf", fontSize);
+  }
+
+  public static void playSound(String soundFilePath) {
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      Clip clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    } catch (Exception ex) {
+      System.out.println("Error playing sound.");
+      ex.printStackTrace();
+    }
   }
 
   /**
@@ -103,6 +116,7 @@ public class StartMenu {
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(papplet.mouseX, papplet.mouseY)) {
+        playSound("src/sfx/ui_select.mp3");
         String buttonLabel = button.getLabel();
         if (buttonLabel.equals("Start")) {
           onStateChange.accept(GameState.PLAYING);
