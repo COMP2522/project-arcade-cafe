@@ -23,7 +23,7 @@ public class Bullet extends Sprite {
     bulletImage = window.loadImage("src/img/bullet.png");
     Window window = getWindow();
     window.imageMode(window.CENTER);
-    window.image(bulletImage, x, y);
+    window.image(bulletImage, xpos, ypos);
   }
 
   public int getSpeed() {

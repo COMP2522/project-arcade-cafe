@@ -31,7 +31,7 @@ public final class BulletManager {
     return singleton;
   }
 
-  public void resetBullet(){
+  public void resetBullet() {
     bullets.clear();
   }
 

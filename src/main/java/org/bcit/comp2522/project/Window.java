@@ -10,69 +10,52 @@ public class Window extends PApplet {
   private MenuManager menuManager;
   private LevelManager lm;
   private int bgY;
-
-  PImage backgroundImage;
-
+  PImage backgroundImageInGame;
   public boolean leftPressed = false;
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
-    public void settings() {
-      size(960, 540);
+  public void settings() {
+    size(960, 540);
+  }
 
-    }
-    public void setState(GameState gameState) {
-//      this.state = newState;
-      lm.setState(gameState); // Set the state in the LevelManager instance as well
-    }
-    public void setup() {
-      menuManager = MenuManager.getInstance(this, this::setState);
+  public void setState(GameState gameState) {
+    lm.setState(gameState); // Set the state in the LevelManager instance as well
+  }
 
-    backgroundImage = loadImage("src/bgImg/galagaSpace.png");
-    backgroundImage.resize(2000, 1200);
+  public void setup() {
+    menuManager = MenuManager.getInstance(this, this::setState);
+
+    backgroundImageInGame = loadImage("src/bgImg/galagaSpace.png");
+    backgroundImageInGame.resize(2000, 1200);
 
     BulletManager.getInstance(this);
     EnemyManager.getInstance(this);
     Player.getInstance(500, 490, 20, this, 3, 20);
     ScoreManager.getInstance(this);
-    PowerUpManager.getInstance(500, width*4/5, this);
+    PowerUpManager.getInstance(500, width * 4 / 5, this);
 
     lm = LevelManager.getInstance();
   }
 
-  public void scrollingBg() {
-    GameState currentState = lm.getState();
-
-    if (currentState == GameState.PLAYING) {
-      image(backgroundImage, 0, bgY);
-      image(backgroundImage, 0, bgY - backgroundImage.height);
-      backgroundImage.resize(2000, 1200);
-      bgY += 2;
-
-      if (bgY >= backgroundImage.height) {
-        bgY -= backgroundImage.height;
-      }
-    }
-  }
-
   public void draw() {
     GameState currentState = lm.getState(); // Get the current state from LevelManager
+    // Draw the menu based on the current state
+    menuManager.draw(currentState);
+    if (currentState == GameState.PLAYING) {
 
-    scrollingBg();
+      // Draw the scrolling background
+      image(backgroundImageInGame, 0, bgY);
+      image(backgroundImageInGame, 0, bgY - backgroundImageInGame.height);
+      bgY += 2;
 
-    if(currentState != GameState.PLAYING) {
-      background(0); // Clear the screen with a black background
-      image(backgroundImage, 0, 0);
-    }
+      if (bgY >= backgroundImageInGame.height) {
+        bgY -= backgroundImageInGame.height;
+      }
 
-    if (currentState == GameState.PLAYING) { // Only update the game elements if state is PLAYING
+      lm.draw();
       update();
     }
-    if (currentState == GameState.PLAYING || currentState == GameState.PAUSED) { // Only  draw the game elements if state is PLAYING or PAUSED
-      lm.draw();
-    }
-
-    menuManager.draw(currentState); // Draw the menu based on the current state
   }
 
   /**
@@ -80,19 +63,21 @@ public class Window extends PApplet {
    */
   @Override
   public void keyPressed() {
-    if(key == ' ' && !wasPaused) {
+    GameState currentState = lm.getState();
+    if (currentState == GameState.PLAYING && key == ' ' && !wasPaused) {
       lm.pause();
       wasPaused = true;
     }
-    if(key == CODED) {
-      if(keyCode == LEFT) {
+    if (key == CODED) {
+      if (keyCode == LEFT) {
         leftPressed = true;
       }
-      if(keyCode == RIGHT) {
+      if (keyCode == RIGHT) {
         rightPressed = true;
       }
     }
   }
+
 
 
   /**
@@ -100,14 +85,14 @@ public class Window extends PApplet {
    */
   @Override
   public void keyReleased() {
-    if(key == ' ' && wasPaused) {
+    if (key == ' ' && wasPaused) {
       wasPaused = false;
     }
-    if(key == CODED) {
-      if(keyCode == LEFT) {
+    if (key == CODED) {
+      if (keyCode == LEFT) {
         leftPressed = false;
       }
-      if(keyCode == RIGHT) {
+      if (keyCode == RIGHT) {
         rightPressed = false;
       }
     }
@@ -119,9 +104,12 @@ public class Window extends PApplet {
   public void update() {
 
     lm.update();
-    if (lm.isGameOver()) { // Check if the game is over
-      int finalScore = ScoreManager.getInstance(this).getScore(); // Store the score in the finalScore variable
-      lm.setState(GameState.GAME_OVER); // Change the game state to GAME_OVER
+    // Check if the game is over
+    if (lm.isGameOver()) {
+      // Store the score in the finalScore variable
+      int finalScore = ScoreManager.getInstance(this).getScore();
+      // Change the game state to GAME_OVER
+      lm.setState(GameState.GAME_OVER);
       System.out.println(finalScore);
     }
   }
