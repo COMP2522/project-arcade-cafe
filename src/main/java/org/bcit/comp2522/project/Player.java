@@ -57,26 +57,33 @@ public class Player extends Sprite {
     isIdle();
   }
 
+  /**
+   * Method to for if the player is idle, and plays an animation accordingly.
+   */
   public void isIdle() {
     playerImage = window.loadImage("src/img/playerImgIdle.png");
     playerImage.resize(100, 100);
   }
 
   /**
-   * Retrieves the Singleton instance of the Player. If not instantiated, logs an error message.
-   *
+   * Method to for if the player is moving right, and plays an animation accordingly.
    */
   public void isMovingRight() {
     playerImage = window.loadImage("src/img/playerImgMovingRight.png");
     playerImage.resize(100, 100);
   }
 
+  /**
+   * Method to for if the player is moving left, and plays an animation accordingly.
+   */
   public void isMovingLeft() {
     playerImage = window.loadImage("src/img/playerImgMovingLeft.png");
     playerImage.resize(100, 100);
   }
 
-  // Checks the returned int values to call according directional animations.
+  /**
+   * Method play animations based on their case.
+   */
   public void playerAnimation(String animCase) {
     switch (animCase) {
       case "Idle" -> isIdle();
@@ -86,6 +93,9 @@ public class Player extends Sprite {
     }
   }
 
+  /**
+   * Method to check instances of player and if its instantiated or not.
+   */
   public static Player getInstance() {
     if (player == null) {
       System.out.println("ERROR: instantiate player first");

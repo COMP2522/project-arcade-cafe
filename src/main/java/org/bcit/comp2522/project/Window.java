@@ -3,6 +3,11 @@ package org.bcit.comp2522.project;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * The Window class is the main Processing sketch that handles the game loop and user input.
+ * It also initializes and manages the different game components such as the menu, player,
+ * enemies, and score.
+ */
 public class Window extends PApplet {
 
   private MenuManager menuManager;
@@ -13,14 +18,25 @@ public class Window extends PApplet {
   public boolean rightPressed = false;
   public boolean wasPaused = false;
 
+  /**
+   * Method to set the size of the game window.
+   */
   public void settings() {
     size(960, 540);
   }
 
+  /**
+   * Method to set the state of the game.
+   *
+   * @param gameState The GameState enum value to set the state of the game to.
+   */
   public void setState(GameState gameState) {
     lm.setState(gameState); // Set the state in the LevelManager instance as well
   }
 
+  /**
+   * Method to set up the game by initializing the different game components.
+   */
   public void setup() {
     menuManager = MenuManager.getInstance(this, this::setState);
 
@@ -36,6 +52,10 @@ public class Window extends PApplet {
     lm = LevelManager.getInstance();
   }
 
+  /**
+   * Method to draw the game by checking the current state of the game and updating the
+   * different game components.
+   */
   public void draw() {
     GameState currentState = lm.getState(); // Get the current state from LevelManager
     // Draw the menu based on the current state
