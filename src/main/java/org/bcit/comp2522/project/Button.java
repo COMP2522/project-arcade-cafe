@@ -22,6 +22,7 @@ public class Button {
 
   /**
    * Constructs a new Button object.
+   *
    * @param buttonLabel the label to display on the button
    * @param buttonXcoordinate the x-coordinate of the button's center
    * @param buttonYcoordinate the y-coordinate of the button's center
@@ -51,6 +52,7 @@ public class Button {
 
   /**
    * Draws the button on the Processing sketch.
+   *
    * @param papplet the PApplet object representing the sketch
    */
   public void draw(final PApplet papplet) {
@@ -65,6 +67,7 @@ public class Button {
 
   /**
    * Determines if the given coordinates are over the button.
+   *
    * @param mouseX the x-coordinate of the mouse
    * @param mouseY the y-coordinate of the mouse
    * @return true if the coordinates are over the button, false otherwise
@@ -87,6 +90,7 @@ public class Button {
 
   /**
    * Gets the label of the button.
+   *
    * @return the button label
    */
   public String getLabel() {
