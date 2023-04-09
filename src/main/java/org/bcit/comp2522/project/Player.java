@@ -132,35 +132,45 @@ public class Player extends Sprite {
     return player;
   }
 
-  /** This gets the x position of the player
+  /**
+   * This gets the x position of the player.
+   *
    * @return the x position of the player
    */
   public int getX() {
     return xpos;
   }
 
-  /** This gets the y position of the player
+  /**
+   * This gets the y position of the player.
+   *
    * @return the y position of the player
    */
   public int getY() {
     return ypos;
   }
 
-  /** This gets the HP of the player
+  /**
+   * This gets the HP of the player.
+   *
    * @return the hp count of the player
    */
   public int getHp() {
     return hp;
   }
 
-  /** This gets the time since last shot from the player
+  /**
+   * This gets the time since last shot from the player.
+   *
    * @return the time since last shot of the player
    */
   public int getShotLast() {
     return shotLast;
   }
 
-  /** This gets the fire rate index of the player
+  /**
+   * This gets the fire rate index of the player.
+   *
    * @return the fire rate of the player
    */
   public int getFireRate() {
@@ -169,6 +179,7 @@ public class Player extends Sprite {
 
   /**
    * Sets the x position of the player.
+   *
    * @param xpos the new x position
    */
   public void setX(int xpos) {
@@ -177,6 +188,7 @@ public class Player extends Sprite {
 
   /**
    * Sets the y position of the player.
+   *
    * @param ypos the new y position
    */
   public void setY(int ypos) {
@@ -185,6 +197,7 @@ public class Player extends Sprite {
 
   /**
    * Sets the hit points of the player.
+   *
    * @param hp the new hit points
    */
   public void setHp(int hp) {
@@ -193,6 +206,7 @@ public class Player extends Sprite {
 
   /**
    * Sets the fire rate of the player.
+   *
    * @param shotLast the new fire rate
    */
   public void setShotLast(int shotLast) {
@@ -201,6 +215,7 @@ public class Player extends Sprite {
 
   /**
    * Sets the fire rate of the player.
+   *
    * @param fireRate the new fire rate
    */
   public void setFireRate(int fireRate) {
