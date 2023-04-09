@@ -119,14 +119,14 @@ public class Player extends Sprite {
    * @return the x position of the player
    */
   public int getX() {
-    return x;
+    return xpos;
   }
 
   /**
    * @return the y position of the player
    */
   public int getY() {
-    return y;
+    return ypos;
   }
 
   /**
@@ -156,7 +156,7 @@ public class Player extends Sprite {
    * @param xpos the new x position
    */
   public void setX(int xpos) {
-    this.x = xpos;
+    this.xpos = xpos;
   }
 
   /**
@@ -165,7 +165,7 @@ public class Player extends Sprite {
    * @param ypos the new y position
    */
   public void setY(int ypos) {
-    this.y = ypos;
+    this.ypos = ypos;
   }
 
   /**
@@ -250,22 +250,22 @@ public class Player extends Sprite {
       shotLast--;
     }
     if (shotLast <= 0) {
-      this.shoot(x, y);
+      this.shoot(xpos, ypos);
       shotLast = fireRate;
     }
 
     int speed = 10;
     if (window.leftPressed) {
       move(speed * -1, 0);
-      if (x <= size) {
-        x = size;
+      if (xpos <= size) {
+        xpos = size;
       }
       playerAnimation("MovingLeft");
       // USE THIS TO CHECK PLAYER MOVING RIGHT STATUS
     } else if (window.rightPressed) {
       move(speed, 0);
-      if (x >= window.width - size) {
-        x = window.width - size;
+      if (xpos >= window.width - size) {
+        xpos = window.width - size;
       }
       playerAnimation("MovingRight");
       // USE THIS TO CHECK PLAYER MOVING RIGHT STATUS
@@ -276,7 +276,6 @@ public class Player extends Sprite {
 
   }
 
-
   /**
    * Draws the player image on the window using the player's (x, y) coordinates
    * and the appropriate player image based on the player's movement direction.
@@ -284,7 +283,7 @@ public class Player extends Sprite {
   @Override
   public void draw() {
     window.pushMatrix();
-    window.translate(x, y);
+    window.translate(xpos, ypos);
     window.imageMode(window.CENTER);
     window.image(playerImage, 0, 0);
     window.popMatrix();
