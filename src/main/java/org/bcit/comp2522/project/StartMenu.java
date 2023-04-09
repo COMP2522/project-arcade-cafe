@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import processing.core.PApplet;
 import processing.core.PImage;
-
+import processing.core.PFont;
 
 
 /**
@@ -14,6 +14,7 @@ import processing.core.PImage;
  */
 public class StartMenu {
   private final PApplet papplet;
+  private final PFont pixelFont;
   private final int buttonWidth = 150;
   private final int buttonHeight = 50;
   private final int fontSize = 20;
@@ -44,6 +45,7 @@ public class StartMenu {
     this.onStateChange = onstatechange;
     buttons = new ArrayList<>();
     backgroundImage = papplet.loadImage("src/bgImg/gameTitle.png");
+    pixelFont = papplet.createFont("src/font/pixelFont.ttf", fontSize);
   }
 
   /**
@@ -77,6 +79,11 @@ public class StartMenu {
     papplet.textAlign(PApplet.RIGHT, PApplet.BOTTOM);
     papplet.text("Move: Left/Right Arrow Keys", papplet.width - 20, papplet.height - 20);
     papplet.text("Pause: Space", papplet.width - 20, papplet.height - 40);
+
+    // Set up the font
+    papplet.textFont(pixelFont);
+    papplet.textAlign(PApplet.CENTER, PApplet.CENTER);
+    papplet.fill(0xFFFFFFFF);
 
     for (Button button : buttons) {
       button.draw(papplet);
