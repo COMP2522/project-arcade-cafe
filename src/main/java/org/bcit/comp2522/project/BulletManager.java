@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * The BulletManager class manages the bullets in the game. It tracks the bullets
- * on the screen, updates their positions, and removes them if they go off the screen.
+ * The BulletManager class manages the bullets in the game.
+ * It tracks the bullets on the screen, updates
+ * their positions, and removes them if they go off the screen.
  * It also provides a method for shooting a new bullet.
  */
 public final class BulletManager {

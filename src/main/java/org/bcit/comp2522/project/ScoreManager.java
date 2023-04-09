@@ -15,6 +15,7 @@ public final class ScoreManager {
   /**
    * Constructs a ScoreManager object.
    * Initializes the score to 0 and assigns the PApplet window.
+   *
    * @param applet the PApplet window used to display the score
    */
   private ScoreManager(final PApplet applet) {
@@ -25,6 +26,7 @@ public final class ScoreManager {
   /**
    * Returns the instance of the ScoreManager object.
    * If the object hasn't been created yet, creates it and returns it.
+   *
    * @param window the PApplet window used to display the score
    * @return the instance of the ScoreManager object
    */
@@ -37,6 +39,7 @@ public final class ScoreManager {
 
   /**
    * Increases the score by the given amount.
+   *
    * @param amount the amount by which to increase the score
    */
   public void increaseScore(final int amount) {
@@ -61,6 +64,7 @@ public final class ScoreManager {
 
   /**
    * Returns the current score.
+   *
    * @return the current score
    */
   public int getScore() {

@@ -18,9 +18,10 @@ import org.bson.Document;
  */
 public class DatabaseHandler {
   // The MongoDB database being used.
-  MongoDatabase database;
+  protected MongoDatabase database;
   // The name of the collection where scores are stored.
-  String myCollection;
+  private String myCollection;
+  // The username for the MongoDB database.
 
   /**
    * Constructs a DatabaseHandler with a specified username and password for the MongoDB database.

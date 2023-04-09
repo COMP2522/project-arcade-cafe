@@ -119,8 +119,9 @@ public class Window extends PApplet {
   }
 
   /**
-   * Main method
-   * @param args
+   * Main method.
+   *
+   * @param args unused
    */
   public static void main(String[] args) {
 

@@ -22,6 +22,7 @@ public class MenuManager {
   /**
    * Constructs a new MenuManager object with the specified PApplet and
    * Consumer objects. Initializes the different menus and the game state.
+   *
    * @param papplet the PApplet object used to render the menus
    * @param onStateChange a Consumer object that changes the gamestate on player click.
    */
@@ -38,8 +39,10 @@ public class MenuManager {
    * Returns the singleton instance of the MenuManager object.
    * If the object has not been instantiated, creates a new instance
    * and returns it.
+   *
    * @param papplet the PApplet object used to render the menus
-   * @param onStateChange a Consumer object that changes the GameState when the player clicks a button
+   * @param onStateChange a Consumer object that changes
+   *                      the GameState when the player clicks a button
    * @return the singleton instance of the MenuManager object
    */
   public static MenuManager getInstance(PApplet papplet, Consumer<GameState> onStateChange) {
@@ -52,6 +55,7 @@ public class MenuManager {
   /**
    * Draws the current menu based on the current game state.
    * Calls the draw method of the appropriate menu.
+   *
    * @param gameState the current game state
    */
   public void draw(GameState gameState) {
@@ -76,6 +80,7 @@ public class MenuManager {
   /**
    * Responds to a mouse press event.
    * Calls the mousePressed method of the appropriate menu.
+   *
    * @param gameState the current game state
    */
   public void mousePressed(GameState gameState) {
