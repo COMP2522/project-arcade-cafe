@@ -4,7 +4,7 @@ import processing.core.PApplet;
 
 import java.awt.*;
 
-public class Sprite {
+public abstract class Sprite {
   protected int x;
   protected int y;
   protected int size;

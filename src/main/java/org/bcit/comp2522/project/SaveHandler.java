@@ -1,16 +1,14 @@
 package org.bcit.comp2522.project;
 
-
-import org.json.simple.parser.ParseException;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
 public class SaveHandler {
   public void saveState() {
     try {
       LevelManager.getInstance().writeToFile("save.json");
-    } catch (FileNotFoundException e){
+    } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
     }
   }

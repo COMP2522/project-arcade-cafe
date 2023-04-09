@@ -1,59 +1,62 @@
 package org.bcit.comp2522.project;
 
+import java.io.FileNotFoundException;
 import processing.core.PApplet;
 import processing.core.PConstants;
-import java.io.FileNotFoundException;
+
 
 /**
  PauseMenu is a class representing the pause menu for the game.
  It extends the PApplet class from the Processing library, which provides the functionality
  for drawing on the screen and handling user input.
  */
-public class PauseMenu extends PApplet{
+public class PauseMenu extends PApplet {
 
-  private final float MENU_OPACITY = 127.5f; // 50% opacity
-  private final float BUTTON_WIDTH = 150;
-  private final float BUTTON_HEIGHT = 50;
-  private final float BUTTON_MARGIN = 75;
-  private final int BUTTON_FONT_SIZE = 20;
-  private final int BUTTON_FONT_COLOUR = 255;
-  private final int DIVISION = 2;
-  private PApplet pApplet;
+  private final float menuOpacity = 127.5f; // 50% opacity
+  private final float buttonWidth = 150;
+  private final float buttonHeight = 50;
+  private final float buttonMargin = 75;
+  private final int fontSize = 20;
+  private final int fontColour = 255;
+  private final int division = 2;
+  private PApplet papplet;
   private Button resumeButton;
   private Button quitButton;
 
   /**
-   Constructs a new PauseMenu object with the given PApplet instance.
-   The pause menu consists of a transparent background and two buttons: "Resume" and "Quit".
-   @param pApplet the PApplet instance to draw on.
+   * Constructs a new PauseMenu object with the given PApplet instance.
+   * The pause menu consiste of a transparent background and two buttons: "Resume" and "Quit".
+   *
+   * @param papplet the PApplet instance to draw on.
    */
-  public PauseMenu(PApplet pApplet) {
-    this.pApplet = pApplet;
+  public PauseMenu(PApplet papplet) {
+    this.papplet = papplet;
 
-    int centerX = pApplet.width / DIVISION;
-    int centerY = pApplet.height / DIVISION;
+    int centerX = papplet.width / division;
+    int centerY = papplet.height / division;
 
-    // Create the resume button centered horizontally, and positioned just below the vertical center of the screen.
+    // Create the resume button centered horizontally, and positioned just
+    // below the vertical center of the screen.
     float resumeButtonX = centerX;
     float resumeButtonY = centerY;
     resumeButton = new Button("Resume", resumeButtonX, resumeButtonY,
-        BUTTON_WIDTH, BUTTON_HEIGHT,
-        BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
+        buttonWidth, buttonHeight,
+        fontSize, fontColour,
         () -> {
           LevelManager.getInstance().pause();
         });
 
-    // Create the quit button centered horizontally, and positioned just above the vertical center of the screen.
+    // Create the quit button centered horizontally, and positioned just
+    // above the vertical center of the screen.
     float quitButtonX = centerX;
-    float quitButtonY = centerY + BUTTON_MARGIN;
+    float quitButtonY = centerY + buttonMargin;
     quitButton = new Button("Quit", quitButtonX, quitButtonY,
-        BUTTON_WIDTH, BUTTON_HEIGHT,
-        BUTTON_FONT_SIZE, BUTTON_FONT_COLOUR,
+        buttonWidth, buttonHeight,
+        fontSize, fontColour,
         () -> {
-          try{
+          try {
             LevelManager.getInstance().writeToFile("save.json");
-          }
-          catch (FileNotFoundException o) {
+          } catch (FileNotFoundException o) {
             throw new RuntimeException(o);
           }
           System.exit(0);
@@ -61,40 +64,30 @@ public class PauseMenu extends PApplet{
   }
 
   /**
-   Draws the pause menu on the screen.
-   This method is called every frame by the Processing engine.
+   * Draws the pause menu on the screen.
+   * This method is called every frame by the Processing engine.
    */
   public void draw() {
     // Draw the transparent background
-    pApplet.pushStyle();
-    pApplet.fill(0, MENU_OPACITY);
-    pApplet.rectMode(PConstants.CORNER);
-    pApplet.rect(0, 0, pApplet.width, pApplet.height);
-    pApplet.popStyle();
+    papplet.pushStyle();
+    papplet.fill(0, menuOpacity);
+    papplet.rectMode(PConstants.CORNER);
+    papplet.rect(0, 0, papplet.width, papplet.height);
+    papplet.popStyle();
 
     // Draw the buttons
-    resumeButton.draw(pApplet);
-    quitButton.draw(pApplet);
+    resumeButton.draw(papplet);
+    quitButton.draw(papplet);
   }
 
   /**
-   Checks if the given coordinates are over either of the pause menu buttons.
-   @param mouseX the x-coordinate of the mouse.
-   @param mouseY the y-coordinate of the mouse.
-   @return true if the mouse is over either of the buttons, false otherwise.
-   */
-  public boolean isMouseOver(float mouseX, float mouseY) {
-    return resumeButton.isMouseOver(mouseX, mouseY) || quitButton.isMouseOver(mouseX, mouseY);
-  }
-
-  /**
-   Handles mouse click events on the pause menu buttons.
-   This method is called by the Processing engine whenever the user clicks the mouse.
+   * Handles mouse click events on the pause menu buttons.
+   * This method is called by the Processing engine whenever the user clicks the mouse.
    */
   public void onMousePressed() {
-    if (resumeButton.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
+    if (resumeButton.isMouseOver(papplet.mouseX, papplet.mouseY)) {
       resumeButton.onClick();
-    } else if (quitButton.isMouseOver(pApplet.mouseX, pApplet.mouseY)) {
+    } else if (quitButton.isMouseOver(papplet.mouseX, papplet.mouseY)) {
       quitButton.onClick();
     }
   }

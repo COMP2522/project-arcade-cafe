@@ -42,7 +42,7 @@ public class LevelManager {
 
   private LevelManager() {
     File file = new File("save.json");
-      saveExists = file.exists();
+    saveExists = file.exists();
 
     em = EnemyManager.getInstance();
     bm = BulletManager.getInstance();
@@ -88,9 +88,14 @@ public class LevelManager {
   public GameState getState() {
     return gameState;
   }
-  public boolean saveExists() {return saveExists;}
-  public void setSaveExists(boolean b) {saveExists = b;}
 
+  public boolean saveExists() {
+    return saveExists;
+  }
+
+  public void setSaveExists(boolean b) {
+    saveExists = b;
+  }
 
   /**
    * Pauses or unpauses the game depending on the current pause status.
@@ -120,15 +125,15 @@ public class LevelManager {
    * Draws all the game objects to the screen.
    */
   public void draw() {
-      em.draw();
-      bm.draw();
-      pm.draw();
-      player.draw();
-      lives.draw();
-      sc.draw();
-      if (gameState == GameState.PAUSED) {
-        menuManager.draw(GameState.PAUSED);
-      }
+    em.draw();
+    bm.draw();
+    pm.draw();
+    player.draw();
+    lives.draw();
+    sc.draw();
+    if (gameState == GameState.PAUSED) {
+      menuManager.draw(GameState.PAUSED);
+    }
   }
 
   /**
@@ -201,13 +206,13 @@ public class LevelManager {
   public void writeToFile(String file) throws FileNotFoundException {
     JSONObject jo;
     jo = new JSONObject();
-    //storing score
+    // storing score
     jo.put("score", sc.getScore());
 
-    //storing time since last power
+    // storing time since last power
     jo.put("lastPower", pm.getLastPower());
 
-    //storing player info
+    // storing player info
     JSONObject playerStats = new JSONObject();
     playerStats.put("x", player.getX());
     playerStats.put("y", player.getY());
@@ -216,7 +221,7 @@ public class LevelManager {
     playerStats.put("shotLast", player.getShotLast());
     jo.put("player", playerStats);
 
-    //storing bullet info
+    // storing bullet info
     JSONArray bullets = new JSONArray();
     ArrayList<Bullet> bulletList = bm.getBullets();
     for (Bullet b : bulletList) {
@@ -228,7 +233,7 @@ public class LevelManager {
     }
     jo.put("bullets", bullets);
 
-    //storing enemies
+    // storing enemies
     JSONArray enemies = new JSONArray();
     ArrayList<Enemy> enemyList = em.getEnemy();
     for (Enemy e : enemyList) {
@@ -239,7 +244,7 @@ public class LevelManager {
     }
     jo.put("enemies", enemies);
 
-    //storing powerups
+    // storing powerups
     JSONArray powerups = new JSONArray();
     ArrayList<PowerUp> powerupList = pm.getPowerUp();
     for (PowerUp p : powerupList) {
@@ -251,10 +256,10 @@ public class LevelManager {
     }
     jo.put("powerups", powerups);
 
-    //storing enemy manager info
+    // storing enemy manager info
     JSONObject emStats = new JSONObject();
     emStats.put("wave", em.getNumRows());
-    emStats.put("yStart", em.getYStart());
+    emStats.put("yStart", em.getyStart());
     jo.put("enemyManager", emStats);
 
     PrintWriter pw = new PrintWriter(file);
@@ -276,11 +281,11 @@ public class LevelManager {
     JSONParser parser = new JSONParser();
     Object obj = parser.parse(new FileReader(file)); //the location of the file
     JSONObject jsonObject = (JSONObject) obj;
-    //parse score and time since last powerup
+    // parse score and time since last powerup
     sc.increaseScore(Long.valueOf((long) jsonObject.get("score")).intValue());
     pm.setLastPower(Long.valueOf((long) jsonObject.get("lastPower")).intValue());
 
-    //parse player stats
+    // parse player stats
     JSONObject playerStats = (JSONObject) jsonObject.get("player");
     player.setX(Long.valueOf((long) playerStats.get("x")).intValue());
     player.setY(Long.valueOf((long) playerStats.get("y")).intValue());
@@ -289,7 +294,7 @@ public class LevelManager {
     player.setShotLast(Long.valueOf((long) playerStats.get("shotLast")).intValue());
 
 
-    //parsing bullet info
+    // parsing bullet info
     JSONArray bullets = (JSONArray) jsonObject.get("bullets");
     for (Object o : bullets) {
       JSONObject bulletInfo = (JSONObject) o;
@@ -300,7 +305,7 @@ public class LevelManager {
       bm.add(bullet);
     }
 
-    //parsing enemies
+    // parsing enemies
     JSONArray enemies = (JSONArray) jsonObject.get("enemies");
     for (Object o : enemies) {
       JSONObject enemyInfo = (JSONObject) o;
@@ -310,7 +315,7 @@ public class LevelManager {
       em.add(enemy);
     }
 
-    //parsing powerups
+    // parsing powerups
     JSONArray powerups = (JSONArray) jsonObject.get("powerups");
     for (Object o : powerups) {
       JSONObject powerupInfo = (JSONObject) o;
@@ -320,10 +325,10 @@ public class LevelManager {
       pm.add(powerup);
     }
 
-    //parsing enemy manager info
+    // parsing enemy manager info
     JSONObject emStats = (JSONObject) jsonObject.get("enemyManager");
-    em.setWave(Long.valueOf((long) emStats.get("wave")).intValue());
-    em.setYStart(Long.valueOf((long) emStats.get("yStart")).intValue());
+    em.setNumRows(Long.valueOf((long) emStats.get("wave")).intValue());
+    em.setyStart(Long.valueOf((long) emStats.get("yStart")).intValue());
     System.out.println("Parsing Complete");
     gameState = GameState.PLAYING;
   }
