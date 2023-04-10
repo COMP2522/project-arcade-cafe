@@ -7,6 +7,7 @@ import processing.core.PApplet;
  * It provides methods to increase the score, reset it, get it, and display it on the screen.
  *
  * @author Eric Cho
+ * @author Samuel Chua
  *
  */
 public final class ScoreManager {

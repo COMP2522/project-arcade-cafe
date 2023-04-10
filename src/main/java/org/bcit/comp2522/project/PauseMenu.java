@@ -15,6 +15,7 @@ import javax.sound.sampled.Clip;
  * for drawing on the screen and handling user input.
  *
  * @author Helen Liu
+ * @author Samuel Chua
  *
  */
 public class PauseMenu extends PApplet {
