@@ -31,9 +31,6 @@ public class StartMenu {
   private final int offset3 = 200;
   private ArrayList<Button> buttons;
   private boolean buttonsInitialized = false;
-  //this variable is legitimately haunted. i dont know how or what, but it always managed to flip
-  //itself to true despite the one function setting it to true
-  //being behind an if statement that only runs if it's false. and that statement never ran.
   private final Consumer<GameState> onStateChange;
   private PImage backgroundImage;
 
