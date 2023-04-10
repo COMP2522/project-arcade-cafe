@@ -114,7 +114,7 @@ public class LevelManager {
       gameState = GameState.PLAYING;
     } else {
       paused = true;
-      playSound("src/sfx/pause_fx.wav");
+      playSound("src/sfx/pause_sfx.wav");
       gameState = GameState.PAUSED;
     }
   }
