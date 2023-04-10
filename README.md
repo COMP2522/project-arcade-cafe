@@ -15,11 +15,9 @@ To run the game, clone this repository into your local computer, open in Intelli
 
 **Requirement 1:** Galaga 0.5 utilizes PApplet for its visual interfaces.
 
-**Requirement 2:** BulletManager utilizes asynchronous processing to iterate the bullet arraylist. This is to allow removal
-of bullets from the arraylist while still iterating through it.
+**Requirement 2:** We utilize asynchronous processing to save the game state in a JSON file every 30 seconds.
 
 **Requirement 3:** After pausing the game and clicking the <Save & Exit> button, the game state is saved in a JSON file.
-In addition, with every new wave of enemies, the game state is saved.
 
 **Requirement 4:** BulletManager utilizes the iterator to iterate through the bullet arraylist.
 
@@ -37,8 +35,8 @@ communication, questions and requests. Meetings are also held on discord in the 
 3. Add menus, including start, pause, game over, and scoreboard.
 4. Be able to save game state.
 
-## Initial UML Diagrams (group, 1%)
-
+## UML Diagram (group, 1%)
+![image](https://user-images.githubusercontent.com/113309333/230802294-2a6a5be2-29b7-4aed-a237-7489d02f788f.png)
 
 ## Initial GitHub Issues
 Please see the closed GitHub Issues for reference.
@@ -48,9 +46,9 @@ The following lists the classes or tasks that each teammate worked on.
 
 **Helen Liu:** Sprite, Enemy, EnemyManager, PauseMenu, Window
 
-**Mylo Yu:** Window, Player, LevelManager, saving game as JSON file
+**Mylo Yu:** Window, Player, LevelManager, SaveHandler
 
-**Samuel Chua:** Window, All visual aspects including background and animations
+**Samuel Chua:** Window, background, animations, sound effects
 
 **Eric (Sungmok) Cho:** Bullet, BulletManager, Button, DatabaseHandler, GameOverMenu, GameState, MenuManager, 
 ScoreboardMenu, ScoreManager, StartMenu, Window
@@ -84,3 +82,17 @@ sprite, the player can either get an increase in HP or the bullet fire rate, dep
 PowerUp Manager manages the spawn time and spawn area of the PowerUp sprite.
 
 ### Initial individual UML Diagrams (1%)
+**Helen Liu**
+![img_1.png](img_1.png)
+
+**Mylo Yu**
+![img.png](img.png)
+
+**Samuel Chua**
+![img_4.png](img_4.png)
+
+**Eric (Sungmok) Cho**
+![img_3.png](img_3.png)
+
+**Mina (Sunmin) Park**
+![img_2.png](img_2.png)
