@@ -56,9 +56,9 @@ public class Player extends Sprite {
    * @param xpos      initial x position of the player
    * @param ypos      initial y position of the player
    * @param size      size of the player
-   * @param window reference to the Window class
-   * @param hp     initial hit points of the player
-   * @param fireRate     initial fire rate of the player
+   * @param window    reference to the Window class
+   * @param hp        initial hit points of the player
+   * @param fireRate  initial fire rate of the player
    */
   private Player(int xpos, int ypos, int size, Window window, int hp, int fireRate) {
     super(xpos, ypos, size, window);
@@ -93,6 +93,7 @@ public class Player extends Sprite {
 
   /**
    * Method play animations based on their case.
+   *
    * @param animCase is the switch of the player status
    */
   public void playerAnimation(String animCase) {
@@ -217,6 +218,7 @@ public class Player extends Sprite {
 
   /**
    * Sets the time of 'last shot' from the player.
+   *
    * @param fireRate the new fire rate
    */
   public void setFireRate(int fireRate) {
@@ -301,7 +303,6 @@ public class Player extends Sprite {
       playerAnimation("Idle");
       // USE THIS TO CHECK PLAYER IDLE STATUS
     }
-
   }
 
   /**
@@ -316,6 +317,5 @@ public class Player extends Sprite {
     window.image(playerImage, 0, 0);
     window.popMatrix();
   }
-
 }
 

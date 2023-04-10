@@ -97,7 +97,6 @@ public class DatabaseHandler {
         .sort(new Document("score", -1).append("_id", 1))
         .limit(10)
         .forEach((Consumer<Document>) topScores::add);
-
     return topScores;
   }
 }

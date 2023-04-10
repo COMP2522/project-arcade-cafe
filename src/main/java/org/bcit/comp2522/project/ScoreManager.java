@@ -15,7 +15,6 @@ public final class ScoreManager {
   private int score;
   private PApplet window;
 
-
   /**
    * Constructs a ScoreManager object.
    * Initializes the score to 0 and assigns the PApplet window.

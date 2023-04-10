@@ -199,5 +199,4 @@ public class EnemyManager {
     // Reset the starting y-coordinate
     setyStart(ystart);
   }
-
 }

@@ -13,21 +13,11 @@ import org.json.simple.parser.ParseException;
  * throws a RuntimeException if an exception occurs.
  *
  * @author Mylo Yu
+ * @author Eric Cho
+ * @author Samuel Chua
  *
  */
 public class SaveHandler {
-
-  /**
-   * Saves the current game state to a JSON file.
-   * The LevelManager is used to write the game state to the file specified
-   * by the file name "save.json". If the file is not found, a FileNotFoundException
-   * is caught and a RuntimeException is thrown.
-   *
-   * @author Mylo Yu
-   * @author Eric Cho
-   * @author Samuel Chua
-   *
-   */
 
   /**
    * Save state method used to save a file or check for no files existing.

@@ -1,7 +1,6 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
-import java.awt.Color;
 
 /**
  * This Button class represents the graphical buttons featured in the menus.
@@ -63,7 +62,7 @@ public class Button {
     papplet.rectMode(PApplet.CENTER);
     papplet.fill(BUTTON_COLOR);
     papplet.rect(xcoordinate, ycoordinate, width, height);
-    papplet.fill(148,4,50);
+    papplet.fill(148, 4, 50);
     papplet.rect(xcoordinate, ycoordinate, width, height);
     papplet.fill(fontColour);
     papplet.stroke(95, 30, 42); // set the border color to white
