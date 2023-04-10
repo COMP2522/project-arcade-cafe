@@ -83,16 +83,16 @@ PowerUp Manager manages the spawn time and spawn area of the PowerUp sprite.
 
 ### Initial individual UML Diagrams (1%)
 **Helen Liu**
-![img_1.png](img_1.png)
+![image](https://user-images.githubusercontent.com/113409346/230826395-3dd3dbcf-3acd-402c-8c13-fc66936b4e3b.png)
 
 **Mylo Yu**
-![img.png](img.png)
+![image](https://user-images.githubusercontent.com/113409346/230826280-b8e2769b-873b-4e17-8d78-c6a1bf317602.png)
 
 **Samuel Chua**
-![img_4.png](img_4.png)
+![image](https://user-images.githubusercontent.com/113409346/230826375-150ff0ac-b210-4715-80e7-88c30ae9b390.png)
 
 **Eric (Sungmok) Cho**
-![img_3.png](img_3.png)
+![image](https://user-images.githubusercontent.com/113409346/230826347-7179687c-4a07-414e-a7a1-c382d6959044.png)
 
 **Mina (Sunmin) Park**
-![img_2.png](img_2.png)
+![image](https://user-images.githubusercontent.com/113409346/230826408-04b7a826-4e7c-473a-af45-2c2e95952816.png)
