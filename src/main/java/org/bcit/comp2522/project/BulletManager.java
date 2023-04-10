@@ -1,11 +1,11 @@
 package org.bcit.comp2522.project;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  * The BulletManager class manages the bullets in the game.
@@ -71,11 +71,13 @@ public final class BulletManager {
 
   /**
    * Sets up audio to play for when the player has fired a bullet.
+   *
    * @param soundFilePath specifies what is indicated through the filepath to play audio.
    */
   public static void playShootSound(String soundFilePath) {
     try {
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                            new File(soundFilePath).getAbsoluteFile());
       Clip clip = AudioSystem.getClip();
       clip.open(audioInputStream);
       clip.start();
@@ -88,9 +90,9 @@ public final class BulletManager {
   /**
    * Creates a new Bullet object and adds it to the screen.
    *
-   * @param xpos the x-coordinate of the bullet's starting position
-   * @param ypos the y-coordinate of the bullet's starting position
-   * @param dy the speed at which the bullet will travel
+   * @param xpos    the x-coordinate of the bullet's starting position
+   * @param ypos    the y-coordinate of the bullet's starting position
+   * @param dy      the speed at which the bullet will travel
    */
   public void shootBullet(final int xpos,
                           final int ypos,
@@ -161,7 +163,6 @@ public final class BulletManager {
       }
     }
   }
-
 
   /**
    * Returns the list of all active bullets in the game.

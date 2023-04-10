@@ -1,7 +1,6 @@
 package org.bcit.comp2522.project;
 
 import processing.core.PApplet;
-import java.awt.Color;
 
 /**
  * This Button class represents the graphical buttons featured in the menus.
@@ -27,13 +26,13 @@ public class Button {
   /**
    * Constructs a new Button object.
    *
-   * @param buttonLabel the label to display on the button
-   * @param buttonXcoordinate the x-coordinate of the button's center
-   * @param buttonYcoordinate the y-coordinate of the button's center
-   * @param buttonWidth the width of the button
-   * @param buttonHeight the height of the button
-   * @param buttonFontSize the font size of the label
-   * @param buttonFontColour the color of the label
+   * @param buttonLabel         the label to display on the button
+   * @param buttonXcoordinate   the x-coordinate of the button's center
+   * @param buttonYcoordinate   the y-coordinate of the button's center
+   * @param buttonWidth         the width of the button
+   * @param buttonHeight        the height of the button
+   * @param buttonFontSize      the font size of the label
+   * @param buttonFontColour    the color of the label
    * @param buttonOnClickAction the action to execute when the button is clicked
    */
   public Button(final String buttonLabel,
@@ -63,7 +62,7 @@ public class Button {
     papplet.rectMode(PApplet.CENTER);
     papplet.fill(BUTTON_COLOR);
     papplet.rect(xcoordinate, ycoordinate, width, height);
-    papplet.fill(148,4,50);
+    papplet.fill(148, 4, 50);
     papplet.rect(xcoordinate, ycoordinate, width, height);
     papplet.fill(fontColour);
     papplet.stroke(95, 30, 42); // set the border color to white

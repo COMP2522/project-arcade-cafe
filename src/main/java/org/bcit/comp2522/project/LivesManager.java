@@ -47,9 +47,9 @@ public class LivesManager {
   /**
    * Constructs a LivesManager object with the specified player, window, and initialHP.
    *
-   * @param player The player object.
-   * @param window The window object.
-   * @param initialHp The initial number of lives for the player.
+   * @param player      The player object.
+   * @param window      The window object.
+   * @param initialHp   The initial number of lives for the player.
    */
   public LivesManager(Player player, Window window, int initialHp) {
     this.player = player;

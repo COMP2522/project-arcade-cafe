@@ -10,14 +10,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 /**
  * The LevelManager class manages the game state, updates and draws all game objects.
@@ -45,9 +44,19 @@ public class LevelManager {
   private final MenuManager menuManager;
   private final DatabaseHandler db;
   private int highscore = 0;
-
   private GameState gameState;
+  private boolean gameOver = false;
 
+  /**
+   * Creates a new instance of LevelManager.
+   * Reads a save file to check if a save exists.
+   * Initializes EnemyManager, BulletManager, PowerUpManager, Player, and ScoreManager.
+   * Initializes the game state to MAIN_MENU.
+   * Initializes LivesManager with an initial health of 3.
+   * Reads a config file to create a new DatabaseHandler instance.
+   *
+   * @throws RuntimeException if the config file cannot be read.
+   */
   private LevelManager() {
     File file = new File("save.json");
     saveExists = file.exists();
@@ -75,6 +84,11 @@ public class LevelManager {
     db = new DatabaseHandler(config.getDbUsername(), config.getDbPassword());
   }
 
+  /**
+   * Sets the current game state to a new game state.
+   *
+   * @param newState the new game state to set.
+   */
   public void setState(GameState newState) {
     this.gameState = newState;
   }
@@ -93,14 +107,29 @@ public class LevelManager {
     return lm;
   }
 
+  /**
+   * Returns the current game state.
+   *
+   * @return the current game state.
+   */
   public GameState getState() {
     return gameState;
   }
 
+  /**
+   * Returns a boolean indicating if a save file exists.
+   *
+   * @return true if a save file exists, false otherwise.
+   */
   public boolean saveExists() {
     return saveExists;
   }
 
+  /**
+   * Sets the boolean value indicating if a save file exists.
+   *
+   * @param b the boolean value to set.
+   */
   public void setSaveExists(boolean b) {
     saveExists = b;
   }
@@ -118,8 +147,6 @@ public class LevelManager {
       gameState = GameState.PAUSED;
     }
   }
-
-  private boolean gameOver = false;
 
   public boolean isGameOver() {
     return gameOver;
@@ -146,12 +173,14 @@ public class LevelManager {
   }
 
   /**
-   *  This method allows audio to play various audio specified by the file.
+   * This method allows audio to play various audio specified by the file.
+   *
    * @param soundFilePath specifies what is indicated through the filepath to play audio.
    */
   public static void playSound(String soundFilePath) {
     try {
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                            new File(soundFilePath).getAbsoluteFile());
       Clip clip = AudioSystem.getClip();
       clip.open(audioInputStream);
       clip.start();
@@ -201,7 +230,7 @@ public class LevelManager {
   }
 
   /**
-   * getter for high score.
+   * Getter for high score.
    *
    * @return highscore
    */
@@ -360,7 +389,6 @@ public class LevelManager {
     gameState = GameState.PLAYING;
   }
 
-
   /**
    * Checks for collisions between bullets and enemies,
    * removes the bullet and enemy if they collide,
@@ -425,5 +453,4 @@ public class LevelManager {
     }
     return false;
   }
-
 }

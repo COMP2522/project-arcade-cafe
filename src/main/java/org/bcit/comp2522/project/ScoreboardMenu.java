@@ -9,12 +9,9 @@ import processing.core.PApplet;
 
 
 /**
- * The ScoreboardMenu class is responsible for displaying
- * the highest scores achieved in the game.
- * It uses a DatabaseHandler object to retrieve
- * the scores from a MongoDB database.
- * The class also provides a "Go Back" button
- * to return to the main menu.
+ * The ScoreboardMenu class is responsible for displaying the highest scores achieved in the game.
+ * It uses a DatabaseHandler object to retrieve the scores from a MongoDB database.
+ * The class also provides a "Go Back" button to return to the main menu.
  *
  * @author Eric Cho
  * @author Helen Liu

@@ -80,7 +80,6 @@ public class GameOverMenu {
           config.getDbPassword());
   }
 
-
   /**
    * Draws the game over screen.
    */

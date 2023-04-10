@@ -36,10 +36,10 @@ public abstract class Sprite {
   /**
    * Constructs a sprite with the specified coordinates, size, and window.
    *
-   * @param xpos the x-coordinate of the sprite
-   * @param ypos the y-coordinate of the sprite
-   * @param size the size of the sprite
-   * @param window the window associated with the sprite
+   * @param xpos    the x-coordinate of the sprite
+   * @param ypos    the y-coordinate of the sprite
+   * @param size    the size of the sprite
+   * @param window  the window associated with the sprite
    */
   public Sprite(int xpos, int ypos, int size, Window window) {
     this.xpos = xpos;

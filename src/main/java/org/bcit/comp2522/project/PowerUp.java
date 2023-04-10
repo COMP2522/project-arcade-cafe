@@ -99,5 +99,4 @@ public class PowerUp extends Sprite {
     // Move the powerup vertically
     move(0, 2);
   }
-
 }

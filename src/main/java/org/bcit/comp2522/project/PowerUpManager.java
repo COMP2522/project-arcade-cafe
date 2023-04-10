@@ -1,12 +1,12 @@
 package org.bcit.comp2522.project;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  * The PowerUpManager class manages the spawning and updating of power-up objects
@@ -107,10 +107,20 @@ public class PowerUpManager {
     return instance;
   }
 
+  /**
+   * Returns the last power up collected by the player.
+   *
+   * @return the last power up collected.
+   */
   public int getLastPower() {
     return lastPower;
   }
 
+  /**
+   * Sets the value of the last power up collected by the player.
+   *
+   * @param n the value of the last power up collected.
+   */
   public void setLastPower(int n) {
     lastPower = n;
   }
@@ -138,12 +148,14 @@ public class PowerUpManager {
   }
 
   /**
-   *  This method allows audio to play upon power up collision.
+   * This method allows audio to play upon power up collision.
+   *
    * @param soundFilePath specifies what is indicated through the filepath to play audio.
    */
   public static void playPowerUpSound(String soundFilePath) {
     try {
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                                            new File(soundFilePath).getAbsoluteFile());
       Clip clip = AudioSystem.getClip();
       clip.open(audioInputStream);
       clip.start();
@@ -221,7 +233,8 @@ public class PowerUpManager {
   }
 
   /**
-   * This adds powerups
+   * Adds powerups.
+   *
    * @param p is the variable for type powerup
    */
   public void add(PowerUp p) {

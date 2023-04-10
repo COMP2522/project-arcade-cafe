@@ -45,9 +45,9 @@ public class MenuManager {
    * If the object has not been instantiated, creates a new instance
    * and returns it.
    *
-   * @param papplet the PApplet object used to render the menus
-   * @param onStateChange a Consumer object that changes
-   *                      the GameState when the player clicks a button
+   * @param papplet         the PApplet object used to render the menus
+   * @param onStateChange   a Consumer object that changes
+   *                        the GameState when the player clicks a button
    * @return the singleton instance of the MenuManager object
    */
   public static MenuManager getInstance(PApplet papplet, Consumer<GameState> onStateChange) {

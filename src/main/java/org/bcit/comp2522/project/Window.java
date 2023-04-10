@@ -3,11 +3,6 @@ package org.bcit.comp2522.project;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import java.io.File;
-
 /**
  * The Window class is the main Processing sketch that handles the game loop and user input.
  * It also initializes and manages the different game components such as the menu, player,
@@ -18,11 +13,9 @@ import java.io.File;
  * @author Helen Liu
  * @author Sunmin Park
  * @author Samuel Chua
- * It also initializes and manages the different game components such as the menu, player, enemies, and score.
  *
  */
 public class Window extends PApplet {
-
   private MenuManager menuManager;
   private LevelManager lm;
   private int bgY;
