@@ -37,6 +37,8 @@ public class StartMenu {
   private final Consumer<GameState> onStateChange;
   private PImage backgroundImage;
 
+  private boolean musicPlaying = false;
+
 
   /**
    * constructor for the StartMenu class.
@@ -55,20 +57,27 @@ public class StartMenu {
   }
 
   /**
-   *  This method allows audio to play upon menu click interaction.
+   *  This method allows audio to play upon menu click interaction, and music.
    * @param soundFilePath specifies what is indicated through the filepath to play audio.
    */
-  public static void playButtonSound(String soundFilePath) {
+  public static Clip playSound(String soundFilePath) {
     try {
       AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath).getAbsoluteFile());
       Clip clip = AudioSystem.getClip();
       clip.open(audioInputStream);
       clip.start();
+      return clip;
     } catch (Exception ex) {
-      System.out.println("Error playing button click sound.");
+      System.out.println("Error playing sound.");
       ex.printStackTrace();
+      return null;
     }
   }
+
+  /**
+   * Method to play this specific background music
+   */
+
 
   /**
    Draw the StartMenu to the screen.
@@ -81,6 +90,10 @@ public class StartMenu {
     papplet.background(0);
     papplet.image(backgroundImage, 0, 0);
     buttons.clear();
+    if (musicPlaying != true) {
+      playSound("src/sfx/8bit_surrender.wav");
+      musicPlaying = true;
+    }
     int extraOffset = 0;
     if (LevelManager.getInstance().saveExists()) {
       extraOffset = 30;
@@ -120,7 +133,7 @@ public class StartMenu {
   public void mousePressed() {
     for (Button button : buttons) {
       if (button.isMouseOver(papplet.mouseX, papplet.mouseY)) {
-        playButtonSound("src/sfx/ui_select.wav");
+        playSound("src/sfx/ui_select.wav");
         String buttonLabel = button.getLabel();
         if (buttonLabel.equals("Start")) {
           onStateChange.accept(GameState.PLAYING);
