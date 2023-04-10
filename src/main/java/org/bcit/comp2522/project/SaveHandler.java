@@ -28,7 +28,11 @@ public class SaveHandler {
    * @author Samuel Chua
    *
    */
-  public void saveState() {
+
+  /**
+   * Save state method used to save a file or check for no files existing.
+   */
+  public static void saveState() {
     try {
       LevelManager.getInstance().writeToFile("save.json");
     } catch (FileNotFoundException e) {

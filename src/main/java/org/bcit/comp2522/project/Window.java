@@ -63,6 +63,8 @@ public class Window extends PApplet {
     PowerUpManager.getInstance(500, width * 4 / 5, this);
 
     lm = LevelManager.getInstance();
+
+    autoSave();
   }
 
   /**
@@ -74,7 +76,6 @@ public class Window extends PApplet {
     // Draw the menu based on the current state
     menuManager.draw(currentState);
     if (currentState == GameState.PLAYING) {
-
       // Draw the scrolling background
       image(backgroundImageInGame, 0, bgY);
       image(backgroundImageInGame, 0, bgY - backgroundImageInGame.height);
@@ -141,6 +142,28 @@ public class Window extends PApplet {
       lm.setState(GameState.GAME_OVER);
       System.out.println(finalScore);
     }
+  }
+
+  /**
+   * Autosave method that uses asynch to check if the game is playing.
+   * If this is true, it will auto save using saveState every 30 seconds.
+   */
+  public void autoSave() {
+    new Thread(() -> {
+      while (true) {
+        try {
+          // Check if the game is currently playing before saving
+          if (lm.getState() == GameState.PLAYING) {
+            System.out.println("Game has auto-saved.");
+            SaveHandler.saveState();
+          }
+          Thread.sleep(30000); // Wait for 30 seconds
+        } catch (InterruptedException e) {
+          // Thread was interrupted, stop saving
+          break;
+        }
+      }
+    }).start();
   }
 
   /**
