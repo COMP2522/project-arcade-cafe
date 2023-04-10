@@ -90,9 +90,9 @@ public final class BulletManager {
   /**
    * Creates a new Bullet object and adds it to the screen.
    *
-   * @param xpos the x-coordinate of the bullet's starting position
-   * @param ypos the y-coordinate of the bullet's starting position
-   * @param dy the speed at which the bullet will travel
+   * @param xpos    the x-coordinate of the bullet's starting position
+   * @param ypos    the y-coordinate of the bullet's starting position
+   * @param dy      the speed at which the bullet will travel
    */
   public void shootBullet(final int xpos,
                           final int ypos,
